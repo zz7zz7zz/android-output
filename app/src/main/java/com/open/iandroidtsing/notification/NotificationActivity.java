@@ -25,6 +25,9 @@ public class NotificationActivity extends Activity {
         findViewById(R.id.notification_priority_default).setOnClickListener(clickListener);
         findViewById(R.id.notification_priority_low).setOnClickListener(clickListener);
         findViewById(R.id.notification_priority_min).setOnClickListener(clickListener);
+
+        findViewById(R.id.user_define_notification).setOnClickListener(clickListener);
+
     }
 
     static int count = 1;
@@ -53,6 +56,10 @@ public class NotificationActivity extends Activity {
 
                 case R.id.notification_priority_min:
                     NotificationUtil.notifyPriority(getApplicationContext(),count,"E"+count, Notification.PRIORITY_MIN);
+                    break;
+
+                case R.id.user_define_notification:
+                    NotificationUtil.user_define_notification(getApplicationContext());
                     break;
             }
         }

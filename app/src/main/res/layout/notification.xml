@@ -34,6 +34,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="notification_priority_min"/>
+
+        <Button
+            android:id="@+id/user_define_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="user_define_notification"/>
+
     </LinearLayout>
 
 </ScrollView>

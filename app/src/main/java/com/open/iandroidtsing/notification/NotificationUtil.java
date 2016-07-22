@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
+import android.widget.RemoteViews;
 
 import com.open.iandroidtsing.R;
 
@@ -148,5 +149,26 @@ public class NotificationUtil {
         notification.defaults = Notification.DEFAULT_SOUND;// 设置为默认的声音
         notification.priority = priority;
         mNotificationManager.notify(notifyID, notification);
+    }
+
+    public static void user_define_notification(Context context)
+    {
+        PendingIntent pendingIntent= PendingIntent.getActivity(context, 1, new Intent(), Notification.FLAG_AUTO_CANCEL);
+
+        RemoteViews view_custom = new RemoteViews(context.getPackageName(), R.layout.notification_user_define);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+        mBuilder.setContent(view_custom)
+                .setContentIntent(pendingIntent)
+                .setWhen(System.currentTimeMillis())// 通知产生的时间，会在通知信息里显示
+                .setTicker("Notification come in ! ")
+                .setPriority(Notification.PRIORITY_DEFAULT)// 设置该通知优先级
+                .setOngoing(false)//不是正在进行的   true为正在进行  效果和.flag一样
+                .setSmallIcon(R.drawable.push);
+        Notification notify = mBuilder.build();
+        notify.contentView = view_custom;
+
+        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(100, notify);
+
     }
 }
