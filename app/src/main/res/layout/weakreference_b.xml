@@ -9,16 +9,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <Button
-            android:id="@+id/notification"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Notification"/>
-        <Button
-            android:id="@+id/weakreference"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="weakreference"/>
+            <ImageView
+                android:id="@+id/new_memory"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/weakreference_b"/>
     </LinearLayout>
 
 </ScrollView>

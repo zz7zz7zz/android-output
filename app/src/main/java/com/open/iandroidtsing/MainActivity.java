@@ -1,11 +1,13 @@
 package com.open.iandroidtsing;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.open.iandroidtsing.notification.NotificationActivity;
+import com.open.iandroidtsing.weakReference.WRA_Activity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView(){
         findViewById(R.id.notification).setOnClickListener(clickListener);
+        findViewById(R.id.weakreference).setOnClickListener(clickListener);
+
     }
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
@@ -27,7 +31,23 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.notification:
                     startActivity(new Intent(getApplicationContext(),NotificationActivity.class));
                     break;
+
+                case R.id.weakreference:
+                    startActivity(new Intent(getApplicationContext(),WRA_Activity.class));
+                    break;
             }
         }
     };
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN)
+        {
+            android.os.Process.killProcess(android.os.Process.myPid());
+//			System.exit(0);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }
