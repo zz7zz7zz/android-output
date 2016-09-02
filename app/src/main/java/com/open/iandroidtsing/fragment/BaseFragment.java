@@ -179,11 +179,11 @@ public class BaseFragment extends Fragment {
     }
 
     protected void onRestoreState(Bundle savedInstanceState) {
-
+        Log.v(this.getClass().getSimpleName(),"Obj:"+this+" onRestoreState() 104:");
     }
 
     protected void onSaveState(Bundle outState) {
-
+        Log.v(this.getClass().getSimpleName(),"Obj:"+this+" onSaveState() 105:");
     }
 
 }
