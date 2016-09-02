@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 
+import com.open.iandroidtsing.fragment.FragmentPagerActivity;
 import com.open.iandroidtsing.fragment.FragmentStatePagerActivity;
 import com.open.iandroidtsing.notification.NotificationActivity;
 import com.open.iandroidtsing.weakReference.WRA_Activity;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private void initView(){
         findViewById(R.id.notification).setOnClickListener(clickListener);
         findViewById(R.id.weakreference).setOnClickListener(clickListener);
+        findViewById(R.id.fragment_pager).setOnClickListener(clickListener);
         findViewById(R.id.fragment_statepager).setOnClickListener(clickListener);
     }
 
@@ -35,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.weakreference:
                     startActivity(new Intent(getApplicationContext(),WRA_Activity.class));
+                    break;
+
+                case R.id.fragment_pager:
+                    startActivity(new Intent(getApplicationContext(),FragmentPagerActivity.class));
                     break;
 
                 case R.id.fragment_statepager:
