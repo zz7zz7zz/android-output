@@ -34,7 +34,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="fragment_statepager"/>
-
+        <Button
+            android:id="@+id/shared_prefs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="shared_prefs"/>
     </LinearLayout>
 
 </ScrollView>

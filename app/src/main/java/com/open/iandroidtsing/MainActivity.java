@@ -9,6 +9,7 @@ import android.view.View;
 import com.open.iandroidtsing.fragment.FragmentPagerActivity;
 import com.open.iandroidtsing.fragment.FragmentStatePagerActivity;
 import com.open.iandroidtsing.notification.NotificationActivity;
+import com.open.iandroidtsing.sharedprefs.SharedPrefsActivity;
 import com.open.iandroidtsing.weakReference.WRA_Activity;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.weakreference).setOnClickListener(clickListener);
         findViewById(R.id.fragment_pager).setOnClickListener(clickListener);
         findViewById(R.id.fragment_statepager).setOnClickListener(clickListener);
+        findViewById(R.id.shared_prefs).setOnClickListener(clickListener);
     }
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
@@ -45,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.fragment_statepager:
                     startActivity(new Intent(getApplicationContext(),FragmentStatePagerActivity.class));
+                    break;
+
+                case R.id.shared_prefs:
+                    startActivity(new Intent(getApplicationContext(),SharedPrefsActivity.class));
                     break;
             }
         }

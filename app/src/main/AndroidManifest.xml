@@ -24,6 +24,8 @@
         <activity android:name=".fragment.FragmentPagerActivity" android:screenOrientation="portrait" />
         <activity android:name=".fragment.FragmentStatePagerActivity" android:screenOrientation="portrait" />
 
+        <activity android:name=".sharedprefs.SharedPrefsActivity" android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
