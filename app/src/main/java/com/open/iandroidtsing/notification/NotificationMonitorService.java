@@ -11,6 +11,8 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 /**
  * Created by Administrator on 2017/1/11.
  */
@@ -21,8 +23,9 @@ public class NotificationMonitorService extends NotificationListenerService {
 
     public static final String NOTIFICATION_MONITOR_ACTION_CANCEL = "com.open.iandroidtsing.notification.monitor.cancel";
     public static final String NOTIFICATION_MONITOR_ACTION_CANCEL_CMD = "cmd";
-    public static final int NOTIFICATION_MONITOR_ACTION_CANCEL_CMD_ALL = 1;
-    public static final int NOTIFICATION_MONITOR_ACTION_CANCEL_CMD_LATEST = 2;
+    public static final int NOTIFICATION_MONITOR_ACTION_CANCEL_CMD_ALL          = 1;
+    public static final int NOTIFICATION_MONITOR_ACTION_CANCEL_CMD_LATEST       = 2;
+    public static final int NOTIFICATION_MONITOR_ACTION_CANCEL_CMD_GETALLNFS    = 3;
 
     private CancelNotificationBroadcastReceiver mReceiver = new CancelNotificationBroadcastReceiver();
 
@@ -88,9 +91,24 @@ public class NotificationMonitorService extends NotificationListenerService {
     }
 
     public void broadcast(NotificationMonitorResultBeaen resultBeaen , int type){
+
+        if(resultBeaen.notificationPkg.contains("android") ){
+
+        }
+
         Bundle mBundle = new Bundle();
         mBundle.putInt(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_CMD,type);
         mBundle.putParcelable(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_DATA,resultBeaen);
+        Intent intent = new Intent(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION);
+        intent.putExtras(mBundle);
+        sendBroadcast(intent);
+    }
+
+    public void broadcast(ArrayList<NotificationMonitorResultBeaen> resultBeaenList , int type){
+
+        Bundle mBundle = new Bundle();
+        mBundle.putInt(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_CMD,type);
+        mBundle.putParcelableArrayList(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_DATA,resultBeaenList);
         Intent intent = new Intent(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION);
         intent.putExtras(mBundle);
         sendBroadcast(intent);
@@ -109,6 +127,32 @@ public class NotificationMonitorService extends NotificationListenerService {
                         NotificationMonitorService.this.cancelAllNotifications();
                     }else if(cmd == NOTIFICATION_MONITOR_ACTION_CANCEL_CMD_LATEST){
 
+                    }else if(cmd == NOTIFICATION_MONITOR_ACTION_CANCEL_CMD_GETALLNFS){
+
+                        ArrayList<NotificationMonitorResultBeaen> resultBeaenList = null;
+                        StatusBarNotification[] arrayOfStatusBarNotification = getActiveNotifications();
+                        if(null != arrayOfStatusBarNotification && arrayOfStatusBarNotification.length > 0){
+                            resultBeaenList = new ArrayList<>(arrayOfStatusBarNotification.length);
+                            for (int i = 0 ;i < arrayOfStatusBarNotification.length;i++){
+                                StatusBarNotification sbn = arrayOfStatusBarNotification[i];
+                                Notification nf = sbn.getNotification();
+                                if(null != nf){
+                                    Bundle _extras = nf.extras;
+                                    if(null != _extras){
+                                        NotificationMonitorResultBeaen resultBeaen = new NotificationMonitorResultBeaen();
+                                        resultBeaen.notificationId  = sbn.getId();
+                                        resultBeaen.notificationPkg = sbn.getPackageName();
+                                        resultBeaen.notificationTitle = extras.getString(Notification.EXTRA_TITLE);
+                                        resultBeaen.notificationText = extras.getString(Notification.EXTRA_TEXT);
+                                        resultBeaen.notificationSubText = extras.getString(Notification.EXTRA_SUB_TEXT);
+
+                                        resultBeaenList.add(resultBeaen);
+                                    }
+                                }
+                            }
+                        }
+
+                        broadcast(resultBeaenList , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ALLINFO);
                     }
                 }
             }
