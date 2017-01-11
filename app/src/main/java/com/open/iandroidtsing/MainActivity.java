@@ -9,6 +9,7 @@ import android.view.View;
 import com.open.iandroidtsing.fragment.FragmentPagerActivity;
 import com.open.iandroidtsing.fragment.FragmentStatePagerActivity;
 import com.open.iandroidtsing.notification.NotificationActivity;
+import com.open.iandroidtsing.notification.NotificationMonitorActivity;
 import com.open.iandroidtsing.sharedprefs.SharedPrefsActivity;
 import com.open.iandroidtsing.weakReference.WRA_Activity;
 
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(),NotificationActivity.class));
                     break;
                 case R.id.notification_monitor:
-                    startActivity(new Intent(getApplicationContext(),NotificationActivity.class));
+                    startActivity(new Intent(getApplicationContext(),NotificationMonitorActivity.class));
                     break;
 
 

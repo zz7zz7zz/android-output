@@ -17,6 +17,15 @@
         </activity>
 
         <activity android:name=".notification.NotificationActivity" android:screenOrientation="portrait" />
+        <activity android:name=".notification.NotificationMonitorActivity" android:screenOrientation="portrait" />
+        <service
+            android:name=".notification.NotificationMonitorService"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" >
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" >
+                </action>
+            </intent-filter>
+        </service>
 
         <activity android:name=".weakReference.WRA_Activity" android:screenOrientation="portrait" />
         <activity android:name=".weakReference.WRB_Activity" android:screenOrientation="portrait" />
