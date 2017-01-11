@@ -30,7 +30,7 @@ public class NotificationActivity extends Activity {
 
     }
 
-    static int count = 1;
+    static int count = 0;
     private View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -39,23 +39,23 @@ public class NotificationActivity extends Activity {
 
             switch(v.getId()){
                 case R.id.notification_priority_max:
-                    NotificationUtil.notifyPriority(getApplicationContext(),count,"A"+count, Notification.PRIORITY_MAX);
+                    NotificationUtil.notifyPriority(getApplicationContext(),count, " A "+count + " priority_max ", Notification.PRIORITY_MAX);
                     break;
 
                 case R.id.notification_priority_high:
-                    NotificationUtil.notifyPriority(getApplicationContext(),count,"B"+count, Notification.PRIORITY_HIGH);
+                    NotificationUtil.notifyPriority(getApplicationContext(),count, "B "+count + " priority_high ", Notification.PRIORITY_HIGH);
                     break;
 
                 case R.id.notification_priority_default:
-                    NotificationUtil.notifyPriority(getApplicationContext(),count,"C"+count, Notification.PRIORITY_DEFAULT);
+                    NotificationUtil.notifyPriority(getApplicationContext(),count, "C "+count + " priority_default ", Notification.PRIORITY_DEFAULT);
                     break;
 
                 case R.id.notification_priority_low:
-                    NotificationUtil.notifyPriority(getApplicationContext(),count,"D"+count, Notification.PRIORITY_LOW);
+                    NotificationUtil.notifyPriority(getApplicationContext(),count, "D "+count + " priority_low ", Notification.PRIORITY_LOW);
                     break;
 
                 case R.id.notification_priority_min:
-                    NotificationUtil.notifyPriority(getApplicationContext(),count,"E"+count, Notification.PRIORITY_MIN);
+                    NotificationUtil.notifyPriority(getApplicationContext(),count, "E "+count + " priority_min ", Notification.PRIORITY_MIN);
                     break;
 
                 case R.id.user_define_notification:

@@ -17,15 +17,16 @@ public class NotificationUtil {
     {
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
        
-        Intent intent = new Intent();        
-        PendingIntent pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent mIntent = new Intent();
+        PendingIntent mPendingIntent = PendingIntent.getActivity(context, 0, mIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         
         NotificationCompat.Builder builder= new NotificationCompat.Builder(context);
         builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.push))
                 .setSmallIcon(R.mipmap.push)
-                .setContentIntent(pi)
+                .setContentIntent(mPendingIntent)
                 .setTicker(context.getResources().getString(R.string.app_name))// 设置状态栏的显示的信息
                 .setWhen(System.currentTimeMillis())// 设置时间发生时间
+                .setAutoCancel(true)// 设置可以清除
                 .setNumber(13)
                 .setContentTitle("我是标题")
                 .setContentText("我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容");
@@ -50,13 +51,13 @@ public class NotificationUtil {
     {
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
        
-        Intent intent = new Intent();        
-        PendingIntent pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent mIntent = new Intent();
+        PendingIntent mPendingIntent = PendingIntent.getActivity(context, 0, mIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         
         NotificationCompat.Builder builder= new NotificationCompat.Builder(context);
         builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.push))
                 .setSmallIcon(R.mipmap.push)
-                .setContentIntent(pi)
+                .setContentIntent(mPendingIntent)
                 .setTicker(context.getResources().getString(R.string.app_name))// 设置状态栏的显示的信息
                 .setWhen(System.currentTimeMillis())// 设置时间发生时间
                 .setNumber(99)
@@ -84,13 +85,13 @@ public class NotificationUtil {
         
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
        
-        Intent intent = new Intent();        
-        PendingIntent pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent mIntent = new Intent();
+        PendingIntent mPendingIntent = PendingIntent.getActivity(context, 0, mIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         
         NotificationCompat.Builder builder= new NotificationCompat.Builder(context);
          builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.push))
                 .setSmallIcon(R.mipmap.push)
-                .setContentIntent(pi)
+                .setContentIntent(mPendingIntent)
                 .setTicker(context.getResources().getString(R.string.app_name))// 设置状态栏的显示的信息
                 .setWhen(System.currentTimeMillis())// 设置时间发生时间
 //                .setNumber(99)
@@ -131,7 +132,6 @@ public class NotificationUtil {
                 .setContentIntent(pi)
                 .setTicker(context.getResources().getString(R.string.app_name))// 设置状态栏的显示的信息
                 .setWhen(System.currentTimeMillis())// 设置时间发生时间
-//                .setNumber(99)
                 .setAutoCancel(true)// 设置可以清除
                 .setContentTitle(title)
                 .setContentText(contentText)

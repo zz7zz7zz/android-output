@@ -9,36 +9,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <Button
             android:id="@+id/notification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:textAllCaps="false"
             android:text="Notification"/>
 
         <Button
-            android:id="@+id/weakreference"
+            android:id="@+id/notification_monitor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="weakreference"/>
+            android:textAllCaps="false"
+            android:text="Notification_monitor"/>
 
         <Button
             android:id="@+id/fragment_pager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="fragment_pager"/>
+            android:textAllCaps="false"
+            android:text="Fragment_pager"/>
         <Button
             android:id="@+id/fragment_statepager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="fragment_statepager"/>
+            android:textAllCaps="false"
+            android:text="Fragment_statepager"/>
+
+        <Button
+            android:id="@+id/weakreference"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textAllCaps="false"
+            android:text="Weakreference"/>
+
         <Button
             android:id="@+id/shared_prefs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="shared_prefs"/>
+            android:layout_marginTop="10dp"
+            android:textAllCaps="false"
+            android:text="Shared_prefs"/>
     </LinearLayout>
 
 </ScrollView>

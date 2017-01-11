@@ -13,32 +13,40 @@
             android:id="@+id/notification_priority_max"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="notification_priority_max"/>
+            android:layout_marginTop="10dp"
+            android:textAllCaps="false"
+            android:text="notification_priorit------max"/>
         <Button
             android:id="@+id/notification_priority_high"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="notification_priority_high"/>
+            android:textAllCaps="false"
+            android:text="notification_priority------high"/>
         <Button
             android:id="@+id/notification_priority_default"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="notification_priority_default"/>
+            android:textAllCaps="false"
+            android:text="notification_priority------default"/>
         <Button
             android:id="@+id/notification_priority_low"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="notification_priority_low"/>
+            android:textAllCaps="false"
+            android:text="notification_priority------low"/>
         <Button
             android:id="@+id/notification_priority_min"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="notification_priority_min"/>
+            android:textAllCaps="false"
+            android:text="notification_priority------min"/>
 
         <Button
             android:id="@+id/user_define_notification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textAllCaps="false"
             android:text="user_define_notification"/>
 
     </LinearLayout>
