@@ -1,14 +1,20 @@
 package com.open.iandroidtsing.notification;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.open.iandroidtsing.R;
 
@@ -17,11 +23,27 @@ import com.open.iandroidtsing.R;
  */
 
 public class NotificationMonitorActivity extends Activity {
+
+    public static final String NOTIFICATION_MONITOR_ACTION = "com.open.iandroidtsing.notification.monitor";
+    public static final String NOTIFICATION_MONITOR_ACTION_KEY_TYPE = "type";
+    public static final String NOTIFICATION_MONITOR_ACTION_KEY_DATA = "data";
+    public static final int NOTIFICATION_MONITOR_ACTION_ADD = 1;
+    public static final int NOTIFICATION_MONITOR_ACTION_REMOVE = 2;
+
+    private NotificationMonitorBroadcastReceiver mReceiver = new NotificationMonitorBroadcastReceiver();
+
+
+    private LinearLayout notification_monitor_logcat_set;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notification_monitor);
         initView();
+
+        IntentFilter localIntentFilter = new IntentFilter();
+        localIntentFilter.addAction(NOTIFICATION_MONITOR_ACTION);
+        registerReceiver(this.mReceiver, localIntentFilter);
     }
 
     @Override
@@ -32,7 +54,17 @@ public class NotificationMonitorActivity extends Activity {
         ((Button)(findViewById(R.id.notification_monitor_authorization))).setTextColor(isEnable ? Color.BLACK: Color.RED);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        unregisterReceiver(this.mReceiver);
+    }
+
     private void initView(){
+
+        notification_monitor_logcat_set = (LinearLayout) findViewById(R.id.notification_monitor_logcat_set);
+
         findViewById(R.id.notification_monitor_authorization).setOnClickListener(clickListener);
         findViewById(R.id.notification_monitor_create).setOnClickListener(clickListener);
         findViewById(R.id.notification_monitor_clear).setOnClickListener(clickListener);
@@ -83,6 +115,46 @@ public class NotificationMonitorActivity extends Activity {
     //去设置权限
     private void openNotificationAuthorization() {
         startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+    }
+
+
+    public class NotificationMonitorBroadcastReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if ((intent != null) && (intent.getAction() != null) && (intent.getAction().equals(NOTIFICATION_MONITOR_ACTION)))
+            {
+                Bundle extras = intent.getExtras();
+                if(null != extras){
+
+                    int type = extras.getInt(NOTIFICATION_MONITOR_ACTION_KEY_TYPE);
+                    NotificationMonitorResultBeaen resultBeaen = extras.getParcelable(NOTIFICATION_MONITOR_ACTION_KEY_DATA);
+
+                    if(type == NOTIFICATION_MONITOR_ACTION_ADD){
+
+                        TextView addTextView = new TextView(getApplicationContext());
+                        addTextView.setText(resultBeaen.toString2());
+                        addTextView.setPadding(0,25,0,25);
+                        addTextView.setTextColor(Color.RED);
+
+                        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        notification_monitor_logcat_set.addView(addTextView,0,lp);
+
+                    }else if(type == NOTIFICATION_MONITOR_ACTION_REMOVE){
+
+                        TextView removeTextView = new TextView(getApplicationContext());
+                        removeTextView.setText(resultBeaen.toString2());
+                        removeTextView.setPadding(0,25,0,25);
+                        removeTextView.setTextColor(Color.BLUE);
+
+                        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        notification_monitor_logcat_set.addView(removeTextView,0,lp);
+
+                    }
+                }
+            }
+        }
     }
 
 }
