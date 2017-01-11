@@ -157,7 +157,7 @@ public class NotificationMonitorActivity extends Activity {
                         NotificationMonitorResultBeaen resultBeaen = extras.getParcelable(NOTIFICATION_MONITOR_ACTION_KEY_DATA);
 
                         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-                        String date = df.format(new Date());
+                        String date = df.format(new Date(resultBeaen.notificationShowWhen));
 
                         String txt = "add \n\ndate " + date+ resultBeaen.toString2();
                         TextView addTextView = new TextView(getApplicationContext());
@@ -177,7 +177,7 @@ public class NotificationMonitorActivity extends Activity {
                         NotificationMonitorResultBeaen resultBeaen = extras.getParcelable(NOTIFICATION_MONITOR_ACTION_KEY_DATA);
 
                         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-                        String date = df.format(new Date());
+                        String date = df.format(new Date(resultBeaen.notificationShowWhen));
 
                         String txt = "remove \n\ndate " + date+ resultBeaen.toString2();
                         TextView removeTextView = new TextView(getApplicationContext());
@@ -203,7 +203,7 @@ public class NotificationMonitorActivity extends Activity {
                                 NotificationMonitorResultBeaen resultBeaen = resultBeaenList.get(i);
 
                                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-                                String date = df.format(new Date());
+                                String date = df.format(new Date(resultBeaen.notificationShowWhen));
 
                                 String txt = "date " + date+ resultBeaen.toString2();
                                 TextView addTextView = new TextView(getApplicationContext());

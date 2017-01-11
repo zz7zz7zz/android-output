@@ -19,6 +19,9 @@ public class NotificationMonitorResultBeaen implements Parcelable {
 
     String notificationSubText ;
 
+    long notificationShowWhen ;
+
+
     @Override
     public String toString() {
         return "NotificationMonitorResultBeaen{" +
@@ -27,6 +30,7 @@ public class NotificationMonitorResultBeaen implements Parcelable {
                 ", notificationTitle='" + notificationTitle + '\'' +
                 ", notificationText='" + notificationText + '\'' +
                 ", notificationSubText='" + notificationSubText + '\'' +
+                ", notificationShowWhen='" + notificationShowWhen + '\'' +
                 '}';
     }
 
@@ -36,8 +40,10 @@ public class NotificationMonitorResultBeaen implements Parcelable {
                 "\nnotificationPkg='" + notificationPkg + '\'' +
                 "\nnotificationTitle='" + notificationTitle + '\'' +
                 "\nnotificationText='" + notificationText + '\'' +
-                "\nnotificationSubText='" + notificationSubText + '\'';
+                "\nnotificationText='" + notificationText + '\'' +
+                "\nnotificationShowWhen='" + notificationShowWhen + '\'';
     }
+
 
     @Override
     public int describeContents() {
@@ -51,6 +57,7 @@ public class NotificationMonitorResultBeaen implements Parcelable {
         dest.writeString(this.notificationTitle);
         dest.writeString(this.notificationText);
         dest.writeString(this.notificationSubText);
+        dest.writeLong(this.notificationShowWhen);
     }
 
     public NotificationMonitorResultBeaen() {
@@ -62,9 +69,10 @@ public class NotificationMonitorResultBeaen implements Parcelable {
         this.notificationTitle = in.readString();
         this.notificationText = in.readString();
         this.notificationSubText = in.readString();
+        this.notificationShowWhen = in.readLong();
     }
 
-    public static final Parcelable.Creator<NotificationMonitorResultBeaen> CREATOR = new Parcelable.Creator<NotificationMonitorResultBeaen>() {
+    public static final Creator<NotificationMonitorResultBeaen> CREATOR = new Creator<NotificationMonitorResultBeaen>() {
         @Override
         public NotificationMonitorResultBeaen createFromParcel(Parcel source) {
             return new NotificationMonitorResultBeaen(source);

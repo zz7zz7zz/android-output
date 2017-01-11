@@ -59,6 +59,7 @@ public class NotificationMonitorService extends NotificationListenerService {
                 resultBeaen.notificationTitle = extras.getString(Notification.EXTRA_TITLE);
                 resultBeaen.notificationText = extras.getString(Notification.EXTRA_TEXT);
                 resultBeaen.notificationSubText = extras.getString(Notification.EXTRA_SUB_TEXT);
+                resultBeaen.notificationShowWhen = nf.when;
 
                 broadcast(resultBeaen , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ADD);
                 Log.v(TAG, "onNotificationPosted : "+resultBeaen.toString());
@@ -82,6 +83,7 @@ public class NotificationMonitorService extends NotificationListenerService {
                 resultBeaen.notificationTitle = extras.getString(Notification.EXTRA_TITLE);
                 resultBeaen.notificationText = extras.getString(Notification.EXTRA_TEXT);
                 resultBeaen.notificationSubText = extras.getString(Notification.EXTRA_SUB_TEXT);
+                resultBeaen.notificationShowWhen = nf.when;
 
                 broadcast(resultBeaen , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_REMOVE);
                 Log.v(TAG, "onNotificationRemoved : "+resultBeaen.toString());
@@ -145,6 +147,7 @@ public class NotificationMonitorService extends NotificationListenerService {
                                         resultBeaen.notificationTitle = extras.getString(Notification.EXTRA_TITLE);
                                         resultBeaen.notificationText = extras.getString(Notification.EXTRA_TEXT);
                                         resultBeaen.notificationSubText = extras.getString(Notification.EXTRA_SUB_TEXT);
+                                        resultBeaen.notificationShowWhen = nf.when;
 
                                         resultBeaenList.add(resultBeaen);
                                     }
