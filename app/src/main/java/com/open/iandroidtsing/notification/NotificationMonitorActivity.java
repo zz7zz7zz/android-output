@@ -18,6 +18,9 @@ import android.widget.TextView;
 
 import com.open.iandroidtsing.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Administrator on 2016/7/18.
  */
@@ -131,24 +134,38 @@ public class NotificationMonitorActivity extends Activity {
                     int type = extras.getInt(NOTIFICATION_MONITOR_ACTION_KEY_TYPE);
                     NotificationMonitorResultBeaen resultBeaen = extras.getParcelable(NOTIFICATION_MONITOR_ACTION_KEY_DATA);
 
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+                    String date = df.format(new Date());
+
                     if(type == NOTIFICATION_MONITOR_ACTION_ADD){
 
+                        String txt = "add \n\ndate " + date+ resultBeaen.toString2();
                         TextView addTextView = new TextView(getApplicationContext());
-                        addTextView.setText(resultBeaen.toString2());
-                        addTextView.setPadding(0,25,0,25);
-                        addTextView.setTextColor(Color.RED);
+                        addTextView.setText(txt);
+                        addTextView.setTextColor(Color.BLUE);
+                        addTextView.setBackgroundResource(R.drawable.nf_item_bg);
 
                         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        lp.topMargin = 20;
+                        lp.bottomMargin = 20;
+                        lp.leftMargin = 30;
+                        lp.rightMargin = 30;
                         notification_monitor_logcat_set.addView(addTextView,0,lp);
 
                     }else if(type == NOTIFICATION_MONITOR_ACTION_REMOVE){
 
+                        String txt = "remove \n\ndate " + date+ resultBeaen.toString2();
                         TextView removeTextView = new TextView(getApplicationContext());
-                        removeTextView.setText(resultBeaen.toString2());
-                        removeTextView.setPadding(0,25,0,25);
-                        removeTextView.setTextColor(Color.BLUE);
+                        removeTextView.setText(txt);
+                        removeTextView.setTextColor(Color.RED);
+                        removeTextView.setBackgroundResource(R.drawable.nf_item_bg);
 
                         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        lp.topMargin = 20;
+                        lp.bottomMargin = 20;
+                        lp.leftMargin = 30;
+                        lp.rightMargin = 30;
+
                         notification_monitor_logcat_set.addView(removeTextView,0,lp);
 
                     }

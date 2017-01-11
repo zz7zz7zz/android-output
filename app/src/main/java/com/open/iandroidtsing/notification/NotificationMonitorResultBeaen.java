@@ -32,11 +32,11 @@ public class NotificationMonitorResultBeaen implements Parcelable {
 
     public String toString2() {
         return
-                " notificationId=" + notificationId +
-                "\n notificationPkg='" + notificationPkg + '\'' +
-                "\n notificationTitle='" + notificationTitle + '\'' +
-                "\n notificationText='" + notificationText + '\'' +
-                "\n notificationSubText='" + notificationSubText + '\'';
+                "\nnotificationId=" + notificationId +
+                "\nnotificationPkg='" + notificationPkg + '\'' +
+                "\nnotificationTitle='" + notificationTitle + '\'' +
+                "\nnotificationText='" + notificationText + '\'' +
+                "\nnotificationSubText='" + notificationSubText + '\'';
     }
 
     @Override
