@@ -27,14 +27,13 @@ import java.util.Date;
 
 public class NotificationMonitorActivity extends Activity {
 
-    public static final String NOTIFICATION_MONITOR_ACTION = "com.open.iandroidtsing.notification.monitor";
-    public static final String NOTIFICATION_MONITOR_ACTION_KEY_TYPE = "type";
+    public static final String NOTIFICATION_MONITOR_ACTION = "com.open.iandroidtsing.notification.monitor.response";
+    public static final String NOTIFICATION_MONITOR_ACTION_KEY_CMD = "cmd";
     public static final String NOTIFICATION_MONITOR_ACTION_KEY_DATA = "data";
-    public static final int NOTIFICATION_MONITOR_ACTION_ADD = 1;
-    public static final int NOTIFICATION_MONITOR_ACTION_REMOVE = 2;
+    public static final int NOTIFICATION_MONITOR_ACTION_CMD_ADD     = 1;
+    public static final int NOTIFICATION_MONITOR_ACTION_CMD_REMOVE  = 2;
 
     private NotificationMonitorBroadcastReceiver mReceiver = new NotificationMonitorBroadcastReceiver();
-
 
     private LinearLayout notification_monitor_logcat_set;
 
@@ -88,6 +87,11 @@ public class NotificationMonitorActivity extends Activity {
                     break;
 
                 case R.id.notification_monitor_clear:
+                    Bundle mBundle = new Bundle();
+                    mBundle.putInt(NotificationMonitorService.NOTIFICATION_MONITOR_ACTION_CANCEL_CMD,NotificationMonitorService.NOTIFICATION_MONITOR_ACTION_CANCEL_CMD_ALL);
+                    Intent intent = new Intent(NotificationMonitorService.NOTIFICATION_MONITOR_ACTION_CANCEL);
+                    intent.putExtras(mBundle);
+                    sendBroadcast(intent);
                     break;
 
                 case R.id.notification_monitor_api_setting:
@@ -131,13 +135,13 @@ public class NotificationMonitorActivity extends Activity {
                 Bundle extras = intent.getExtras();
                 if(null != extras){
 
-                    int type = extras.getInt(NOTIFICATION_MONITOR_ACTION_KEY_TYPE);
+                    int cmd = extras.getInt(NOTIFICATION_MONITOR_ACTION_KEY_CMD);
                     NotificationMonitorResultBeaen resultBeaen = extras.getParcelable(NOTIFICATION_MONITOR_ACTION_KEY_DATA);
 
                     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
                     String date = df.format(new Date());
 
-                    if(type == NOTIFICATION_MONITOR_ACTION_ADD){
+                    if(cmd == NOTIFICATION_MONITOR_ACTION_CMD_ADD){
 
                         String txt = "add \n\ndate " + date+ resultBeaen.toString2();
                         TextView addTextView = new TextView(getApplicationContext());
@@ -152,7 +156,7 @@ public class NotificationMonitorActivity extends Activity {
                         lp.rightMargin = 30;
                         notification_monitor_logcat_set.addView(addTextView,0,lp);
 
-                    }else if(type == NOTIFICATION_MONITOR_ACTION_REMOVE){
+                    }else if(cmd == NOTIFICATION_MONITOR_ACTION_CMD_REMOVE){
 
                         String txt = "remove \n\ndate " + date+ resultBeaen.toString2();
                         TextView removeTextView = new TextView(getApplicationContext());
