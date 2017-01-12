@@ -1,6 +1,7 @@
 package com.open.iandroidtsing.notification;
 
 import android.app.Activity;
+import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -15,11 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.open.iandroidtsing.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Administrator on 2016/7/18.
@@ -29,10 +32,12 @@ public class NotificationMonitorActivity extends Activity {
 
     public static final String NOTIFICATION_MONITOR_ACTION = "com.open.iandroidtsing.notification.monitor.response";
     public static final String NOTIFICATION_MONITOR_ACTION_KEY_CMD = "cmd";
+    public static final String NOTIFICATION_MONITOR_ACTION_KEY_PKG = "package";
     public static final String NOTIFICATION_MONITOR_ACTION_KEY_DATA = "data";
     public static final int NOTIFICATION_MONITOR_ACTION_CMD_ADD     = 1;
     public static final int NOTIFICATION_MONITOR_ACTION_CMD_REMOVE  = 2;
     public static final int NOTIFICATION_MONITOR_ACTION_CMD_ALLINFO = 3;
+    public static final int NOTIFICATION_MONITOR_ACTION_CMD_ACCESSIBILITYSERVICE_BACK = 4;
 
     private static final String TAG = "NFMonitorActivity";
 
@@ -189,6 +194,73 @@ public class NotificationMonitorActivity extends Activity {
             */
     }
 
+
+    public static HashMap<String,int[]> titleContentIdMap = new HashMap<>();
+    static{
+        titleContentIdMap.put("com.open.iandroidtsing",new int[]{2131558517,2131558519});
+    }
+
+    private void traversalRemoteView(View nfView , String pkgName , Notification mNotification){
+
+        String [] titleContent = new String[2];
+        traversalRemoteView(nfView , titleContentIdMap.get(pkgName) , titleContent);
+
+        Log.v(TAG,"when "+ mNotification.when);
+        Log.v(TAG,"Title "+ titleContent[0]);
+        Log.v(TAG,"Content "+ titleContent[1]);
+
+        int mChildrenCount = notification_monitor_logcat_set.getChildCount();
+        for (int i = 0 ;i < mChildrenCount; i ++){
+            if(notification_monitor_logcat_set.getChildAt(i) instanceof TextView &&
+                    notification_monitor_logcat_set.getChildAt(i).getTag() instanceof NotificationMonitorResultBeaen){
+
+                NotificationMonitorResultBeaen tag = (NotificationMonitorResultBeaen)notification_monitor_logcat_set.getChildAt(i).getTag();
+                tag.title = titleContent[0];
+                tag.content = titleContent[1];
+
+                ((TextView) notification_monitor_logcat_set.getChildAt(i)).setText(tag.toString2());
+            }
+        }
+
+    }
+
+    private void traversalRemoteView(View nfView , int[] idMap ,String [] titleContent){
+        if(nfView instanceof ViewGroup)
+        {
+            ViewGroup mViewGroup = (ViewGroup)nfView;
+            int mChildrenCount = mViewGroup.getChildCount();
+            for(int i = 0; i < mChildrenCount; i++) {
+                View itemView = mViewGroup.getChildAt(i);
+                if(itemView instanceof ViewGroup){
+                    traversalRemoteView(itemView,idMap,titleContent);
+                }
+                else if(itemView instanceof TextView) {
+                    TextView mTextView = (TextView)itemView;
+                    String text = mTextView.getText().toString().trim();
+                    setTitleCotent(mTextView.getId(), text , idMap , titleContent);
+                    Log.v(TAG,"TextView 1 id:"+ mTextView.getId() + ".text:" + text);
+                }
+            }
+        }else{
+            if(nfView instanceof TextView) {
+                TextView mTextView = (TextView)nfView;
+                String text = mTextView.getText().toString().trim();
+                setTitleCotent(mTextView.getId(), text , idMap , titleContent);
+                Log.v(TAG,"TextView 2 id:"+ mTextView.getId() + ".text:" + text);
+            }
+        }
+    }
+
+    private void setTitleCotent(int viewId , String text , int[] idMap ,String [] titleContent){
+        if(null != idMap){
+            if(idMap[0] == viewId){
+                titleContent[0] =  text;
+            }else if(idMap[1] == viewId){
+                titleContent[1] =  text;
+            }
+        }
+    }
+
     public class NotificationMonitorBroadcastReceiver extends BroadcastReceiver{
 
         @Override
@@ -200,6 +272,9 @@ public class NotificationMonitorActivity extends Activity {
                 if(null != extras){
 
                     int cmd = extras.getInt(NOTIFICATION_MONITOR_ACTION_KEY_CMD);
+
+                    Log.v(TAG,"cmd " + cmd);
+
                     if(cmd == NOTIFICATION_MONITOR_ACTION_CMD_ADD){
 
                         NotificationMonitorResultBeaen resultBeaen = extras.getParcelable(NOTIFICATION_MONITOR_ACTION_KEY_DATA);
@@ -216,6 +291,8 @@ public class NotificationMonitorActivity extends Activity {
                         lp.leftMargin = 20;
                         lp.rightMargin = 20;
                         notification_monitor_logcat_set.addView(addTextView,0,lp);
+
+                        addTextView.setTag(resultBeaen);
 
                     }else if(cmd == NOTIFICATION_MONITOR_ACTION_CMD_REMOVE){
 
@@ -265,6 +342,20 @@ public class NotificationMonitorActivity extends Activity {
                         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                         lp.leftMargin = 20;
                         notification_monitor_logcat_set.addView(addTextView,0,lp);
+
+                    }else if(cmd == NOTIFICATION_MONITOR_ACTION_CMD_ACCESSIBILITYSERVICE_BACK){
+
+                        String packageName = extras.getString(NOTIFICATION_MONITOR_ACTION_KEY_PKG);
+                        Notification mNotification = extras.getParcelable(NOTIFICATION_MONITOR_ACTION_KEY_DATA);
+
+                        Log.v(TAG,"packageName " + packageName + " id "+ mNotification);
+
+                        RemoteViews contentView = mNotification.contentView;
+
+                        if (null != contentView) {
+                            View nfView = contentView.apply(getApplicationContext(), notification_monitor_logcat_set);
+                            traversalRemoteView(nfView, packageName , mNotification);
+                        }
                     }
                 }
             }

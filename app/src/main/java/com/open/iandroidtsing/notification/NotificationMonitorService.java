@@ -56,15 +56,15 @@ public class NotificationMonitorService extends NotificationListenerService {
             Bundle extras = nf.extras;
             if(null != extras){
                 NotificationMonitorResultBeaen resultBeaen = new NotificationMonitorResultBeaen();
-                resultBeaen.notificationId  = sbn.getId();
-                resultBeaen.notificationPkg = sbn.getPackageName();
-                resultBeaen.notificationTitle = extras.getString(Notification.EXTRA_TITLE);
-                resultBeaen.notificationText = extras.getString(Notification.EXTRA_TEXT);
-                resultBeaen.notificationSubText = extras.getString(Notification.EXTRA_SUB_TEXT);
+                resultBeaen.id = sbn.getId();
+                resultBeaen.pkg = sbn.getPackageName();
+                resultBeaen.title = extras.getString(Notification.EXTRA_TITLE);
+                resultBeaen.content = extras.getString(Notification.EXTRA_TEXT);
+                resultBeaen.subText = extras.getString(Notification.EXTRA_SUB_TEXT);
 
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
                 String date = df.format(new Date(nf.when));
-                resultBeaen.notificationShowWhen = date;
+                resultBeaen.showWhen = date;
 
                 broadcast(resultBeaen , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ADD);
                 Log.v(TAG, "onNotificationPosted : "+resultBeaen.toString());
@@ -83,14 +83,14 @@ public class NotificationMonitorService extends NotificationListenerService {
             Bundle extras = nf.extras;
             if(null != extras){
                 NotificationMonitorResultBeaen resultBeaen = new NotificationMonitorResultBeaen();
-                resultBeaen.notificationId  = sbn.getId();
-                resultBeaen.notificationPkg = sbn.getPackageName();
-                resultBeaen.notificationTitle = extras.getString(Notification.EXTRA_TITLE);
-                resultBeaen.notificationText = extras.getString(Notification.EXTRA_TEXT);
-                resultBeaen.notificationSubText = extras.getString(Notification.EXTRA_SUB_TEXT);
+                resultBeaen.id = sbn.getId();
+                resultBeaen.pkg = sbn.getPackageName();
+                resultBeaen.title = extras.getString(Notification.EXTRA_TITLE);
+                resultBeaen.content = extras.getString(Notification.EXTRA_TEXT);
+                resultBeaen.subText = extras.getString(Notification.EXTRA_SUB_TEXT);
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
                 String date = df.format(new Date(nf.when));
-                resultBeaen.notificationShowWhen = date;
+                resultBeaen.showWhen = date;
 
                 broadcast(resultBeaen , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_REMOVE);
                 Log.v(TAG, "onNotificationRemoved : "+resultBeaen.toString());
@@ -101,7 +101,7 @@ public class NotificationMonitorService extends NotificationListenerService {
 
     public void broadcast(NotificationMonitorResultBeaen resultBeaen , int type){
 
-        if(resultBeaen.notificationPkg.contains("android") ){
+        if(resultBeaen.pkg.contains("android") ){
 
         }
 
@@ -149,14 +149,14 @@ public class NotificationMonitorService extends NotificationListenerService {
                                     Bundle _extras = nf.extras;
                                     if(null != _extras){
                                         NotificationMonitorResultBeaen resultBeaen = new NotificationMonitorResultBeaen();
-                                        resultBeaen.notificationId  = sbn.getId();
-                                        resultBeaen.notificationPkg = sbn.getPackageName();
-                                        resultBeaen.notificationTitle = extras.getString(Notification.EXTRA_TITLE);
-                                        resultBeaen.notificationText = extras.getString(Notification.EXTRA_TEXT);
-                                        resultBeaen.notificationSubText = extras.getString(Notification.EXTRA_SUB_TEXT);
+                                        resultBeaen.id = sbn.getId();
+                                        resultBeaen.pkg = sbn.getPackageName();
+                                        resultBeaen.title = extras.getString(Notification.EXTRA_TITLE);
+                                        resultBeaen.content = extras.getString(Notification.EXTRA_TEXT);
+                                        resultBeaen.subText = extras.getString(Notification.EXTRA_SUB_TEXT);
                                         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
                                         String date = df.format(new Date(nf.when));
-                                        resultBeaen.notificationShowWhen = date;
+                                        resultBeaen.showWhen = date;
 
                                         resultBeaenList.add(resultBeaen);
                                     }

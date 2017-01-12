@@ -1,6 +1,10 @@
 package com.open.iandroidtsing.notification;
 
 import android.accessibilityservice.AccessibilityService;
+import android.app.Notification;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 
@@ -16,6 +20,21 @@ public class NotificationMonitorAccessibilityService extends AccessibilityServic
         int eventType = event.getEventType();
         switch (eventType) {
             case AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED:
+
+                Parcelable data = event.getParcelableData();
+                if (data instanceof Notification) {
+                    Notification mNotification = (Notification) data;
+
+                    Bundle mBundle = new Bundle();
+                    mBundle.putInt(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_CMD,NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ACCESSIBILITYSERVICE_BACK);
+                    mBundle.putParcelable(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_DATA,mNotification);
+                    mBundle.putString(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_PKG, event.getPackageName().toString());
+
+                    Intent intent = new Intent(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION);
+                    intent.putExtras(mBundle);
+                    sendBroadcast(intent);
+                }
+
                 List<CharSequence> texts = event.getText();
                 if (!texts.isEmpty()) {
                     for (CharSequence text : texts) {

@@ -9,39 +9,39 @@ import android.os.Parcelable;
 
 public class NotificationMonitorResultBeaen implements Parcelable {
 
-    int notificationId  ;// 获取接收消息通知Id
+    int id;// 获取接收消息通知Id
 
-    String notificationPkg ;// 获取接收消息APP的包名
+    String pkg;// 获取接收消息APP的包名
 
-    String notificationTitle ;// 获取接收消息的抬头
+    String title;// 获取接收消息的抬头
 
-    String notificationText ;// 获取接收消息的内容
+    String content;// 获取接收消息的内容
 
-    String notificationSubText ;
+    String subText;
 
-    String notificationShowWhen ;
+    String showWhen;
 
 
     @Override
     public String toString() {
         return "NotificationMonitorResultBeaen{" +
-                "notificationId=" + notificationId +
-                ", notificationPkg='" + notificationPkg + '\'' +
-                ", notificationTitle='" + notificationTitle + '\'' +
-                ", notificationText='" + notificationText + '\'' +
-                ", notificationSubText='" + notificationSubText + '\'' +
-                ", notificationShowWhen='" + notificationShowWhen + '\'' +
+                "id=" + id +
+                ", pkg='" + pkg + '\'' +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", subText='" + subText + '\'' +
+                ", showWhen='" + showWhen + '\'' +
                 '}';
     }
 
     public String toString2() {
         return
-                "\ndate=" + notificationShowWhen +
-                "\n\nnotificationId=" + notificationId +
-                "\nnotificationPkg='" + notificationPkg + '\'' +
-                "\nnotificationTitle='" + notificationTitle + '\'' +
-                "\nnotificationText='" + notificationText + '\'' +
-                "\nnotificationSubText='" + notificationSubText + '\'';
+                "\ndate       = " + showWhen +
+                "\n\nid            = " + id +
+                "\npkg         = " + pkg + "" +
+                "\ntitle         = " + title + "" +
+                "\ncontent  = " + content + "" +
+                "\nsubText  = " + subText + "";
     }
 
 
@@ -52,24 +52,24 @@ public class NotificationMonitorResultBeaen implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.notificationId);
-        dest.writeString(this.notificationPkg);
-        dest.writeString(this.notificationTitle);
-        dest.writeString(this.notificationText);
-        dest.writeString(this.notificationSubText);
-        dest.writeString(this.notificationShowWhen);
+        dest.writeInt(this.id);
+        dest.writeString(this.pkg);
+        dest.writeString(this.title);
+        dest.writeString(this.content);
+        dest.writeString(this.subText);
+        dest.writeString(this.showWhen);
     }
 
     public NotificationMonitorResultBeaen() {
     }
 
     protected NotificationMonitorResultBeaen(Parcel in) {
-        this.notificationId = in.readInt();
-        this.notificationPkg = in.readString();
-        this.notificationTitle = in.readString();
-        this.notificationText = in.readString();
-        this.notificationSubText = in.readString();
-        this.notificationShowWhen = in.readString();
+        this.id = in.readInt();
+        this.pkg = in.readString();
+        this.title = in.readString();
+        this.content = in.readString();
+        this.subText = in.readString();
+        this.showWhen = in.readString();
     }
 
     public static final Creator<NotificationMonitorResultBeaen> CREATOR = new Creator<NotificationMonitorResultBeaen>() {
