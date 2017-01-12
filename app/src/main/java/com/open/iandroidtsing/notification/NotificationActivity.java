@@ -59,7 +59,7 @@ public class NotificationActivity extends Activity {
                     break;
 
                 case R.id.user_define_notification:
-                    NotificationUtil.user_define_notification(getApplicationContext());
+                    NotificationUtil.user_define_notification(getApplicationContext() , count);
                     break;
             }
         }

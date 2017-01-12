@@ -151,7 +151,7 @@ public class NotificationUtil {
         mNotificationManager.notify(notifyID, notification);
     }
 
-    public static void user_define_notification(Context context)
+    public static void user_define_notification(Context context , int count)
     {
         PendingIntent pendingIntent= PendingIntent.getActivity(context, 1, new Intent(), Notification.FLAG_AUTO_CANCEL);
 
