@@ -154,9 +154,7 @@ public class NotificationMonitorActivity extends Activity {
 
                         NotificationMonitorResultBeaen resultBeaen = extras.getParcelable(NOTIFICATION_MONITOR_ACTION_KEY_DATA);
 
-                        String date = resultBeaen.notificationShowWhen;
-
-                        String txt = "add \n\ndate " + date+ resultBeaen.toString2();
+                        String txt = "add \n"+ resultBeaen.toString2();
                         TextView addTextView = new TextView(getApplicationContext());
                         addTextView.setText(txt);
                         addTextView.setTextColor(Color.BLUE);
@@ -173,9 +171,7 @@ public class NotificationMonitorActivity extends Activity {
 
                         NotificationMonitorResultBeaen resultBeaen = extras.getParcelable(NOTIFICATION_MONITOR_ACTION_KEY_DATA);
 
-                        String date = resultBeaen.notificationShowWhen;
-
-                        String txt = "remove \n\ndate " + date+ resultBeaen.toString2();
+                        String txt = "remove \n"+ resultBeaen.toString2();
                         TextView removeTextView = new TextView(getApplicationContext());
                         removeTextView.setText(txt);
                         removeTextView.setTextColor(Color.RED);
@@ -198,9 +194,7 @@ public class NotificationMonitorActivity extends Activity {
                             for (int i = size-1; i >=0 ; --i) {
                                 NotificationMonitorResultBeaen resultBeaen = resultBeaenList.get(i);
 
-                                String date = resultBeaen.notificationShowWhen;
-
-                                String txt = "date " + date+ resultBeaen.toString2();
+                                String txt = resultBeaen.toString2();
                                 TextView addTextView = new TextView(getApplicationContext());
                                 addTextView.setText(txt);
                                 addTextView.setTextColor(Color.GRAY);
@@ -219,6 +213,7 @@ public class NotificationMonitorActivity extends Activity {
                         addTextView.setText(String.format(size > 0 ? "There are %d activie notifications " : "There are %d activie notification", size));
                         addTextView.setTextColor(Color.GRAY);
                         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        lp.leftMargin = 20;
                         notification_monitor_logcat_set.addView(addTextView,0,lp);
                     }
                 }
