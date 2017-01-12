@@ -11,7 +11,9 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2017/1/11.
@@ -59,7 +61,10 @@ public class NotificationMonitorService extends NotificationListenerService {
                 resultBeaen.notificationTitle = extras.getString(Notification.EXTRA_TITLE);
                 resultBeaen.notificationText = extras.getString(Notification.EXTRA_TEXT);
                 resultBeaen.notificationSubText = extras.getString(Notification.EXTRA_SUB_TEXT);
-                resultBeaen.notificationShowWhen = nf.when;
+
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+                String date = df.format(new Date(nf.when));
+                resultBeaen.notificationShowWhen = date;
 
                 broadcast(resultBeaen , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ADD);
                 Log.v(TAG, "onNotificationPosted : "+resultBeaen.toString());
@@ -83,7 +88,9 @@ public class NotificationMonitorService extends NotificationListenerService {
                 resultBeaen.notificationTitle = extras.getString(Notification.EXTRA_TITLE);
                 resultBeaen.notificationText = extras.getString(Notification.EXTRA_TEXT);
                 resultBeaen.notificationSubText = extras.getString(Notification.EXTRA_SUB_TEXT);
-                resultBeaen.notificationShowWhen = nf.when;
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+                String date = df.format(new Date(nf.when));
+                resultBeaen.notificationShowWhen = date;
 
                 broadcast(resultBeaen , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_REMOVE);
                 Log.v(TAG, "onNotificationRemoved : "+resultBeaen.toString());
@@ -147,7 +154,9 @@ public class NotificationMonitorService extends NotificationListenerService {
                                         resultBeaen.notificationTitle = extras.getString(Notification.EXTRA_TITLE);
                                         resultBeaen.notificationText = extras.getString(Notification.EXTRA_TEXT);
                                         resultBeaen.notificationSubText = extras.getString(Notification.EXTRA_SUB_TEXT);
-                                        resultBeaen.notificationShowWhen = nf.when;
+                                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+                                        String date = df.format(new Date(nf.when));
+                                        resultBeaen.notificationShowWhen = date;
 
                                         resultBeaenList.add(resultBeaen);
                                     }

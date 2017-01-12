@@ -18,9 +18,7 @@ import android.widget.TextView;
 
 import com.open.iandroidtsing.R;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by Administrator on 2016/7/18.
@@ -156,8 +154,7 @@ public class NotificationMonitorActivity extends Activity {
 
                         NotificationMonitorResultBeaen resultBeaen = extras.getParcelable(NOTIFICATION_MONITOR_ACTION_KEY_DATA);
 
-                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-                        String date = df.format(new Date(resultBeaen.notificationShowWhen));
+                        String date = resultBeaen.notificationShowWhen;
 
                         String txt = "add \n\ndate " + date+ resultBeaen.toString2();
                         TextView addTextView = new TextView(getApplicationContext());
@@ -176,8 +173,7 @@ public class NotificationMonitorActivity extends Activity {
 
                         NotificationMonitorResultBeaen resultBeaen = extras.getParcelable(NOTIFICATION_MONITOR_ACTION_KEY_DATA);
 
-                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-                        String date = df.format(new Date(resultBeaen.notificationShowWhen));
+                        String date = resultBeaen.notificationShowWhen;
 
                         String txt = "remove \n\ndate " + date+ resultBeaen.toString2();
                         TextView removeTextView = new TextView(getApplicationContext());
@@ -199,11 +195,10 @@ public class NotificationMonitorActivity extends Activity {
                         int size = (null != resultBeaenList && resultBeaenList.size() > 0) ? resultBeaenList.size() : 0 ;
 
                         if(size > 0){
-                            for (int i = 0; i < size; i++) {
+                            for (int i = size-1; i >=0 ; --i) {
                                 NotificationMonitorResultBeaen resultBeaen = resultBeaenList.get(i);
 
-                                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-                                String date = df.format(new Date(resultBeaen.notificationShowWhen));
+                                String date = resultBeaen.notificationShowWhen;
 
                                 String txt = "date " + date+ resultBeaen.toString2();
                                 TextView addTextView = new TextView(getApplicationContext());

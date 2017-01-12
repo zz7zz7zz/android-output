@@ -19,7 +19,7 @@ public class NotificationMonitorResultBeaen implements Parcelable {
 
     String notificationSubText ;
 
-    long notificationShowWhen ;
+    String notificationShowWhen ;
 
 
     @Override
@@ -57,7 +57,7 @@ public class NotificationMonitorResultBeaen implements Parcelable {
         dest.writeString(this.notificationTitle);
         dest.writeString(this.notificationText);
         dest.writeString(this.notificationSubText);
-        dest.writeLong(this.notificationShowWhen);
+        dest.writeString(this.notificationShowWhen);
     }
 
     public NotificationMonitorResultBeaen() {
@@ -69,7 +69,7 @@ public class NotificationMonitorResultBeaen implements Parcelable {
         this.notificationTitle = in.readString();
         this.notificationText = in.readString();
         this.notificationSubText = in.readString();
-        this.notificationShowWhen = in.readLong();
+        this.notificationShowWhen = in.readString();
     }
 
     public static final Creator<NotificationMonitorResultBeaen> CREATOR = new Creator<NotificationMonitorResultBeaen>() {
