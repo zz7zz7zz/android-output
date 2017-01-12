@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -33,6 +34,8 @@ public class NotificationMonitorActivity extends Activity {
     public static final int NOTIFICATION_MONITOR_ACTION_CMD_REMOVE  = 2;
     public static final int NOTIFICATION_MONITOR_ACTION_CMD_ALLINFO = 3;
 
+    private static final String TAG = "NFMonitorActivity";
+
     private NotificationMonitorBroadcastReceiver mReceiver = new NotificationMonitorBroadcastReceiver();
 
     private LinearLayout notification_monitor_logcat_set;
@@ -52,8 +55,11 @@ public class NotificationMonitorActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
-        boolean isEnable = isEnabled();
-        ((Button)(findViewById(R.id.notification_monitor_authorization))).setTextColor(isEnable ? Color.BLACK: Color.RED);
+        boolean isNotificationListenerServiceOn = isNotificationListenerServiceOn();
+        ((Button)(findViewById(R.id.notification_monitor_authorization))).setTextColor(isNotificationListenerServiceOn ? Color.BLACK: Color.RED);
+
+        boolean isNotificationAccessibilitySettingsOn = isNotificationAccessibilitySettingsOn(getApplicationContext());
+        ((Button)(findViewById(R.id.notification_monitor_authorization_accessibility_service))).setTextColor(isNotificationAccessibilitySettingsOn ? Color.BLACK: Color.RED);
     }
 
     @Override
@@ -68,6 +74,7 @@ public class NotificationMonitorActivity extends Activity {
         notification_monitor_logcat_set = (LinearLayout) findViewById(R.id.notification_monitor_logcat_set);
 
         findViewById(R.id.notification_monitor_authorization).setOnClickListener(clickListener);
+        findViewById(R.id.notification_monitor_authorization_accessibility_service).setOnClickListener(clickListener);
         findViewById(R.id.notification_monitor_allinfo).setOnClickListener(clickListener);
         findViewById(R.id.notification_monitor_create).setOnClickListener(clickListener);
         findViewById(R.id.notification_monitor_clear).setOnClickListener(clickListener);
@@ -81,7 +88,11 @@ public class NotificationMonitorActivity extends Activity {
             switch(v.getId()){
 
                 case R.id.notification_monitor_authorization:
-                    openNotificationAuthorization();
+                    startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+                    break;
+
+                case R.id.notification_monitor_authorization_accessibility_service:
+                    startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
                     break;
 
                 case R.id.notification_monitor_allinfo:
@@ -116,7 +127,7 @@ public class NotificationMonitorActivity extends Activity {
     };
 
     //判断是否打开了通知监听权限
-    private boolean isEnabled() {
+    private boolean isNotificationListenerServiceOn() {
         String pkgName = getPackageName();
         final String flat = Settings.Secure.getString(getContentResolver(), "enabled_notification_listeners");
         if (!TextUtils.isEmpty(flat)) {
@@ -133,11 +144,50 @@ public class NotificationMonitorActivity extends Activity {
         return false;
     }
 
-    //去设置权限
-    private void openNotificationAuthorization() {
-        startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
-    }
 
+    public boolean isNotificationAccessibilitySettingsOn(Context mContext) {
+
+        int accessibilityEnabled = 0;
+        try {
+            accessibilityEnabled = Settings.Secure.getInt(mContext.getContentResolver(),
+                    android.provider.Settings.Secure.ACCESSIBILITY_ENABLED);
+        } catch (Settings.SettingNotFoundException e) {
+            Log.v(TAG, e.getMessage());
+        }
+
+        if (accessibilityEnabled == 1) {
+            String services = Settings.Secure.getString(mContext.getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+            if (services != null) {
+                return services.toLowerCase().contains(mContext.getPackageName().toLowerCase());
+            }
+        }
+        return false;
+
+        /*
+            int accessibilityEnabled = 0;
+            try {
+                    accessibilityEnabled = Settings.Secure.getInt(mContext.getApplicationContext().getContentResolver(), android.provider.Settings.Secure.ACCESSIBILITY_ENABLED);
+            } catch (Settings.SettingNotFoundException e) {
+                Log.e(TAG, e.getMessage());
+            }
+            TextUtils.SimpleStringSplitter mStringColonSplitter = new TextUtils.SimpleStringSplitter(':');
+
+            if (accessibilityEnabled == 1) {
+                String settingValue = Settings.Secure.getString(mContext.getApplicationContext().getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+                String service = getPackageName() + "/" + NotificationMonitorAccessibilityService.class.getCanonicalName();
+                if (settingValue != null) {
+                    mStringColonSplitter.setString(settingValue);
+                    while (mStringColonSplitter.hasNext()) {
+                        String accessibilityService = mStringColonSplitter.next();
+                        if (accessibilityService.equalsIgnoreCase(service)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+            */
+    }
 
     public class NotificationMonitorBroadcastReceiver extends BroadcastReceiver{
 
