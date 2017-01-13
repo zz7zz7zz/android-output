@@ -264,8 +264,8 @@ public class NotificationMonitorActivity extends Activity {
                 else if(itemView instanceof TextView) {
                     TextView mTextView = (TextView)itemView;
                     String text = mTextView.getText().toString().trim();
-                    setTitleCotent(mTextView.getId(), text , idMap , titleContent);
                     if(!TextUtils.isEmpty(text)){
+                        setTitleCotent(mTextView.getId(), text , idMap , titleContent);
                         txtArray.add(text);
                     }
                     Log.v(TAG,"TextView 1 id:"+ mTextView.getId() + ".text:" + text);
@@ -275,8 +275,8 @@ public class NotificationMonitorActivity extends Activity {
             if(nfView instanceof TextView) {
                 TextView mTextView = (TextView)nfView;
                 String text = mTextView.getText().toString().trim();
-                setTitleCotent(mTextView.getId(), text , idMap , titleContent);
                 if(!TextUtils.isEmpty(text)){
+                    setTitleCotent(mTextView.getId(), text , idMap , titleContent);
                     txtArray.add(text);
                 }
                 Log.v(TAG,"TextView 2 id:"+ mTextView.getId() + ".text:" + text);
