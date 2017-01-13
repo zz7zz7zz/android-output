@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.open.iandroidtsing.fragment.FragmentPagerActivity;
 import com.open.iandroidtsing.fragment.FragmentStatePagerActivity;
+import com.open.iandroidtsing.image.ImageActivity;
 import com.open.iandroidtsing.notification.NotificationActivity;
 import com.open.iandroidtsing.notification.NotificationMonitorActivity;
 import com.open.iandroidtsing.sharedprefs.SharedPrefsActivity;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.weakreference).setOnClickListener(clickListener);
 
         findViewById(R.id.shared_prefs).setOnClickListener(clickListener);
+
+        findViewById(R.id.image).setOnClickListener(clickListener);
     }
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
@@ -61,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.shared_prefs:
                     startActivity(new Intent(getApplicationContext(),SharedPrefsActivity.class));
+                    break;
+
+                case R.id.image:
+                    startActivity(new Intent(getApplicationContext(),ImageActivity.class));
                     break;
             }
         }

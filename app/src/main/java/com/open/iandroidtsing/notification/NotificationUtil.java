@@ -31,7 +31,7 @@ public class NotificationUtil {
                 .setContentTitle("我是标题")
                 .setContentText("我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容");
 //                .setStyle(new NotificationCompat.InboxStyle()
-//                        .addLine("M.Twain (Google+) Haiku is more than a cert...")
+//                        .addLine("M.Twain (Google+) Haiku is more than b cert...")
 //                        .addLine("M.Twain Reminder")
 //                        .addLine("M.Twain Lunch?")
 //                        .addLine("M.Twain Revised Specs")
