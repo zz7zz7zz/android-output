@@ -1,11 +1,14 @@
 package com.open.iandroidtsing.image;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.util.Log;
+import android.util.TypedValue;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,6 +42,9 @@ public class ImageActivity extends Activity {
     private TextView  decodeFile_tv;
     private ImageView decodeFile_img;
 
+    private TextView  decodeFile_tv2;
+    private ImageView decodeFile_img2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +53,19 @@ public class ImageActivity extends Activity {
     }
 
     private void initView(){
+
+        int densitya = getTargetDensityByResource(getResources(),R.mipmap.a);
+        int densityb = getTargetDensityByResource(getResources(),R.mipmap.b);
+        int densityc = getTargetDensityByResource(getResources(),R.mipmap.c);
+        int densityd = getTargetDensityByResource(getResources(),R.mipmap.d);
+        int densitye = getTargetDensityByResource(getResources(),R.mipmap.e);
+
+        Log.v("ImageActivity" , "densitya: " + densitya);
+        Log.v("ImageActivity" , "densityb: " + densityb);
+        Log.v("ImageActivity" , "densityc: " + densityc);
+        Log.v("ImageActivity" , "densityd: " + densityd);
+        Log.v("ImageActivity" , "densitye: " + densitye);
+        Log.v("ImageActivity" , "getDisplayMetrics density: " + getResources().getDisplayMetrics().densityDpi);
 
         texta = (TextView)findViewById(R.id.texta);
         textb = (TextView)findViewById(R.id.textb);
@@ -69,6 +88,14 @@ public class ImageActivity extends Activity {
         decodeFile_img = (ImageView) findViewById(R.id.decodeFile_img);
         decodeFile_img.setImageDrawable(new BitmapDrawable(getResources(),BitmapFactory.decodeFile(path)));
 
+        path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "d.png";
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inDensity = densityd;
+        opts.inTargetDensity = getResources().getDisplayMetrics().densityDpi;
+        decodeFile_tv2 = (TextView) findViewById(R.id.decodeFile_tv2);
+        decodeFile_img2 = (ImageView) findViewById(R.id.decodeFile_img2);
+        decodeFile_img2.setImageDrawable(new BitmapDrawable(getResources(),BitmapFactory.decodeFile(path,opts)));
+
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -81,9 +108,16 @@ public class ImageActivity extends Activity {
 
                 decodeResource_tv.setText("decodeResource_tv getMeasuredWidth " + decodeResource_img.getMeasuredWidth() + " getWidth " + decodeResource_img.getWidth());
                 decodeFile_tv.setText("decodeFile_tv getMeasuredWidth " + decodeFile_img.getMeasuredWidth() + " getWidth " + decodeFile_img.getWidth());
+                decodeFile_tv2.setText("decodeFile_tv2 getMeasuredWidth " + decodeFile_img2.getMeasuredWidth() + " getWidth " + decodeFile_img2.getWidth());
             }
         },1000);
     }
 
+
+    private int getTargetDensityByResource(Resources resources, int id) {
+        TypedValue value = new TypedValue();
+        resources.openRawResource(id, value);
+        return value.density;
+    }
 
 }
