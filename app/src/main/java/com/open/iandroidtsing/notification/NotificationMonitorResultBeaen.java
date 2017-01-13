@@ -3,6 +3,9 @@ package com.open.iandroidtsing.notification;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Administrator on 2017/1/11.
  */
@@ -19,24 +22,31 @@ public class NotificationMonitorResultBeaen implements Parcelable {
 
     String subText;
 
-    String showWhen;
+    long showWhen;
 
 
     @Override
     public String toString() {
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        String date = df.format(new Date(showWhen));
+
         return "NotificationMonitorResultBeaen{" +
                 "id=" + id +
                 ", pkg='" + pkg + '\'' +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", subText='" + subText + '\'' +
-                ", showWhen='" + showWhen + '\'' +
+                ", showWhen=" + date +
                 '}';
     }
 
     public String toString2() {
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        String date = df.format(new Date(showWhen));
         return
-                "\ndate       = " + showWhen +
+                "\ndate       = " + date +
                 "\n\nid            = " + id +
                 "\npkg         = " + pkg + "" +
                 "\ntitle         = " + title + "" +
@@ -57,7 +67,7 @@ public class NotificationMonitorResultBeaen implements Parcelable {
         dest.writeString(this.title);
         dest.writeString(this.content);
         dest.writeString(this.subText);
-        dest.writeString(this.showWhen);
+        dest.writeLong(this.showWhen);
     }
 
     public NotificationMonitorResultBeaen() {
@@ -69,7 +79,7 @@ public class NotificationMonitorResultBeaen implements Parcelable {
         this.title = in.readString();
         this.content = in.readString();
         this.subText = in.readString();
-        this.showWhen = in.readString();
+        this.showWhen = in.readLong();
     }
 
     public static final Creator<NotificationMonitorResultBeaen> CREATOR = new Creator<NotificationMonitorResultBeaen>() {

@@ -21,7 +21,9 @@ import android.widget.TextView;
 
 import com.open.iandroidtsing.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -197,7 +199,7 @@ public class NotificationMonitorActivity extends Activity {
 
     public static HashMap<String,int[]> titleContentIdMap = new HashMap<>();
     static{
-        titleContentIdMap.put("com.open.iandroidtsing",new int[]{2131558517,2131558519});
+        titleContentIdMap.put("com.open.iandroidtsing",new int[]{2131558533,2131558535});
     }
 
     private void traversalRemoteView(View nfView , String pkgName , Notification mNotification){
@@ -205,7 +207,10 @@ public class NotificationMonitorActivity extends Activity {
         String [] titleContent = new String[2];
         traversalRemoteView(nfView , titleContentIdMap.get(pkgName) , titleContent);
 
-        Log.v(TAG,"when "+ mNotification.when);
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        String date = df.format(new Date(mNotification.when));
+
+        Log.v(TAG,"when "+ date );
         Log.v(TAG,"Title "+ titleContent[0]);
         Log.v(TAG,"Content "+ titleContent[1]);
 
@@ -215,10 +220,15 @@ public class NotificationMonitorActivity extends Activity {
                     notification_monitor_logcat_set.getChildAt(i).getTag() instanceof NotificationMonitorResultBeaen){
 
                 NotificationMonitorResultBeaen tag = (NotificationMonitorResultBeaen)notification_monitor_logcat_set.getChildAt(i).getTag();
-                tag.title = titleContent[0];
-                tag.content = titleContent[1];
 
-                ((TextView) notification_monitor_logcat_set.getChildAt(i)).setText(tag.toString2());
+                if(tag.showWhen > 0 && tag.showWhen == mNotification.when){
+                    tag.title = titleContent[0];
+                    tag.content = titleContent[1];
+
+                    ((TextView) notification_monitor_logcat_set.getChildAt(i)).setText(tag.toString2());
+                    break;
+                }
+
             }
         }
 

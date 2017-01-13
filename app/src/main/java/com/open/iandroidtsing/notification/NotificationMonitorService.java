@@ -11,9 +11,7 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by Administrator on 2017/1/11.
@@ -51,6 +49,7 @@ public class NotificationMonitorService extends NotificationListenerService {
 
         Log.v(TAG, "onNotificationPosted : "+sbn.toString());
 
+        //----------------方法一-----------------------
         Notification nf = sbn.getNotification();
         if(null != nf){
             Bundle extras = nf.extras;
@@ -61,14 +60,25 @@ public class NotificationMonitorService extends NotificationListenerService {
                 resultBeaen.title = extras.getString(Notification.EXTRA_TITLE);
                 resultBeaen.content = extras.getString(Notification.EXTRA_TEXT);
                 resultBeaen.subText = extras.getString(Notification.EXTRA_SUB_TEXT);
-
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-                String date = df.format(new Date(nf.when));
-                resultBeaen.showWhen = date;
+                resultBeaen.showWhen = nf.when;
 
                 broadcast(resultBeaen , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ADD);
                 Log.v(TAG, "onNotificationPosted : "+resultBeaen.toString());
             }
+        }
+
+        //----------------方法二-----------------------
+        if(null != nf){
+            Notification mNotification = nf;
+
+            Bundle mBundle = new Bundle();
+            mBundle.putInt(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_CMD,NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ACCESSIBILITYSERVICE_BACK);
+            mBundle.putParcelable(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_DATA,mNotification);
+            mBundle.putString(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_PKG, sbn.getPackageName());
+
+            Intent intent = new Intent(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION);
+            intent.putExtras(mBundle);
+            sendBroadcast(intent);
         }
     }
 
@@ -88,9 +98,7 @@ public class NotificationMonitorService extends NotificationListenerService {
                 resultBeaen.title = extras.getString(Notification.EXTRA_TITLE);
                 resultBeaen.content = extras.getString(Notification.EXTRA_TEXT);
                 resultBeaen.subText = extras.getString(Notification.EXTRA_SUB_TEXT);
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-                String date = df.format(new Date(nf.when));
-                resultBeaen.showWhen = date;
+                resultBeaen.showWhen = nf.when;
 
                 broadcast(resultBeaen , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_REMOVE);
                 Log.v(TAG, "onNotificationRemoved : "+resultBeaen.toString());
@@ -154,9 +162,7 @@ public class NotificationMonitorService extends NotificationListenerService {
                                         resultBeaen.title = extras.getString(Notification.EXTRA_TITLE);
                                         resultBeaen.content = extras.getString(Notification.EXTRA_TEXT);
                                         resultBeaen.subText = extras.getString(Notification.EXTRA_SUB_TEXT);
-                                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-                                        String date = df.format(new Date(nf.when));
-                                        resultBeaen.showWhen = date;
+                                        resultBeaen.showWhen = nf.when;
 
                                         resultBeaenList.add(resultBeaen);
                                     }
