@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -46,12 +47,15 @@ public class NotificationMonitorActivity extends Activity {
     private NotificationMonitorBroadcastReceiver mReceiver = new NotificationMonitorBroadcastReceiver();
 
     private LinearLayout notification_monitor_logcat_set;
+    private LayoutInflater mInflater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notification_monitor);
         initView();
+
+        mInflater = LayoutInflater.from(getApplicationContext());
 
         IntentFilter localIntentFilter = new IntentFilter();
         localIntentFilter.addAction(NOTIFICATION_MONITOR_ACTION);
@@ -199,13 +203,25 @@ public class NotificationMonitorActivity extends Activity {
 
     public static HashMap<String,int[]> titleContentIdMap = new HashMap<>();
     static{
-        titleContentIdMap.put("com.open.iandroidtsing",new int[]{2131558533,2131558535});
+        titleContentIdMap.put("com.open.iandroidtsing",new int[]{2131558534,2131558536});
+        titleContentIdMap.put("com.uc.iflow",new int[]{2131361818,2131558536});
     }
 
     private void traversalRemoteView(View nfView , String pkgName , Notification mNotification){
 
+        ArrayList<String> txtArray = new ArrayList<>();
         String [] titleContent = new String[2];
-        traversalRemoteView(nfView , titleContentIdMap.get(pkgName) , titleContent);
+
+        traversalRemoteView(nfView , titleContentIdMap.get(pkgName) , titleContent , txtArray);
+
+        if(TextUtils.isEmpty(titleContent[0]) && TextUtils.isEmpty(titleContent[1])){
+            if(txtArray.size() > 0){
+                titleContent[0] = txtArray.get(0);
+            }
+            if(txtArray.size() > 1){
+                titleContent[1] = txtArray.get(1);
+            }
+        }
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         String date = df.format(new Date(mNotification.when));
@@ -216,25 +232,26 @@ public class NotificationMonitorActivity extends Activity {
 
         int mChildrenCount = notification_monitor_logcat_set.getChildCount();
         for (int i = 0 ;i < mChildrenCount; i ++){
-            if(notification_monitor_logcat_set.getChildAt(i) instanceof TextView &&
-                    notification_monitor_logcat_set.getChildAt(i).getTag() instanceof NotificationMonitorResultBeaen){
+            LinearLayout dataItem = ((LinearLayout)(notification_monitor_logcat_set.getChildAt(i)));
 
-                NotificationMonitorResultBeaen tag = (NotificationMonitorResultBeaen)notification_monitor_logcat_set.getChildAt(i).getTag();
-
+            if(dataItem instanceof LinearLayout && dataItem.getTag() instanceof NotificationMonitorResultBeaen){
+                NotificationMonitorResultBeaen tag = (NotificationMonitorResultBeaen)dataItem.getTag();
                 if(tag.showWhen > 0 && tag.showWhen == mNotification.when){
                     tag.title = titleContent[0];
                     tag.content = titleContent[1];
 
-                    ((TextView) notification_monitor_logcat_set.getChildAt(i)).setText(tag.toString2());
+                    ((TextView) dataItem.findViewById(R.id.push_info)).setText(tag.toString2());
+                    if(dataItem.getChildCount() == 1){
+                        dataItem.addView(nfView,dataItem.getChildCount());
+                    }
                     break;
                 }
-
             }
         }
 
     }
 
-    private void traversalRemoteView(View nfView , int[] idMap ,String [] titleContent){
+    private void traversalRemoteView(View nfView , int[] idMap , String [] titleContent, ArrayList<String> txtArray){
         if(nfView instanceof ViewGroup)
         {
             ViewGroup mViewGroup = (ViewGroup)nfView;
@@ -242,12 +259,15 @@ public class NotificationMonitorActivity extends Activity {
             for(int i = 0; i < mChildrenCount; i++) {
                 View itemView = mViewGroup.getChildAt(i);
                 if(itemView instanceof ViewGroup){
-                    traversalRemoteView(itemView,idMap,titleContent);
+                    traversalRemoteView(itemView,idMap,titleContent,txtArray);
                 }
                 else if(itemView instanceof TextView) {
                     TextView mTextView = (TextView)itemView;
                     String text = mTextView.getText().toString().trim();
                     setTitleCotent(mTextView.getId(), text , idMap , titleContent);
+                    if(!TextUtils.isEmpty(text)){
+                        txtArray.add(text);
+                    }
                     Log.v(TAG,"TextView 1 id:"+ mTextView.getId() + ".text:" + text);
                 }
             }
@@ -256,6 +276,9 @@ public class NotificationMonitorActivity extends Activity {
                 TextView mTextView = (TextView)nfView;
                 String text = mTextView.getText().toString().trim();
                 setTitleCotent(mTextView.getId(), text , idMap , titleContent);
+                if(!TextUtils.isEmpty(text)){
+                    txtArray.add(text);
+                }
                 Log.v(TAG,"TextView 2 id:"+ mTextView.getId() + ".text:" + text);
             }
         }
@@ -288,39 +311,32 @@ public class NotificationMonitorActivity extends Activity {
                     if(cmd == NOTIFICATION_MONITOR_ACTION_CMD_ADD){
 
                         NotificationMonitorResultBeaen resultBeaen = extras.getParcelable(NOTIFICATION_MONITOR_ACTION_KEY_DATA);
-
                         String txt = "add \n"+ resultBeaen.toString2();
-                        TextView addTextView = new TextView(getApplicationContext());
-                        addTextView.setText(txt);
-                        addTextView.setTextColor(Color.BLUE);
-                        addTextView.setBackgroundResource(R.drawable.nf_item_bg);
 
+                        LinearLayout dataItem = (LinearLayout)mInflater.inflate(R.layout.notification_monitor_dateitem,notification_monitor_logcat_set,false);
                         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                         lp.topMargin = 20;
-                        lp.bottomMargin = 20;
-                        lp.leftMargin = 20;
-                        lp.rightMargin = 20;
-                        notification_monitor_logcat_set.addView(addTextView,0,lp);
+                        notification_monitor_logcat_set.addView(dataItem,0,lp);
 
-                        addTextView.setTag(resultBeaen);
+                        TextView addTextView = (TextView)dataItem.findViewById(R.id.push_info);
+                        addTextView.setText(txt);
+                        addTextView.setTextColor(Color.BLUE);
+
+                        dataItem.setTag(resultBeaen);
 
                     }else if(cmd == NOTIFICATION_MONITOR_ACTION_CMD_REMOVE){
 
                         NotificationMonitorResultBeaen resultBeaen = extras.getParcelable(NOTIFICATION_MONITOR_ACTION_KEY_DATA);
-
                         String txt = "remove \n"+ resultBeaen.toString2();
-                        TextView removeTextView = new TextView(getApplicationContext());
-                        removeTextView.setText(txt);
-                        removeTextView.setTextColor(Color.RED);
-                        removeTextView.setBackgroundResource(R.drawable.nf_item_bg);
 
+                        LinearLayout dataItem = (LinearLayout)mInflater.inflate(R.layout.notification_monitor_dateitem,notification_monitor_logcat_set,false);
                         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                         lp.topMargin = 20;
-                        lp.bottomMargin = 20;
-                        lp.leftMargin = 20;
-                        lp.rightMargin = 20;
+                        notification_monitor_logcat_set.addView(dataItem,0,lp);
 
-                        notification_monitor_logcat_set.addView(removeTextView,0,lp);
+                        TextView removeTextView = (TextView)dataItem.findViewById(R.id.push_info);
+                        removeTextView.setText(txt);
+                        removeTextView.setTextColor(Color.RED);
 
                     }else if(cmd == NOTIFICATION_MONITOR_ACTION_CMD_ALLINFO){
 
@@ -329,20 +345,18 @@ public class NotificationMonitorActivity extends Activity {
 
                         if(size > 0){
                             for (int i = size-1; i >=0 ; --i) {
+
                                 NotificationMonitorResultBeaen resultBeaen = resultBeaenList.get(i);
-
                                 String txt = resultBeaen.toString2();
-                                TextView addTextView = new TextView(getApplicationContext());
-                                addTextView.setText(txt);
-                                addTextView.setTextColor(Color.GRAY);
-                                addTextView.setBackgroundResource(R.drawable.nf_item_bg);
 
+                                LinearLayout dataItem = (LinearLayout)mInflater.inflate(R.layout.notification_monitor_dateitem,notification_monitor_logcat_set,false);
                                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                                 lp.topMargin = 20;
-                                lp.bottomMargin = 20;
-                                lp.leftMargin = 20;
-                                lp.rightMargin = 20;
-                                notification_monitor_logcat_set.addView(addTextView,0,lp);
+                                notification_monitor_logcat_set.addView(dataItem,0,lp);
+
+                                TextView addTextView = (TextView)dataItem.findViewById(R.id.push_info);
+                                addTextView.setText(txt);
+                                addTextView.setTextColor(Color.GRAY);
                             }
                         }
 
