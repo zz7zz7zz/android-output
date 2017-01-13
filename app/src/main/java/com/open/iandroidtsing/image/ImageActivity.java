@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.open.iandroidtsing.R;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by Administrator on 2016/7/18.
@@ -115,9 +117,20 @@ public class ImageActivity extends Activity {
 
 
     private int getTargetDensityByResource(Resources resources, int id) {
-        TypedValue value = new TypedValue();
-        resources.openRawResource(id, value);
-        return value.density;
+        InputStream is = null;
+        try {
+            final TypedValue value = new TypedValue();
+            is = resources.openRawResource(id, value);
+            return value.density;
+        } catch (Exception e) {
+        } finally {
+            try {
+                if (is != null) is.close();
+            } catch (IOException e) {
+                // Ignore
+            }
+        }
+        return 0;
     }
 
 }
