@@ -232,9 +232,9 @@ public class NotificationMonitorActivity extends Activity {
 
         int mChildrenCount = notification_monitor_logcat_set.getChildCount();
         for (int i = 0 ;i < mChildrenCount; i ++){
-            LinearLayout dataItem = ((LinearLayout)(notification_monitor_logcat_set.getChildAt(i)));
+            LinearLayout dataItem = (notification_monitor_logcat_set.getChildAt(i) instanceof LinearLayout) ? (LinearLayout)(notification_monitor_logcat_set.getChildAt(i)) : null;
 
-            if(dataItem instanceof LinearLayout && dataItem.getTag() instanceof NotificationMonitorResultBeaen){
+            if(null != dataItem && dataItem.getTag() instanceof NotificationMonitorResultBeaen){
                 NotificationMonitorResultBeaen tag = (NotificationMonitorResultBeaen)dataItem.getTag();
                 if(tag.showWhen > 0 && tag.showWhen == mNotification.when){
                     tag.title = titleContent[0];
