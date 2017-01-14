@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -26,6 +27,11 @@ public class NotificationMonitorService extends NotificationListenerService {
     public static final int NOTIFICATION_MONITOR_ACTION_CANCEL_CMD_ALL          = 1;
     public static final int NOTIFICATION_MONITOR_ACTION_CANCEL_CMD_LATEST       = 2;
     public static final int NOTIFICATION_MONITOR_ACTION_CANCEL_CMD_GETALLNFS    = 3;
+
+    //需要过滤的包名
+    private final String [] filterPkgArray = new String[]{
+            "android","com.android","com.google.android"
+    };
 
     private CancelNotificationBroadcastReceiver mReceiver = new CancelNotificationBroadcastReceiver();
 
@@ -107,10 +113,25 @@ public class NotificationMonitorService extends NotificationListenerService {
 
     }
 
+    private boolean filterPkg(String pkg){
+
+        if(!TextUtils.isEmpty(pkg)){
+            for (String item: filterPkgArray) {
+                if(pkg.equals(item)){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public void broadcast(NotificationMonitorResultBeaen resultBeaen , int type){
 
-        if(resultBeaen.pkg.contains("android") ){
-
+        boolean filterPkg = filterPkg(resultBeaen.pkg);
+        Log.v(TAG, "filterPkg : " + filterPkg);
+        if(filterPkg){
+            return;
         }
 
         Bundle mBundle = new Bundle();
