@@ -89,7 +89,7 @@ public class NotificationMonitorService extends NotificationListenerService {
             }
 
             Log.v(TAG, "onNotificationPosted 2 : "+resultBeaen.toString());
-            broadcast2(resultBeaen , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ACCESSIBILITYSERVICE_BACK,nf);
+            broadcast2(resultBeaen , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ADD_2,nf);
         }
     }
 

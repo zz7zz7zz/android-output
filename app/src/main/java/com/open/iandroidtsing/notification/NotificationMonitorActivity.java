@@ -39,9 +39,10 @@ public class NotificationMonitorActivity extends Activity {
     public static final String NOTIFICATION_MONITOR_ACTION_KEY_DATA = "data";
     public static final String NOTIFICATION_MONITOR_ACTION_KEY_DATA_2 = "data2";
     public static final int NOTIFICATION_MONITOR_ACTION_CMD_ADD     = 1;
-    public static final int NOTIFICATION_MONITOR_ACTION_CMD_REMOVE  = 2;
-    public static final int NOTIFICATION_MONITOR_ACTION_CMD_ALLINFO = 3;
-    public static final int NOTIFICATION_MONITOR_ACTION_CMD_ACCESSIBILITYSERVICE_BACK = 4;
+    public static final int NOTIFICATION_MONITOR_ACTION_CMD_ADD_2   = 2;
+    public static final int NOTIFICATION_MONITOR_ACTION_CMD_REMOVE  = 3;
+    public static final int NOTIFICATION_MONITOR_ACTION_CMD_ALLINFO = 4;
+    public static final int NOTIFICATION_MONITOR_ACTION_CMD_ACCESSIBILITYSERVICE_BACK = 5;
 
     private static final String TAG = "NFMonitorActivity";
 
@@ -206,6 +207,61 @@ public class NotificationMonitorActivity extends Activity {
     static{
         titleContentIdMap.put("com.open.iandroidtsing",new int[]{2131558534,2131558536});
         titleContentIdMap.put("com.uc.iflow",new int[]{2131361818,2131558536});
+    }
+
+    private void traversalRemoteView(View nfView , String pkg , Notification mNotification){
+
+        ArrayList<String> txtArray = new ArrayList<>();
+        String [] titleContent = new String[2];
+
+        traversalRemoteView(nfView , titleContentIdMap.get(pkg) , titleContent , txtArray);
+
+        if(TextUtils.isEmpty(titleContent[0]) && TextUtils.isEmpty(titleContent[1])){
+
+            if(txtArray.size() > 0){
+                titleContent[0] = txtArray.get(0);
+            }
+
+            if(txtArray.size() > 1){
+                int maxLenth = txtArray.get(1).length();
+                int maxLenthIndex = 1;
+                for (int i = maxLenthIndex+1;i < txtArray.size();i++){
+                    if(txtArray.get(i).length() > maxLenth){
+                        maxLenthIndex = i;
+                    }
+                }
+                titleContent[1] = txtArray.get(maxLenthIndex);
+            }
+        }
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        String date = df.format(new Date(mNotification.when));
+
+        Log.v(TAG,"when "+ date );
+        Log.v(TAG,"Title "+ titleContent[0]);
+        Log.v(TAG,"Content "+ titleContent[1]);
+
+        int mChildrenCount = notification_monitor_logcat_set.getChildCount();
+        for (int i = 0 ;i < mChildrenCount; i ++){
+            LinearLayout dataItem = (notification_monitor_logcat_set.getChildAt(i) instanceof LinearLayout) ? (LinearLayout)(notification_monitor_logcat_set.getChildAt(i)) : null;
+
+            if(null != dataItem && dataItem.getTag() instanceof NotificationMonitorResultBeaen){
+                NotificationMonitorResultBeaen tag = (NotificationMonitorResultBeaen)dataItem.getTag();
+                if(tag.showWhen > 0 && tag.showWhen == mNotification.when){
+                    //更新Title
+                    tag.title = titleContent[0];
+                    tag.content = titleContent[1];
+                    ((TextView) dataItem.findViewById(R.id.push_info)).setText(tag.toString2());
+
+                    //更新通知预览
+                    if(dataItem.getChildCount() == 1){
+                        dataItem.addView(nfView,dataItem.getChildCount());
+                    }
+                    break;
+                }
+            }
+        }
+
     }
 
     private void traversalRemoteView(View nfView , NotificationMonitorResultBeaen resultBeaen , Notification mNotification){
@@ -379,7 +435,7 @@ public class NotificationMonitorActivity extends Activity {
                         lp.leftMargin = 20;
                         notification_monitor_logcat_set.addView(addTextView,0,lp);
 
-                    }else if(cmd == NOTIFICATION_MONITOR_ACTION_CMD_ACCESSIBILITYSERVICE_BACK){
+                    }else if(cmd == NOTIFICATION_MONITOR_ACTION_CMD_ADD_2){
 
                         String packageName = extras.getString(NOTIFICATION_MONITOR_ACTION_KEY_PKG);
                         NotificationMonitorResultBeaen resultBeaen = extras.getParcelable(NOTIFICATION_MONITOR_ACTION_KEY_DATA);
@@ -392,6 +448,19 @@ public class NotificationMonitorActivity extends Activity {
                         if (null != contentView) {
                             View nfView = contentView.apply(getApplicationContext(), notification_monitor_logcat_set);
                             traversalRemoteView(nfView, resultBeaen , mNotification);
+                        }
+                    }else if(cmd == NOTIFICATION_MONITOR_ACTION_CMD_ACCESSIBILITYSERVICE_BACK){
+
+                        String packageName = extras.getString(NOTIFICATION_MONITOR_ACTION_KEY_PKG);
+                        Notification mNotification = extras.getParcelable(NOTIFICATION_MONITOR_ACTION_KEY_DATA_2);
+
+                        Log.v(TAG,"packageName " + packageName + "\n " + "\n id "+ mNotification);
+
+                        RemoteViews contentView = mNotification.contentView;
+
+                        if (null != contentView) {
+                            View nfView = contentView.apply(getApplicationContext(), notification_monitor_logcat_set);
+                            traversalRemoteView(nfView, packageName , mNotification);
                         }
                     }
                 }
