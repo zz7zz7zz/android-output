@@ -58,33 +58,38 @@ public class NotificationMonitorService extends NotificationListenerService {
         //----------------方法一-----------------------
         Notification nf = sbn.getNotification();
         if(null != nf){
+            NotificationMonitorResultBeaen resultBeaen = new NotificationMonitorResultBeaen();
+            resultBeaen.id = sbn.getId();
+            resultBeaen.pkg = sbn.getPackageName();
+
             Bundle extras = nf.extras;
             if(null != extras){
-                NotificationMonitorResultBeaen resultBeaen = new NotificationMonitorResultBeaen();
-                resultBeaen.id = sbn.getId();
-                resultBeaen.pkg = sbn.getPackageName();
                 resultBeaen.title = extras.getString(Notification.EXTRA_TITLE);
                 resultBeaen.content = extras.getString(Notification.EXTRA_TEXT);
                 resultBeaen.subText = extras.getString(Notification.EXTRA_SUB_TEXT);
                 resultBeaen.showWhen = nf.when;
-
-                broadcast(resultBeaen , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ADD);
-                Log.v(TAG, "onNotificationPosted : "+resultBeaen.toString());
             }
+
+            Log.v(TAG, "onNotificationPosted : "+resultBeaen.toString());
+            broadcast(resultBeaen , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ADD);
         }
 
         //----------------方法二-----------------------
         if(null != nf){
-            Notification mNotification = nf;
+            NotificationMonitorResultBeaen resultBeaen = new NotificationMonitorResultBeaen();
+            resultBeaen.id = sbn.getId();
+            resultBeaen.pkg = sbn.getPackageName();
 
-            Bundle mBundle = new Bundle();
-            mBundle.putInt(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_CMD,NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ACCESSIBILITYSERVICE_BACK);
-            mBundle.putParcelable(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_DATA,mNotification);
-            mBundle.putString(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_PKG, sbn.getPackageName());
+            Bundle extras = nf.extras;
+            if(null != extras){
+                resultBeaen.title = extras.getString(Notification.EXTRA_TITLE);
+                resultBeaen.content = extras.getString(Notification.EXTRA_TEXT);
+                resultBeaen.subText = extras.getString(Notification.EXTRA_SUB_TEXT);
+                resultBeaen.showWhen = nf.when;
+            }
 
-            Intent intent = new Intent(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION);
-            intent.putExtras(mBundle);
-            sendBroadcast(intent);
+            Log.v(TAG, "onNotificationPosted 2 : "+resultBeaen.toString());
+            broadcast2(resultBeaen , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ACCESSIBILITYSERVICE_BACK,nf);
         }
     }
 
@@ -96,19 +101,21 @@ public class NotificationMonitorService extends NotificationListenerService {
 
         Notification nf = sbn.getNotification();
         if(null != nf){
+
+            NotificationMonitorResultBeaen resultBeaen = new NotificationMonitorResultBeaen();
+            resultBeaen.id = sbn.getId();
+            resultBeaen.pkg = sbn.getPackageName();
+
             Bundle extras = nf.extras;
             if(null != extras){
-                NotificationMonitorResultBeaen resultBeaen = new NotificationMonitorResultBeaen();
-                resultBeaen.id = sbn.getId();
-                resultBeaen.pkg = sbn.getPackageName();
                 resultBeaen.title = extras.getString(Notification.EXTRA_TITLE);
                 resultBeaen.content = extras.getString(Notification.EXTRA_TEXT);
                 resultBeaen.subText = extras.getString(Notification.EXTRA_SUB_TEXT);
                 resultBeaen.showWhen = nf.when;
-
-                broadcast(resultBeaen , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_REMOVE);
-                Log.v(TAG, "onNotificationRemoved : "+resultBeaen.toString());
             }
+
+            Log.v(TAG, "onNotificationRemoved : "+resultBeaen.toString());
+            broadcast(resultBeaen , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_REMOVE);
         }
 
     }
@@ -137,6 +144,24 @@ public class NotificationMonitorService extends NotificationListenerService {
         Bundle mBundle = new Bundle();
         mBundle.putInt(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_CMD,type);
         mBundle.putParcelable(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_DATA,resultBeaen);
+        Intent intent = new Intent(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION);
+        intent.putExtras(mBundle);
+        sendBroadcast(intent);
+    }
+
+    public void broadcast2(NotificationMonitorResultBeaen resultBeaen , int type , Notification nf){
+
+        boolean filterPkg = filterPkg(resultBeaen.pkg);
+        Log.v(TAG, "filterPkg : " + filterPkg);
+        if(filterPkg){
+            return;
+        }
+
+        Bundle mBundle = new Bundle();
+        mBundle.putInt(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_CMD,NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ACCESSIBILITYSERVICE_BACK);
+        mBundle.putString(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_PKG, resultBeaen.pkg);
+        mBundle.putParcelable(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_DATA,resultBeaen);
+        mBundle.putParcelable(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_DATA_2,nf);
         Intent intent = new Intent(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION);
         intent.putExtras(mBundle);
         sendBroadcast(intent);

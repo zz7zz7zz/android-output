@@ -27,8 +27,8 @@ public class NotificationMonitorAccessibilityService extends AccessibilityServic
 
                     Bundle mBundle = new Bundle();
                     mBundle.putInt(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_CMD,NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ACCESSIBILITYSERVICE_BACK);
-                    mBundle.putParcelable(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_DATA,mNotification);
                     mBundle.putString(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_PKG, event.getPackageName().toString());
+                    mBundle.putParcelable(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_DATA_2,mNotification);
 
                     Intent intent = new Intent(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION);
                     intent.putExtras(mBundle);
