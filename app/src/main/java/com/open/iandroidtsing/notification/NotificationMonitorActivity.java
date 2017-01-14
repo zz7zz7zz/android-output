@@ -215,11 +215,20 @@ public class NotificationMonitorActivity extends Activity {
         traversalRemoteView(nfView , titleContentIdMap.get(pkgName) , titleContent , txtArray);
 
         if(TextUtils.isEmpty(titleContent[0]) && TextUtils.isEmpty(titleContent[1])){
+
             if(txtArray.size() > 0){
                 titleContent[0] = txtArray.get(0);
             }
+
             if(txtArray.size() > 1){
-                titleContent[1] = txtArray.get(1);
+                int maxLenth = txtArray.get(1).length();
+                int maxLenthIndex = 1;
+                for (int i = maxLenthIndex+1;i < txtArray.size();i++){
+                    if(txtArray.get(i).length() > maxLenth){
+                        maxLenthIndex = i;
+                    }
+                }
+                titleContent[1] = txtArray.get(maxLenthIndex);
             }
         }
 
