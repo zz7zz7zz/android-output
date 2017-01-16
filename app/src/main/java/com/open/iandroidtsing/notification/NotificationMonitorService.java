@@ -63,14 +63,14 @@ public class NotificationMonitorService extends NotificationListenerService {
     public void onNotificationPosted(StatusBarNotification sbn) {
         super.onNotificationPosted(sbn);
 
-        Log.v(TAG, "onNotificationPosted : "+sbn.toString());
+        Log.v(TAG, "onNotificationPosted A :  "+sbn.toString());
 
-        //----------------方法一-----------------------
-        NotificationMonitorResultBeaen resultBeaen = null;
-        String nfText = "";
         Notification nf = sbn.getNotification();
         if(null != nf){
-            resultBeaen = new NotificationMonitorResultBeaen();
+
+            String nfText = "";
+
+            NotificationMonitorResultBeaen resultBeaen = new NotificationMonitorResultBeaen();
             resultBeaen.id = sbn.getId();
             resultBeaen.pkg = sbn.getPackageName();
 
@@ -83,32 +83,23 @@ public class NotificationMonitorService extends NotificationListenerService {
             }
 
             nfText = resultBeaen.bulld();
+            Log.v(TAG, "onNotificationPosted B :  "+resultBeaen.toString());
 
-            Log.v(TAG, "onNotificationPosted : "+resultBeaen.toString());
-            broadcast(resultBeaen , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ADD);
-        }
 
-        //----------------方法二-----------------------
-        if(null != nf){
-            resultBeaen = new NotificationMonitorResultBeaen();
-            resultBeaen.id = sbn.getId();
-            resultBeaen.pkg = sbn.getPackageName();
-
-            Bundle extras = nf.extras;
-            if(null != extras){
-                resultBeaen.title = extras.getString(Notification.EXTRA_TITLE);
-                resultBeaen.content = extras.getString(Notification.EXTRA_TEXT);
-                resultBeaen.subText = extras.getString(Notification.EXTRA_SUB_TEXT);
-                resultBeaen.showWhen = sbn.getPostTime() == 0 ? sbn.getPostTime() : nf.when;
+            try{
+                if(null == nf.contentView){
+                    broadcastAdd(resultBeaen);
+                }else{
+                    broadcastAdd2(resultBeaen , nf);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
             }
 
-            nfText = resultBeaen.bulld();
 
-            Log.v(TAG, "onNotificationPosted 2 : "+resultBeaen.toString());
-            broadcast2(resultBeaen , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ADD_2,nf);
+            //存数据
+            saveToHistory(resultBeaen,nfText);
         }
-
-        saveToHistory(resultBeaen,nfText);
     }
 
     @Override
@@ -133,7 +124,7 @@ public class NotificationMonitorService extends NotificationListenerService {
             }
 
             Log.v(TAG, "onNotificationRemoved : "+resultBeaen.toString());
-            broadcast(resultBeaen , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_REMOVE);
+            broadcastRemove(resultBeaen);
         }
 
     }
@@ -164,7 +155,7 @@ public class NotificationMonitorService extends NotificationListenerService {
         return false;
     }
 
-    public void broadcast(NotificationMonitorResultBeaen resultBeaen , int type){
+    public void broadcastAdd(NotificationMonitorResultBeaen resultBeaen){
 
         boolean filterPkg = exactStringMatching(resultBeaen.pkg) || likeStringMatching(resultBeaen.pkg);
         Log.v(TAG, "filterPkg : " + filterPkg);
@@ -178,14 +169,14 @@ public class NotificationMonitorService extends NotificationListenerService {
         }
 
         Bundle mBundle = new Bundle();
-        mBundle.putInt(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_CMD,type);
+        mBundle.putInt(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_CMD,NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ADD);
         mBundle.putParcelable(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_DATA,resultBeaen);
         Intent intent = new Intent(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION);
         intent.putExtras(mBundle);
         sendBroadcast(intent);
     }
 
-    public void broadcast2(NotificationMonitorResultBeaen resultBeaen , int type , Notification nf){
+    public void broadcastAdd2(NotificationMonitorResultBeaen resultBeaen , Notification nf){
 
         boolean filterPkg = exactStringMatching(resultBeaen.pkg) || likeStringMatching(resultBeaen.pkg);
         Log.v(TAG, "filterPkg : " + filterPkg);
@@ -199,10 +190,35 @@ public class NotificationMonitorService extends NotificationListenerService {
         }
 
         Bundle mBundle = new Bundle();
-        mBundle.putInt(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_CMD,NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ACCESSIBILITYSERVICE_BACK);
+        mBundle.putInt(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_CMD,NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ADD_2);
         mBundle.putString(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_PKG, resultBeaen.pkg);
         mBundle.putParcelable(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_DATA,resultBeaen);
-        mBundle.putParcelable(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_DATA_2,nf);
+
+        //下面这句将引发Caused by: android.os.TransactionTooLargeException:
+//        mBundle.putParcelable(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_DATA_2,nf);
+        NotificationMonitorActivity.mCurrentNotification = nf;
+
+        Intent intent = new Intent(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION);
+        intent.putExtras(mBundle);
+        sendBroadcast(intent);
+    }
+
+    public void broadcastRemove(NotificationMonitorResultBeaen resultBeaen){
+
+        boolean filterPkg = exactStringMatching(resultBeaen.pkg) || likeStringMatching(resultBeaen.pkg);
+        Log.v(TAG, "filterPkg : " + filterPkg);
+        if(filterPkg){
+            return;
+        }
+
+        if(null == resultBeaen){
+            Log.v(TAG, "A resultBeaen null ");
+            return;
+        }
+
+        Bundle mBundle = new Bundle();
+        mBundle.putInt(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_CMD,NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_REMOVE);
+        mBundle.putParcelable(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_DATA,resultBeaen);
         Intent intent = new Intent(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION);
         intent.putExtras(mBundle);
         sendBroadcast(intent);
