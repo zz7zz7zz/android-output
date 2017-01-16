@@ -106,7 +106,7 @@ public class NotificationMonitorHistoryDetailActivity extends Activity implement
                         //升序排序
                         public int compare(Map.Entry<String, String> o1,
                                            Map.Entry<String, String> o2) {
-                            return o2.getKey().compareTo(o1.getKey());
+                            return Integer.valueOf(o2.getKey()).compareTo(Integer.valueOf(o1.getKey()));
                         }
 
                     });
