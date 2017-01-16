@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.open.iandroidtsing.R;
 import com.open.iandroidtsing.com.open.frame.FileUtil;
+import com.open.iandroidtsing.com.open.frame.SDCardUtil;
 import com.open.iandroidtsing.com.open.frame.SharedPreConfig;
 import com.open.iandroidtsing.com.open.frame.SharedPreUtil;
 
@@ -276,7 +277,7 @@ public class NotificationMonitorActivity extends Activity {
 
     }
 
-    private void traversalRemoteView(View nfView , NotificationMonitorResultBeaen resultBeaen , Notification mNotification){
+    private void traversalRemoteView(final View nfView , final NotificationMonitorResultBeaen resultBeaen , Notification mNotification){
 
         ArrayList<String> txtArray = new ArrayList<>();
         String [] titleContent = new String[2];
@@ -310,7 +311,7 @@ public class NotificationMonitorActivity extends Activity {
 
         int mChildrenCount = notification_monitor_logcat_set.getChildCount();
         for (int i = 0 ;i < mChildrenCount; i ++){
-            LinearLayout dataItem = (notification_monitor_logcat_set.getChildAt(i) instanceof LinearLayout) ? (LinearLayout)(notification_monitor_logcat_set.getChildAt(i)) : null;
+            final LinearLayout dataItem = (notification_monitor_logcat_set.getChildAt(i) instanceof LinearLayout) ? (LinearLayout)(notification_monitor_logcat_set.getChildAt(i)) : null;
 
             if(null != dataItem && dataItem.getTag() instanceof NotificationMonitorResultBeaen){
                 NotificationMonitorResultBeaen tag = (NotificationMonitorResultBeaen)dataItem.getTag();
@@ -318,17 +319,40 @@ public class NotificationMonitorActivity extends Activity {
                     //更新Title
                     tag.title = titleContent[0];
                     tag.content = titleContent[1];
-                    ((TextView) dataItem.findViewById(R.id.push_info)).setText(tag.toString2());
-
-                    //更新通知预览
-                    if(dataItem.getChildCount() == 1){
-                        dataItem.addView(nfView,dataItem.getChildCount());
-                    }
 
                     //记录日期对应的具体信息
                     String nfText = resultBeaen.bulld();
                     String fileName = String.format("%s_%s", SharedPreConfig.NOTIFICATION_MONITOR_HISTORY,resultBeaen.date);
                     SharedPreUtil.putString(getApplicationContext(), fileName,""+resultBeaen.indexId,nfText);
+
+                    ((TextView) dataItem.findViewById(R.id.push_info)).setText(tag.toString2());
+
+                    //更新通知预览
+                    if(dataItem.getChildCount() == 1){
+                        dataItem.addView(nfView,dataItem.getChildCount());
+                        nfView.setDrawingCacheEnabled(true);
+
+                        final MutableInt count = new MutableInt(0);
+                        dataItem.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(null != nfView.getDrawingCache()){
+                                    String fileName = String.format("%s_%s", resultBeaen.date,resultBeaen.indexId);
+                                    saveBitmap(nfView.getDrawingCache(), SDCardUtil.getDiskFilePath(getApplicationContext(),"notification/"+fileName));
+                                    nfView.setDrawingCacheEnabled(false);
+                                }else{
+                                    Log.v(TAG,"count.value "+count.value);
+                                    if(count.value < 10){
+                                        count.value++;
+                                        dataItem.postDelayed(this,1000);
+                                    }else{
+                                        nfView.setDrawingCacheEnabled(false);
+                                    }
+                                }
+                            }
+                        },1000);
+                    }
+
                     break;
                 }
             }
@@ -390,7 +414,7 @@ public class NotificationMonitorActivity extends Activity {
         FileOutputStream out = null;
         try{
             out = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
             out.flush();
         }catch (Exception e) {
             e.printStackTrace();
@@ -541,6 +565,14 @@ public class NotificationMonitorActivity extends Activity {
                     }
                 }
             }
+        }
+    }
+
+    public final class MutableInt {
+        public int value;
+
+        public MutableInt(int value) {
+            this.value = value;
         }
     }
 

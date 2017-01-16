@@ -2,6 +2,7 @@ package com.open.iandroidtsing.notification;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,9 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.open.iandroidtsing.R;
+import com.open.iandroidtsing.com.open.frame.SDCardUtil;
 import com.open.iandroidtsing.com.open.frame.SharedPreConfig;
 import com.open.iandroidtsing.com.open.frame.SharedPreUtil;
 import com.open.widgets.listview.IListView;
@@ -116,6 +119,11 @@ public class NotificationMonitorHistoryDetailActivity extends Activity implement
 
                         NotificationMonitorResultBeaen mNotificationMonitorResultBeaen = new NotificationMonitorResultBeaen();
                         mNotificationMonitorResultBeaen.parse(mapping.getValue());
+
+                        String imgfileName = String.format("%s_%s", mNotificationMonitorResultBeaen.date,mNotificationMonitorResultBeaen.indexId);
+                        String imgPath = SDCardUtil.getDiskFilePath(getApplicationContext(),"notification/"+imgfileName);
+                        mNotificationMonitorResultBeaen.snapshoot = BitmapFactory.decodeFile(imgPath);
+
                         dateList.add(mNotificationMonitorResultBeaen);
                     }
                 }
@@ -172,12 +180,14 @@ public class NotificationMonitorHistoryDetailActivity extends Activity implement
             TitleCountHolder realHolder = (TitleCountHolder)holder;
             realHolder.push_info.setText(dateList.get(position).toString2());
             realHolder.push_info.setTextColor(Color.BLUE);
+
+            realHolder.push_snapshoot.setImageBitmap(dateList.get(position).snapshoot);
         }
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             Log.v(TAG,"onCreateViewHolder " + viewType);
-            return new TitleCountHolder(mLayoutInflater.inflate(R.layout.notification_monitor_dateitem,parent,false));
+            return new TitleCountHolder(mLayoutInflater.inflate(R.layout.notification_monitor_dateitem_2,parent,false));
         }
 
         @Override
@@ -194,10 +204,12 @@ public class NotificationMonitorHistoryDetailActivity extends Activity implement
 
     public class TitleCountHolder extends RecyclerView.ViewHolder{
         private TextView push_info;
+        private ImageView push_snapshoot;
 
         public TitleCountHolder(View itemView) {
             super(itemView);
             push_info   = (TextView)itemView.findViewById(R.id.push_info);
+            push_snapshoot   = (ImageView)itemView.findViewById(R.id.push_snapshoot);
         }
     }
 }

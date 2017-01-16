@@ -1,5 +1,6 @@
 package com.open.iandroidtsing.notification;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -27,6 +28,9 @@ public class NotificationMonitorResultBeaen implements Parcelable {
     //-----------------------------------
     String date;//日期
     int indexId;//一天中的第几条消息
+
+    //-------------------------------------
+    Bitmap snapshoot;
 
 
     public String bulld(){
