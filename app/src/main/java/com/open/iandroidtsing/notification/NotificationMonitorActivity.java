@@ -462,6 +462,7 @@ public class NotificationMonitorActivity extends Activity {
                         addTextView.setTextColor(Color.GRAY);
                         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                         lp.leftMargin = 20;
+                        lp.topMargin = 20;
                         notification_monitor_logcat_set.addView(addTextView,0,lp);
 
                         mNotificationList = null;
