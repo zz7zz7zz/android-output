@@ -92,6 +92,7 @@ public class NotificationMonitorActivity extends Activity {
         findViewById(R.id.notification_monitor_create).setOnClickListener(clickListener);
         findViewById(R.id.notification_monitor_clear).setOnClickListener(clickListener);
         findViewById(R.id.notification_monitor_api_setting).setOnClickListener(clickListener);
+        findViewById(R.id.notification_monitor_history).setOnClickListener(clickListener);
     }
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
@@ -133,6 +134,10 @@ public class NotificationMonitorActivity extends Activity {
                     break;
 
                 case R.id.notification_monitor_api_setting:
+                    break;
+
+                case R.id.notification_monitor_history:
+                    startActivity(new Intent(getApplicationContext(),NotificationMonitorHistoryActivity.class));
                     break;
 
             }

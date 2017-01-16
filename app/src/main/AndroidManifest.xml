@@ -23,6 +23,7 @@
         <!-- 通知相关-->
         <activity android:name=".notification.NotificationActivity" android:screenOrientation="portrait" />
         <activity android:name=".notification.NotificationMonitorActivity" android:screenOrientation="portrait" />
+        <activity android:name=".notification.NotificationMonitorHistoryActivity" android:screenOrientation="portrait" />
         <service
             android:name=".notification.NotificationMonitorService"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" >

@@ -12,7 +12,12 @@ import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.open.iandroidtsing.com.open.frame.SharedPreConfig;
+import com.open.iandroidtsing.com.open.frame.SharedPreUtil;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2017/1/11.
@@ -72,7 +77,7 @@ public class NotificationMonitorService extends NotificationListenerService {
                 resultBeaen.title = extras.getString(Notification.EXTRA_TITLE);
                 resultBeaen.content = extras.getString(Notification.EXTRA_TEXT);
                 resultBeaen.subText = extras.getString(Notification.EXTRA_SUB_TEXT);
-                resultBeaen.showWhen = nf.when;
+                resultBeaen.showWhen = sbn.getPostTime() == 0 ? sbn.getPostTime() : nf.when;
             }
 
             Log.v(TAG, "onNotificationPosted : "+resultBeaen.toString());
@@ -90,12 +95,19 @@ public class NotificationMonitorService extends NotificationListenerService {
                 resultBeaen.title = extras.getString(Notification.EXTRA_TITLE);
                 resultBeaen.content = extras.getString(Notification.EXTRA_TEXT);
                 resultBeaen.subText = extras.getString(Notification.EXTRA_SUB_TEXT);
-                resultBeaen.showWhen = nf.when;
+                resultBeaen.showWhen = sbn.getPostTime() == 0 ? sbn.getPostTime() : nf.when;
             }
 
             Log.v(TAG, "onNotificationPosted 2 : "+resultBeaen.toString());
             broadcast2(resultBeaen , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ADD_2,nf);
         }
+
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
+        String date = df.format(new Date());
+        int count = SharedPreUtil.getInt(getApplicationContext(), SharedPreConfig.NOTIFICATION_MONITOR_HISTORY,date);
+        ++count;
+        SharedPreUtil.putInt(getApplicationContext(), SharedPreConfig.NOTIFICATION_MONITOR_HISTORY,date,count);
     }
 
     @Override
@@ -116,7 +128,7 @@ public class NotificationMonitorService extends NotificationListenerService {
                 resultBeaen.title = extras.getString(Notification.EXTRA_TITLE);
                 resultBeaen.content = extras.getString(Notification.EXTRA_TEXT);
                 resultBeaen.subText = extras.getString(Notification.EXTRA_SUB_TEXT);
-                resultBeaen.showWhen = nf.when;
+                resultBeaen.showWhen = sbn.getPostTime() == 0 ? sbn.getPostTime() : nf.when;
             }
 
             Log.v(TAG, "onNotificationRemoved : "+resultBeaen.toString());
@@ -237,7 +249,7 @@ public class NotificationMonitorService extends NotificationListenerService {
                                         resultBeaen.title = extras.getString(Notification.EXTRA_TITLE);
                                         resultBeaen.content = extras.getString(Notification.EXTRA_TEXT);
                                         resultBeaen.subText = extras.getString(Notification.EXTRA_SUB_TEXT);
-                                        resultBeaen.showWhen = nf.when;
+                                        resultBeaen.showWhen = sbn.getPostTime() == 0 ? sbn.getPostTime() : nf.when;
                                     }
 
                                     resultBeaenList.add(resultBeaen);
