@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -21,7 +22,13 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.open.iandroidtsing.R;
+import com.open.iandroidtsing.com.open.frame.FileUtil;
+import com.open.iandroidtsing.com.open.frame.SharedPreConfig;
+import com.open.iandroidtsing.com.open.frame.SharedPreUtil;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -307,7 +314,7 @@ public class NotificationMonitorActivity extends Activity {
 
             if(null != dataItem && dataItem.getTag() instanceof NotificationMonitorResultBeaen){
                 NotificationMonitorResultBeaen tag = (NotificationMonitorResultBeaen)dataItem.getTag();
-                if(tag.id == resultBeaen.id){
+                if(tag.id == resultBeaen.id || tag.indexId == resultBeaen.indexId ){
                     //更新Title
                     tag.title = titleContent[0];
                     tag.content = titleContent[1];
@@ -317,6 +324,11 @@ public class NotificationMonitorActivity extends Activity {
                     if(dataItem.getChildCount() == 1){
                         dataItem.addView(nfView,dataItem.getChildCount());
                     }
+
+                    //记录日期对应的具体信息
+                    String nfText = resultBeaen.bulld();
+                    String fileName = String.format("%s_%s", SharedPreConfig.NOTIFICATION_MONITOR_HISTORY,resultBeaen.date);
+                    SharedPreUtil.putString(getApplicationContext(), fileName,""+resultBeaen.indexId,nfText);
                     break;
                 }
             }
@@ -363,6 +375,32 @@ public class NotificationMonitorActivity extends Activity {
                 titleContent[0] =  text;
             }else if(idMap[1] == viewId){
                 titleContent[1] =  text;
+            }
+        }
+    }
+
+    private void saveBitmap(Bitmap bitmap, String path)
+    {
+        File file = new File(path);
+        if(file.exists()){
+            file.delete();
+        }
+        FileUtil.createFile(path);
+
+        FileOutputStream out = null;
+        try{
+            out = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.flush();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            if(null != out){
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

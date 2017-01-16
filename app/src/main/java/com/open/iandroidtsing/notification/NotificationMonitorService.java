@@ -68,8 +68,6 @@ public class NotificationMonitorService extends NotificationListenerService {
         Notification nf = sbn.getNotification();
         if(null != nf){
 
-            String nfText = "";
-
             NotificationMonitorResultBeaen resultBeaen = new NotificationMonitorResultBeaen();
             resultBeaen.id = sbn.getId();
             resultBeaen.pkg = sbn.getPackageName();
@@ -82,9 +80,10 @@ public class NotificationMonitorService extends NotificationListenerService {
                 resultBeaen.showWhen = sbn.getPostTime() == 0 ? sbn.getPostTime() : nf.when;
             }
 
-            nfText = resultBeaen.bulld();
             Log.v(TAG, "onNotificationPosted B :  "+resultBeaen.toString());
 
+            //存数据
+            saveToHistory(resultBeaen);
 
             try{
                 if(null == nf.contentView){
@@ -95,10 +94,6 @@ public class NotificationMonitorService extends NotificationListenerService {
             }catch (Exception e){
                 e.printStackTrace();
             }
-
-
-            //存数据
-            saveToHistory(resultBeaen,nfText);
         }
     }
 
@@ -224,7 +219,7 @@ public class NotificationMonitorService extends NotificationListenerService {
         sendBroadcast(intent);
     }
 
-    public void saveToHistory(NotificationMonitorResultBeaen resultBeaen , String nfText){
+    public void saveToHistory(NotificationMonitorResultBeaen resultBeaen){
 
         boolean filterPkg = exactStringMatching(resultBeaen.pkg) || likeStringMatching(resultBeaen.pkg);
         Log.v(TAG, "filterPkg : " + filterPkg);
@@ -243,6 +238,10 @@ public class NotificationMonitorService extends NotificationListenerService {
         int count = SharedPreUtil.getInt(getApplicationContext(), SharedPreConfig.NOTIFICATION_MONITOR_HISTORY,date);
         ++count;
         SharedPreUtil.putInt(getApplicationContext(), SharedPreConfig.NOTIFICATION_MONITOR_HISTORY,date,count);
+
+        resultBeaen.date    = date;
+        resultBeaen.indexId = count;
+        String nfText = resultBeaen.bulld();
 
         //记录日期对应的具体信息
         String fileName = String.format("%s_%s",SharedPreConfig.NOTIFICATION_MONITOR_HISTORY,date);

@@ -24,6 +24,10 @@ public class NotificationMonitorResultBeaen implements Parcelable {
 
     long showWhen;
 
+    //-----------------------------------
+    String date;//日期
+    int indexId;//一天中的第几条消息
+
 
     public String bulld(){
         StringBuilder sb = new StringBuilder(128);
@@ -33,12 +37,14 @@ public class NotificationMonitorResultBeaen implements Parcelable {
         sb.append("&content").append("=").append(content);
         sb.append("&subText").append("=").append(subText);
         sb.append("&showWhen").append("=").append(showWhen);
+        sb.append("&date").append("=").append(date);
+        sb.append("&indexId").append("=").append(indexId);
         return sb.toString();
     }
 
     public void parse(String sb){
-        String[] date = sb.split("&");
-        for (String item:date) {
+        String[] data = sb.split("&");
+        for (String item:data) {
             String[] itemData = item.split("=");
             if("id".equals(itemData[0])){
                 id = Integer.valueOf(itemData[1]);
@@ -52,6 +58,10 @@ public class NotificationMonitorResultBeaen implements Parcelable {
                 subText = itemData[1];
             }else if("showWhen".equals(itemData[0])){
                 showWhen = Long.valueOf(itemData[1]);
+            }else if("date".equals(itemData[0])){
+                date = itemData[1];
+            }else if("indexId".equals(itemData[0])){
+                indexId = Integer.valueOf(itemData[1]);
             }
         }
     }
@@ -99,6 +109,8 @@ public class NotificationMonitorResultBeaen implements Parcelable {
         dest.writeString(this.content);
         dest.writeString(this.subText);
         dest.writeLong(this.showWhen);
+        dest.writeString(this.date);
+        dest.writeInt(this.indexId);
     }
 
     public NotificationMonitorResultBeaen() {
@@ -111,6 +123,8 @@ public class NotificationMonitorResultBeaen implements Parcelable {
         this.content = in.readString();
         this.subText = in.readString();
         this.showWhen = in.readLong();
+        this.date = in.readString();
+        this.indexId = in.readInt();
     }
 
     public static final Creator<NotificationMonitorResultBeaen> CREATOR = new Creator<NotificationMonitorResultBeaen>() {
