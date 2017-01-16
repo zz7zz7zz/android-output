@@ -66,9 +66,11 @@ public class NotificationMonitorService extends NotificationListenerService {
         Log.v(TAG, "onNotificationPosted : "+sbn.toString());
 
         //----------------方法一-----------------------
+        NotificationMonitorResultBeaen resultBeaen = null;
+        String nfText = "";
         Notification nf = sbn.getNotification();
         if(null != nf){
-            NotificationMonitorResultBeaen resultBeaen = new NotificationMonitorResultBeaen();
+            resultBeaen = new NotificationMonitorResultBeaen();
             resultBeaen.id = sbn.getId();
             resultBeaen.pkg = sbn.getPackageName();
 
@@ -79,6 +81,8 @@ public class NotificationMonitorService extends NotificationListenerService {
                 resultBeaen.subText = extras.getString(Notification.EXTRA_SUB_TEXT);
                 resultBeaen.showWhen = sbn.getPostTime() == 0 ? sbn.getPostTime() : nf.when;
             }
+
+            nfText = resultBeaen.bulld();
 
             Log.v(TAG, "onNotificationPosted : "+resultBeaen.toString());
             broadcast(resultBeaen , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ADD);
@@ -86,7 +90,7 @@ public class NotificationMonitorService extends NotificationListenerService {
 
         //----------------方法二-----------------------
         if(null != nf){
-            NotificationMonitorResultBeaen resultBeaen = new NotificationMonitorResultBeaen();
+            resultBeaen = new NotificationMonitorResultBeaen();
             resultBeaen.id = sbn.getId();
             resultBeaen.pkg = sbn.getPackageName();
 
@@ -98,16 +102,13 @@ public class NotificationMonitorService extends NotificationListenerService {
                 resultBeaen.showWhen = sbn.getPostTime() == 0 ? sbn.getPostTime() : nf.when;
             }
 
+            nfText = resultBeaen.bulld();
+
             Log.v(TAG, "onNotificationPosted 2 : "+resultBeaen.toString());
             broadcast2(resultBeaen , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ADD_2,nf);
         }
 
-
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
-        String date = df.format(new Date());
-        int count = SharedPreUtil.getInt(getApplicationContext(), SharedPreConfig.NOTIFICATION_MONITOR_HISTORY,date);
-        ++count;
-        SharedPreUtil.putInt(getApplicationContext(), SharedPreConfig.NOTIFICATION_MONITOR_HISTORY,date,count);
+        saveToHistory(resultBeaen,nfText);
     }
 
     @Override
@@ -171,6 +172,11 @@ public class NotificationMonitorService extends NotificationListenerService {
             return;
         }
 
+        if(null == resultBeaen){
+            Log.v(TAG, "A resultBeaen null ");
+            return;
+        }
+
         Bundle mBundle = new Bundle();
         mBundle.putInt(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_CMD,type);
         mBundle.putParcelable(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_DATA,resultBeaen);
@@ -187,6 +193,11 @@ public class NotificationMonitorService extends NotificationListenerService {
             return;
         }
 
+        if(null == resultBeaen){
+            Log.v(TAG, "B resultBeaen null ");
+            return;
+        }
+
         Bundle mBundle = new Bundle();
         mBundle.putInt(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_CMD,NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ACCESSIBILITYSERVICE_BACK);
         mBundle.putString(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_PKG, resultBeaen.pkg);
@@ -195,6 +206,31 @@ public class NotificationMonitorService extends NotificationListenerService {
         Intent intent = new Intent(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION);
         intent.putExtras(mBundle);
         sendBroadcast(intent);
+    }
+
+    public void saveToHistory(NotificationMonitorResultBeaen resultBeaen , String nfText){
+
+        boolean filterPkg = exactStringMatching(resultBeaen.pkg) || likeStringMatching(resultBeaen.pkg);
+        Log.v(TAG, "filterPkg : " + filterPkg);
+        if(filterPkg){
+            return;
+        }
+
+        if(null == resultBeaen){
+            Log.v(TAG, "C resultBeaen null ");
+            return;
+        }
+
+        //记录总表（日期+数目）
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
+        String date = df.format(new Date());
+        int count = SharedPreUtil.getInt(getApplicationContext(), SharedPreConfig.NOTIFICATION_MONITOR_HISTORY,date);
+        ++count;
+        SharedPreUtil.putInt(getApplicationContext(), SharedPreConfig.NOTIFICATION_MONITOR_HISTORY,date,count);
+
+        //记录日期对应的具体信息
+        String fileName = String.format("%s_%s",SharedPreConfig.NOTIFICATION_MONITOR_HISTORY,date);
+        SharedPreUtil.putString(getApplicationContext(), fileName,""+count,nfText);
     }
 
     public void broadcastAll(ArrayList<NotificationMonitorResultBeaen> resultBeaenList, ArrayList<Notification> mNotificationList){

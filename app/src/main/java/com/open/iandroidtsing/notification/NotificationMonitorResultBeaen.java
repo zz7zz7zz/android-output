@@ -25,6 +25,37 @@ public class NotificationMonitorResultBeaen implements Parcelable {
     long showWhen;
 
 
+    public String bulld(){
+        StringBuilder sb = new StringBuilder(128);
+        sb.append("id").append("=").append(id);
+        sb.append("&pkg").append("=").append(pkg);
+        sb.append("&title").append("=").append(title);
+        sb.append("&content").append("=").append(content);
+        sb.append("&subText").append("=").append(subText);
+        sb.append("&showWhen").append("=").append(showWhen);
+        return sb.toString();
+    }
+
+    public void parse(String sb){
+        String[] date = sb.split("&");
+        for (String item:date) {
+            String[] itemData = item.split("=");
+            if("id".equals(itemData[0])){
+                id = Integer.valueOf(itemData[1]);
+            }else if("pkg".equals(itemData[0])){
+                pkg = itemData[1];
+            }else if("title".equals(itemData[0])){
+                title = itemData[1];
+            }else if("content".equals(itemData[0])){
+                content = itemData[1];
+            }else if("subText".equals(itemData[0])){
+                subText = itemData[1];
+            }else if("showWhen".equals(itemData[0])){
+                showWhen = Long.valueOf(itemData[1]);
+            }
+        }
+    }
+
     @Override
     public String toString() {
 
