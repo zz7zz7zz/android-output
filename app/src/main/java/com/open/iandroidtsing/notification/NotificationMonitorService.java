@@ -185,11 +185,16 @@ public class NotificationMonitorService extends NotificationListenerService {
         sendBroadcast(intent);
     }
 
-    public void broadcast(ArrayList<NotificationMonitorResultBeaen> resultBeaenList , int type){
+    public void broadcastAll(ArrayList<NotificationMonitorResultBeaen> resultBeaenList, ArrayList<Notification> mNotificationList){
 
         Bundle mBundle = new Bundle();
-        mBundle.putInt(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_CMD,type);
+        mBundle.putInt(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_CMD,NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ALLINFO);
         mBundle.putParcelableArrayList(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_DATA,resultBeaenList);
+
+        //下面这句将引发Caused by: android.os.TransactionTooLargeException:
+//        mBundle.putParcelableArrayList(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_KEY_DATA_2,mNotificationList);
+        NotificationMonitorActivity.mNotificationList = mNotificationList;
+
         Intent intent = new Intent(NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION);
         intent.putExtras(mBundle);
         sendBroadcast(intent);
@@ -211,30 +216,37 @@ public class NotificationMonitorService extends NotificationListenerService {
                     }else if(cmd == NOTIFICATION_MONITOR_ACTION_CANCEL_CMD_GETALLNFS){
 
                         ArrayList<NotificationMonitorResultBeaen> resultBeaenList = null;
+                        ArrayList<Notification> mNotificationList = null;
+
                         StatusBarNotification[] arrayOfStatusBarNotification = getActiveNotifications();
                         if(null != arrayOfStatusBarNotification && arrayOfStatusBarNotification.length > 0){
                             resultBeaenList = new ArrayList<>(arrayOfStatusBarNotification.length);
+                            mNotificationList = new ArrayList<>(arrayOfStatusBarNotification.length);
+
                             for (int i = 0 ;i < arrayOfStatusBarNotification.length;i++){
                                 StatusBarNotification sbn = arrayOfStatusBarNotification[i];
                                 Notification nf = sbn.getNotification();
                                 if(null != nf){
+
+                                    NotificationMonitorResultBeaen resultBeaen = new NotificationMonitorResultBeaen();
+                                    resultBeaen.id = sbn.getId();
+                                    resultBeaen.pkg = sbn.getPackageName();
+
                                     Bundle _extras = nf.extras;
                                     if(null != _extras){
-                                        NotificationMonitorResultBeaen resultBeaen = new NotificationMonitorResultBeaen();
-                                        resultBeaen.id = sbn.getId();
-                                        resultBeaen.pkg = sbn.getPackageName();
                                         resultBeaen.title = extras.getString(Notification.EXTRA_TITLE);
                                         resultBeaen.content = extras.getString(Notification.EXTRA_TEXT);
                                         resultBeaen.subText = extras.getString(Notification.EXTRA_SUB_TEXT);
                                         resultBeaen.showWhen = nf.when;
-
-                                        resultBeaenList.add(resultBeaen);
                                     }
+
+                                    resultBeaenList.add(resultBeaen);
+                                    mNotificationList.add(nf);
                                 }
                             }
                         }
 
-                        broadcast(resultBeaenList , NotificationMonitorActivity.NOTIFICATION_MONITOR_ACTION_CMD_ALLINFO);
+                        broadcastAll(resultBeaenList,mNotificationList);
                     }
                 }
             }

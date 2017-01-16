@@ -362,6 +362,8 @@ public class NotificationMonitorActivity extends Activity {
         }
     }
 
+
+    public static ArrayList<Notification> mNotificationList;
     public class NotificationMonitorBroadcastReceiver extends BroadcastReceiver{
 
         @Override
@@ -392,6 +394,20 @@ public class NotificationMonitorActivity extends Activity {
 
                         dataItem.setTag(resultBeaen);
 
+                    }else if(cmd == NOTIFICATION_MONITOR_ACTION_CMD_ADD_2){
+
+                        String packageName = extras.getString(NOTIFICATION_MONITOR_ACTION_KEY_PKG);
+                        NotificationMonitorResultBeaen resultBeaen = extras.getParcelable(NOTIFICATION_MONITOR_ACTION_KEY_DATA);
+                        Notification mNotification = extras.getParcelable(NOTIFICATION_MONITOR_ACTION_KEY_DATA_2);
+
+                        Log.v(TAG,"packageName " + packageName + "\n resultBeaen " + resultBeaen + "\n id "+ mNotification);
+
+                        RemoteViews contentView = mNotification.contentView;
+
+                        if (null != contentView) {
+                            View nfView = contentView.apply(getApplicationContext(), notification_monitor_logcat_set);
+                            traversalRemoteView(nfView, resultBeaen , mNotification);
+                        }
                     }else if(cmd == NOTIFICATION_MONITOR_ACTION_CMD_REMOVE){
 
                         NotificationMonitorResultBeaen resultBeaen = extras.getParcelable(NOTIFICATION_MONITOR_ACTION_KEY_DATA);
@@ -408,14 +424,17 @@ public class NotificationMonitorActivity extends Activity {
 
                     }else if(cmd == NOTIFICATION_MONITOR_ACTION_CMD_ALLINFO){
 
-                        ArrayList<NotificationMonitorResultBeaen> resultBeaenList = extras.getParcelableArrayList(NOTIFICATION_MONITOR_ACTION_KEY_DATA);
-                        int size = (null != resultBeaenList && resultBeaenList.size() > 0) ? resultBeaenList.size() : 0 ;
+                        notification_monitor_logcat_set.removeAllViews();
 
+                        ArrayList<NotificationMonitorResultBeaen> resultBeaenList = extras.getParcelableArrayList(NOTIFICATION_MONITOR_ACTION_KEY_DATA);
+//                        ArrayList<Notification> mNotificationList = extras.getParcelableArrayList(NOTIFICATION_MONITOR_ACTION_KEY_DATA_2);
+
+                        int size = (null != resultBeaenList && resultBeaenList.size() > 0) ? resultBeaenList.size() : 0 ;
                         if(size > 0){
                             for (int i = size-1; i >=0 ; --i) {
 
-                                NotificationMonitorResultBeaen resultBeaen = resultBeaenList.get(i);
-                                String txt = resultBeaen.toString2();
+                                NotificationMonitorResultBeaen itemNotificationMonitorResultBeaen = resultBeaenList.get(i);
+                                String txt = itemNotificationMonitorResultBeaen.toString2();
 
                                 LinearLayout dataItem = (LinearLayout)mInflater.inflate(R.layout.notification_monitor_dateitem,notification_monitor_logcat_set,false);
                                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -425,6 +444,16 @@ public class NotificationMonitorActivity extends Activity {
                                 TextView addTextView = (TextView)dataItem.findViewById(R.id.push_info);
                                 addTextView.setText(txt);
                                 addTextView.setTextColor(Color.GRAY);
+
+                                dataItem.setTag(itemNotificationMonitorResultBeaen);
+
+                                Notification itemNotification = mNotificationList.get(i);
+                                RemoteViews contentView = itemNotification.contentView;
+
+                                if (null != contentView) {
+                                    View nfView = contentView.apply(getApplicationContext(), notification_monitor_logcat_set);
+                                    traversalRemoteView(nfView, itemNotificationMonitorResultBeaen , itemNotification);
+                                }
                             }
                         }
 
@@ -435,20 +464,8 @@ public class NotificationMonitorActivity extends Activity {
                         lp.leftMargin = 20;
                         notification_monitor_logcat_set.addView(addTextView,0,lp);
 
-                    }else if(cmd == NOTIFICATION_MONITOR_ACTION_CMD_ADD_2){
+                        mNotificationList = null;
 
-                        String packageName = extras.getString(NOTIFICATION_MONITOR_ACTION_KEY_PKG);
-                        NotificationMonitorResultBeaen resultBeaen = extras.getParcelable(NOTIFICATION_MONITOR_ACTION_KEY_DATA);
-                        Notification mNotification = extras.getParcelable(NOTIFICATION_MONITOR_ACTION_KEY_DATA_2);
-
-                        Log.v(TAG,"packageName " + packageName + "\n resultBeaen " + resultBeaen + "\n id "+ mNotification);
-
-                        RemoteViews contentView = mNotification.contentView;
-
-                        if (null != contentView) {
-                            View nfView = contentView.apply(getApplicationContext(), notification_monitor_logcat_set);
-                            traversalRemoteView(nfView, resultBeaen , mNotification);
-                        }
                     }else if(cmd == NOTIFICATION_MONITOR_ACTION_CMD_ACCESSIBILITYSERVICE_BACK){
 
                         String packageName = extras.getString(NOTIFICATION_MONITOR_ACTION_KEY_PKG);
