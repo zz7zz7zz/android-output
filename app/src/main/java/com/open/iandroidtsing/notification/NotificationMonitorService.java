@@ -28,9 +28,14 @@ public class NotificationMonitorService extends NotificationListenerService {
     public static final int NOTIFICATION_MONITOR_ACTION_CANCEL_CMD_LATEST       = 2;
     public static final int NOTIFICATION_MONITOR_ACTION_CANCEL_CMD_GETALLNFS    = 3;
 
-    //需要过滤的包名
-    private final String [] filterPkgArray = new String[]{
-            "android","com.android","com.google.android"
+    //需要过滤的包名，完全匹配
+    private final String [] exactStringMatchingPkgArray = new String[]{
+            "android"
+    };
+
+    //需要过滤的包名，模糊匹配
+    private final String [] likeStringMatchingPkgArray = new String[]{
+            "com.android","com.google.android"
     };
 
     private CancelNotificationBroadcastReceiver mReceiver = new CancelNotificationBroadcastReceiver();
@@ -120,11 +125,24 @@ public class NotificationMonitorService extends NotificationListenerService {
 
     }
 
-    private boolean filterPkg(String pkg){
+    private boolean exactStringMatching(String pkg){
 
         if(!TextUtils.isEmpty(pkg)){
-            for (String item: filterPkgArray) {
+            for (String item: exactStringMatchingPkgArray) {
                 if(pkg.equals(item)){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private boolean likeStringMatching(String pkg){
+
+        if(!TextUtils.isEmpty(pkg)){
+            for (String item: likeStringMatchingPkgArray) {
+                if(pkg.contains(item)){
                     return true;
                 }
             }
@@ -135,7 +153,7 @@ public class NotificationMonitorService extends NotificationListenerService {
 
     public void broadcast(NotificationMonitorResultBeaen resultBeaen , int type){
 
-        boolean filterPkg = filterPkg(resultBeaen.pkg);
+        boolean filterPkg = exactStringMatching(resultBeaen.pkg) || likeStringMatching(resultBeaen.pkg);
         Log.v(TAG, "filterPkg : " + filterPkg);
         if(filterPkg){
             return;
@@ -151,7 +169,7 @@ public class NotificationMonitorService extends NotificationListenerService {
 
     public void broadcast2(NotificationMonitorResultBeaen resultBeaen , int type , Notification nf){
 
-        boolean filterPkg = filterPkg(resultBeaen.pkg);
+        boolean filterPkg = exactStringMatching(resultBeaen.pkg) || likeStringMatching(resultBeaen.pkg);
         Log.v(TAG, "filterPkg : " + filterPkg);
         if(filterPkg){
             return;
