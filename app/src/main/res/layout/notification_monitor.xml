@@ -96,20 +96,34 @@ xmlns:android="http://schemas.android.com/apk/res/android"
             android:text="历史记录"/>
     </LinearLayout>
 
-
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp">
-
-        <LinearLayout
-            android:id="@+id/notification_monitor_logcat_set"
+        <com.open.iandroidtsing.notification.IScrollView
+            android:id="@+id/notification_monitor_logcat_scrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-        </LinearLayout>
+            android:layout_height="match_parent">
+                <LinearLayout
+                    android:id="@+id/notification_monitor_logcat_set"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                </LinearLayout>
+        </com.open.iandroidtsing.notification.IScrollView>
 
-    </ScrollView>
+        <TextView
+            android:id="@+id/notification_monitor_logcat_snapshoot"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="正在获取快照"
+            android:textColor="#ffffff"
+            android:background="#a0000000"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
 </LinearLayout>
 
 

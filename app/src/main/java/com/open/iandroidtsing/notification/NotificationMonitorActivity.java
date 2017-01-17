@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
@@ -56,8 +57,14 @@ public class NotificationMonitorActivity extends Activity {
 
     private NotificationMonitorBroadcastReceiver mReceiver = new NotificationMonitorBroadcastReceiver();
 
+    private IScrollView  notification_monitor_logcat_scrollView;
     private LinearLayout notification_monitor_logcat_set;
+    private TextView notification_monitor_logcat_snapshoot;
     private LayoutInflater mInflater;
+
+    private Handler mHandler = new Handler();
+
+    private long scroll_bottom_duration = 10000;//获取快照的时间
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +99,19 @@ public class NotificationMonitorActivity extends Activity {
 
     private void initView(){
 
+        notification_monitor_logcat_scrollView = (IScrollView) findViewById(R.id.notification_monitor_logcat_scrollView);
+        notification_monitor_logcat_scrollView.setOnScrollStateChanged(new IScrollView.OnScrollStateChanged() {
+            @Override
+            public void ScrollTop() {
+                Log.v(TAG,"ScrollTop");
+            }
+
+            @Override
+            public void ScrollBottom() {
+                Log.v(TAG,"ScrollBottom");
+            }
+        });
+        notification_monitor_logcat_snapshoot = (TextView)findViewById(R.id.notification_monitor_logcat_snapshoot);
         notification_monitor_logcat_set = (LinearLayout) findViewById(R.id.notification_monitor_logcat_set);
 
         findViewById(R.id.notification_monitor_authorization).setOnClickListener(clickListener);
@@ -359,7 +379,6 @@ public class NotificationMonitorActivity extends Activity {
                 }
             }
         }
-
     }
 
     private void traversalRemoteView(View nfView , int[] idMap , String [] titleContent, ArrayList<String> txtArray){
@@ -550,6 +569,28 @@ public class NotificationMonitorActivity extends Activity {
                         notification_monitor_logcat_set.addView(addTextView,0,lp);
 
                         mNotificationList = null;
+
+                        scroll_bottom_duration = 10000;
+                        notification_monitor_logcat_snapshoot.setVisibility(View.VISIBLE);
+                        notification_monitor_logcat_scrollView.scrollTo(0,0);
+                        mHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                Log.v(TAG," scroll_bottom_duration "+ scroll_bottom_duration +" getScrollY "+notification_monitor_logcat_scrollView.getScrollY()
+                                        + " getHeight "+notification_monitor_logcat_scrollView.getHeight()
+                                        +"  getHeight "+notification_monitor_logcat_scrollView.computeVerticalScrollRange());
+
+                                boolean end = notification_monitor_logcat_scrollView.getScrollY() + notification_monitor_logcat_scrollView.getHeight() >=  notification_monitor_logcat_scrollView.computeVerticalScrollRange();
+                                scroll_bottom_duration -=200;
+                                if(end || scroll_bottom_duration < 0){
+                                    notification_monitor_logcat_snapshoot.setVisibility(View.GONE);
+                                }else{
+                                    notification_monitor_logcat_scrollView.scrollBy(0,100);
+                                    mHandler.postDelayed(this,200);
+                                }
+                            }
+                        },200);
 
                     }else if(cmd == NOTIFICATION_MONITOR_ACTION_CMD_ACCESSIBILITYSERVICE_BACK){
 
