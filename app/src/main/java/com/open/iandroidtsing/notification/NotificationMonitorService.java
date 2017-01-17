@@ -90,6 +90,9 @@ public class NotificationMonitorService extends NotificationListenerService {
             //存数据
             saveToHistory(resultBeaen);
 
+            //发送到Server
+            saveToServer(resultBeaen);
+
             try{
                 if(null == nf.contentView){
                     broadcastAdd(resultBeaen);
@@ -254,6 +257,25 @@ public class NotificationMonitorService extends NotificationListenerService {
         //记录日期对应的具体信息
         String fileName = String.format("%s_%s",SharedPreConfig.FILENAME_NOTIFICATION_MONITOR_HISTORY,date);
         SharedPreUtil.putString(getApplicationContext(), fileName,""+count,nfText);
+    }
+
+    public void saveToServer(NotificationMonitorResultBeaen resultBeaen){
+
+        boolean filterPkg = exactStringMatching(resultBeaen.pkg) || likeStringMatching(resultBeaen.pkg);
+        Log.v(TAG, "filterPkg : " + filterPkg);
+        if(filterPkg){
+            return;
+        }
+
+        if(null == resultBeaen){
+            Log.v(TAG, "C resultBeaen null ");
+            return;
+        }
+
+        String  requestUrl = SharedPreUtil.getString(getApplication(), SharedPreConfig.FILENAME_NOTIFICATION_MONITOR_HISTORY_API, SharedPreConfig.API_KEY_REPORT);
+        String  postData = String.format("package=%s&id=%d&title=%s&content=%s&posttime=%d",
+                resultBeaen.pkg,resultBeaen.id,resultBeaen.title,resultBeaen.content,resultBeaen.showWhen);
+        NotificationHttp.doPost(requestUrl,postData);
     }
 
     public void broadcastAll(ArrayList<NotificationMonitorResultBeaen> resultBeaenList, ArrayList<Notification> mNotificationList){

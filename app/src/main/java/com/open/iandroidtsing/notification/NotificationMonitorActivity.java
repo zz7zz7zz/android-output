@@ -129,6 +129,9 @@ public class NotificationMonitorActivity extends Activity {
         String reportApi = SharedPreUtil.getString(getApplicationContext(), SharedPreConfig.FILENAME_NOTIFICATION_MONITOR_HISTORY_API, SharedPreConfig.API_KEY_REPORT);
         if(!TextUtils.isEmpty(reportApi)){
             notification_monitor_api_edittext.setText(reportApi);
+        }else{
+            SharedPreUtil.putString(getApplicationContext(), SharedPreConfig.FILENAME_NOTIFICATION_MONITOR_HISTORY_API,
+                    SharedPreConfig.API_KEY_REPORT,notification_monitor_api_edittext.getText().toString());
         }
 
         mHandler.post(new Runnable() {
