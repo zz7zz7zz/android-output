@@ -121,6 +121,14 @@ public class NotificationMonitorActivity extends Activity {
         findViewById(R.id.notification_monitor_clear).setOnClickListener(clickListener);
         findViewById(R.id.notification_monitor_api_setting).setOnClickListener(clickListener);
         findViewById(R.id.notification_monitor_history).setOnClickListener(clickListener);
+
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                findViewById(R.id.notification_monitor_allinfo).performClick();
+            }
+        });
+
     }
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
