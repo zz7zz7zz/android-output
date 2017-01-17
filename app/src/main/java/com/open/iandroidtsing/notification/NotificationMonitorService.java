@@ -77,7 +77,7 @@ public class NotificationMonitorService extends NotificationListenerService {
                 resultBeaen.title = extras.getString(Notification.EXTRA_TITLE);
                 resultBeaen.content = extras.getString(Notification.EXTRA_TEXT);
                 resultBeaen.subText = extras.getString(Notification.EXTRA_SUB_TEXT);
-                resultBeaen.showWhen = sbn.getPostTime() == 0 ? sbn.getPostTime() : nf.when;
+                resultBeaen.showWhen = sbn.getPostTime() != 0 ? sbn.getPostTime() : nf.when;
             }
 
             Log.v(TAG, "onNotificationPosted B :  "+resultBeaen.toString());
@@ -115,7 +115,7 @@ public class NotificationMonitorService extends NotificationListenerService {
                 resultBeaen.title = extras.getString(Notification.EXTRA_TITLE);
                 resultBeaen.content = extras.getString(Notification.EXTRA_TEXT);
                 resultBeaen.subText = extras.getString(Notification.EXTRA_SUB_TEXT);
-                resultBeaen.showWhen = sbn.getPostTime() == 0 ? sbn.getPostTime() : nf.when;
+                resultBeaen.showWhen = sbn.getPostTime() != 0 ? sbn.getPostTime() : nf.when;
             }
 
             Log.v(TAG, "onNotificationRemoved : "+resultBeaen.toString());
@@ -300,7 +300,7 @@ public class NotificationMonitorService extends NotificationListenerService {
                                         resultBeaen.title = extras.getString(Notification.EXTRA_TITLE);
                                         resultBeaen.content = extras.getString(Notification.EXTRA_TEXT);
                                         resultBeaen.subText = extras.getString(Notification.EXTRA_SUB_TEXT);
-                                        resultBeaen.showWhen = sbn.getPostTime() == 0 ? sbn.getPostTime() : nf.when;
+                                        resultBeaen.showWhen = sbn.getPostTime() != 0 ? sbn.getPostTime() : nf.when;
                                     }
 
                                     resultBeaenList.add(resultBeaen);
