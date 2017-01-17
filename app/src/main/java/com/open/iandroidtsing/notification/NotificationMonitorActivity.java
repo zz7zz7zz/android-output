@@ -332,14 +332,14 @@ public class NotificationMonitorActivity extends Activity {
                         dataItem.addView(nfView,dataItem.getChildCount());
                         nfView.setDrawingCacheEnabled(true);
 
-                        String path = SDCardUtil.getDiskFilePath(getApplicationContext(),resultBeaen.snapshootPath);
-                        if(!new File(path).exists()){
+                        final String path = SDCardUtil.getDiskFilePath(getApplicationContext(),resultBeaen.snapshootPath);
+                        if(!TextUtils.isEmpty(resultBeaen.snapshootPath) && !new File(path).exists()){
                             final MutableInt count = new MutableInt(0);
                             dataItem.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     if(null != nfView.getDrawingCache()){
-                                        saveBitmap(nfView.getDrawingCache(), SDCardUtil.getDiskFilePath(getApplicationContext(),resultBeaen.snapshootPath));
+                                        saveBitmap(nfView.getDrawingCache(), path);
                                         nfView.setDrawingCacheEnabled(false);
                                     }else{
                                         Log.v(TAG,"count.value "+count.value);

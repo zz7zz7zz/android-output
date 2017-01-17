@@ -322,12 +322,25 @@ public class NotificationMonitorService extends NotificationListenerService {
                                         }
 
                                         if(null != cacheItem){
+                                            boolean isFind = false;
                                             for (int j = 0; j < cacheItem.size(); j++) {
-                                                if(cacheItem.get(j).id == resultBeaen.id){
+                                                if(cacheItem.get(j).id == resultBeaen.id && cacheItem.get(j).showWhen == resultBeaen.showWhen){
                                                     resultBeaen.date = cacheItem.get(j).date;
                                                     resultBeaen.indexId = cacheItem.get(j).indexId;
                                                     resultBeaen.snapshootPath = cacheItem.get(j).snapshootPath;
+                                                    isFind = true;
                                                     break;
+                                                }
+                                            }
+
+                                            if(!isFind){
+                                                for (int j = 0; j < cacheItem.size(); j++) {
+                                                    if(cacheItem.get(j).id == resultBeaen.id){
+                                                        resultBeaen.date = cacheItem.get(j).date;
+                                                        resultBeaen.indexId = cacheItem.get(j).indexId;
+                                                        resultBeaen.snapshootPath = cacheItem.get(j).snapshootPath;
+                                                        break;
+                                                    }
                                                 }
                                             }
                                         }
