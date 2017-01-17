@@ -90,6 +90,17 @@ public class NotificationMonitorActivity extends Activity {
 
         boolean isNotificationAccessibilitySettingsOn = isNotificationAccessibilitySettingsOn(getApplicationContext());
         ((Button)(findViewById(R.id.notification_monitor_authorization_accessibility_service))).setTextColor(isNotificationAccessibilitySettingsOn ? Color.BLACK: Color.RED);
+
+//        mHandler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                notification_monitor_api_edittext.clearFocus();
+//                InputMethodManager imm =  (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+//                if(imm != null) {
+//                    imm.hideSoftInputFromWindow(notification_monitor_api_edittext.getWindowToken(), 0);
+//                }
+//            }
+//        },200);
     }
 
     @Override
@@ -609,7 +620,7 @@ public class NotificationMonitorActivity extends Activity {
                                     notification_monitor_logcat_snapshoot.setVisibility(View.GONE);
                                 }else{
                                     notification_monitor_logcat_scrollView.scrollBy(0,100);
-                                    mHandler.postDelayed(this,200);
+                                    mHandler.postDelayed(this,150);
                                 }
                             }
                         },200);

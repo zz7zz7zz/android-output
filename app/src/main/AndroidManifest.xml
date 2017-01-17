@@ -24,7 +24,7 @@
 
         <!-- 通知相关-->
         <activity android:name=".notification.NotificationActivity" android:screenOrientation="portrait" />
-        <activity android:name=".notification.NotificationMonitorActivity" android:screenOrientation="portrait" />
+        <activity android:name=".notification.NotificationMonitorActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
         <activity android:name=".notification.NotificationMonitorHistoryActivity" android:screenOrientation="portrait" />
         <activity android:name=".notification.NotificationMonitorHistoryDetailActivity" android:screenOrientation="portrait" />
         <service
