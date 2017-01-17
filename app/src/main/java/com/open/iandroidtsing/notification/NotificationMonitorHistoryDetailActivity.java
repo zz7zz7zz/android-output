@@ -120,8 +120,7 @@ public class NotificationMonitorHistoryDetailActivity extends Activity implement
                         NotificationMonitorResultBeaen mNotificationMonitorResultBeaen = new NotificationMonitorResultBeaen();
                         mNotificationMonitorResultBeaen.parse(mapping.getValue());
 
-                        String imgfileName = String.format("%s_%s", mNotificationMonitorResultBeaen.date,mNotificationMonitorResultBeaen.indexId);
-                        String imgPath = SDCardUtil.getDiskFilePath(getApplicationContext(),"notification/"+imgfileName);
+                        String imgPath = SDCardUtil.getDiskFilePath(getApplicationContext(),mNotificationMonitorResultBeaen.snapshootPath);
                         mNotificationMonitorResultBeaen.snapshoot = BitmapFactory.decodeFile(imgPath);
 
                         dateList.add(mNotificationMonitorResultBeaen);

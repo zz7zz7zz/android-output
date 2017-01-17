@@ -332,25 +332,27 @@ public class NotificationMonitorActivity extends Activity {
                         dataItem.addView(nfView,dataItem.getChildCount());
                         nfView.setDrawingCacheEnabled(true);
 
-                        final MutableInt count = new MutableInt(0);
-                        dataItem.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if(null != nfView.getDrawingCache()){
-                                    String fileName = String.format("%s_%s", resultBeaen.date,resultBeaen.indexId);
-                                    saveBitmap(nfView.getDrawingCache(), SDCardUtil.getDiskFilePath(getApplicationContext(),"notification/"+fileName));
-                                    nfView.setDrawingCacheEnabled(false);
-                                }else{
-                                    Log.v(TAG,"count.value "+count.value);
-                                    if(count.value < 10){
-                                        count.value++;
-                                        dataItem.postDelayed(this,1000);
-                                    }else{
+                        String path = SDCardUtil.getDiskFilePath(getApplicationContext(),resultBeaen.snapshootPath);
+                        if(!new File(path).exists()){
+                            final MutableInt count = new MutableInt(0);
+                            dataItem.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if(null != nfView.getDrawingCache()){
+                                        saveBitmap(nfView.getDrawingCache(), SDCardUtil.getDiskFilePath(getApplicationContext(),resultBeaen.snapshootPath));
                                         nfView.setDrawingCacheEnabled(false);
+                                    }else{
+                                        Log.v(TAG,"count.value "+count.value);
+                                        if(count.value < 10){
+                                            count.value++;
+                                            dataItem.postDelayed(this,1000);
+                                        }else{
+                                            nfView.setDrawingCacheEnabled(false);
+                                        }
                                     }
                                 }
-                            }
-                        },1000);
+                            },1000);
+                        }
                     }
 
                     break;

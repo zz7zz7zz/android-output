@@ -30,6 +30,7 @@ public class NotificationMonitorResultBeaen implements Parcelable {
     int indexId;//一天中的第几条消息
 
     //-------------------------------------
+    String snapshootPath; //日期_index 实现
     Bitmap snapshoot;
 
 
@@ -43,6 +44,7 @@ public class NotificationMonitorResultBeaen implements Parcelable {
         sb.append("&showWhen").append("=").append(showWhen);
         sb.append("&date").append("=").append(date);
         sb.append("&indexId").append("=").append(indexId);
+        sb.append("&snapshootPath").append("=").append(snapshootPath);
         return sb.toString();
     }
 
@@ -66,6 +68,8 @@ public class NotificationMonitorResultBeaen implements Parcelable {
                 date = itemData[1];
             }else if("indexId".equals(itemData[0])){
                 indexId = Integer.valueOf(itemData[1]);
+            }else if("snapshootPath".equals(itemData[0])){
+                snapshootPath = itemData[1];
             }
         }
     }
@@ -114,6 +118,7 @@ public class NotificationMonitorResultBeaen implements Parcelable {
         dest.writeLong(this.showWhen);
         dest.writeString(this.date);
         dest.writeInt(this.indexId);
+        dest.writeString(this.snapshootPath);
     }
 
     public NotificationMonitorResultBeaen() {
@@ -128,6 +133,7 @@ public class NotificationMonitorResultBeaen implements Parcelable {
         this.showWhen = in.readLong();
         this.date = in.readString();
         this.indexId = in.readInt();
+        this.snapshootPath = in.readString();
     }
 
     public static final Creator<NotificationMonitorResultBeaen> CREATOR = new Creator<NotificationMonitorResultBeaen>() {

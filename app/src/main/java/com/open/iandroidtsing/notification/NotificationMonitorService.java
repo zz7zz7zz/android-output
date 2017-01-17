@@ -17,7 +17,12 @@ import com.open.iandroidtsing.com.open.frame.SharedPreUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/1/11.
@@ -241,6 +246,7 @@ public class NotificationMonitorService extends NotificationListenerService {
 
         resultBeaen.date    = date;
         resultBeaen.indexId = count;
+        resultBeaen.snapshootPath = String.format("%s/%s/%d.png",SharedPreConfig.NOTIFICATION_MONITOR_HISTORY,date,count);
         String nfText = resultBeaen.bulld();
 
         //记录日期对应的具体信息
@@ -286,6 +292,7 @@ public class NotificationMonitorService extends NotificationListenerService {
                             resultBeaenList = new ArrayList<>(arrayOfStatusBarNotification.length);
                             mNotificationList = new ArrayList<>(arrayOfStatusBarNotification.length);
 
+                            HashMap<String ,ArrayList<NotificationMonitorResultBeaen>> cacheRecord = new HashMap<>();
                             for (int i = 0 ;i < arrayOfStatusBarNotification.length;i++){
                                 StatusBarNotification sbn = arrayOfStatusBarNotification[i];
                                 Notification nf = sbn.getNotification();
@@ -301,6 +308,29 @@ public class NotificationMonitorService extends NotificationListenerService {
                                         resultBeaen.content = extras.getString(Notification.EXTRA_TEXT);
                                         resultBeaen.subText = extras.getString(Notification.EXTRA_SUB_TEXT);
                                         resultBeaen.showWhen = sbn.getPostTime() != 0 ? sbn.getPostTime() : nf.when;
+
+                                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
+                                        String date = df.format(resultBeaen.showWhen);
+
+                                        //查询当天的数据进行匹配，根据Id 对date / indexId / snapshootPath 进行赋值
+                                        ArrayList<NotificationMonitorResultBeaen> cacheItem = cacheRecord.get(date);
+                                        if(null == cacheItem){
+                                            cacheItem =  getCacheRecord(date);
+                                            if(null != cacheItem){
+                                                cacheRecord.put(date,cacheItem);
+                                            }
+                                        }
+
+                                        if(null != cacheItem){
+                                            for (int j = 0; j < cacheItem.size(); j++) {
+                                                if(cacheItem.get(j).id == resultBeaen.id){
+                                                    resultBeaen.date = cacheItem.get(j).date;
+                                                    resultBeaen.indexId = cacheItem.get(j).indexId;
+                                                    resultBeaen.snapshootPath = cacheItem.get(j).snapshootPath;
+                                                    break;
+                                                }
+                                            }
+                                        }
                                     }
 
                                     resultBeaenList.add(resultBeaen);
@@ -314,6 +344,45 @@ public class NotificationMonitorService extends NotificationListenerService {
                 }
             }
         }
+    }
+
+
+    private ArrayList<NotificationMonitorResultBeaen> getCacheRecord(String date){
+
+        String fileName = String.format("%s_%s", SharedPreConfig.NOTIFICATION_MONITOR_HISTORY,date);
+        Map<String,String> historyMap = (Map<String, String>) SharedPreUtil.getAll(getApplicationContext(), fileName);
+        if(null != historyMap){
+            //这里将map.entrySet()转换成list
+            List<Map.Entry<String,String>> list = new ArrayList<>(historyMap.entrySet());
+            //然后通过比较器来实现排序
+            Collections.sort(list,new Comparator<Map.Entry<String,String>>() {
+                //升序排序
+                public int compare(Map.Entry<String, String> o1,
+                                   Map.Entry<String, String> o2) {
+                    return Integer.valueOf(o2.getKey()).compareTo(Integer.valueOf(o1.getKey()));
+                }
+
+            });
+
+            ArrayList<NotificationMonitorResultBeaen> dateList = new ArrayList<>();
+            for(Map.Entry<String,String> mapping:list){
+                Log.v(TAG,mapping.getKey()+":"+mapping.getValue());
+
+                NotificationMonitorResultBeaen mNotificationMonitorResultBeaen = new NotificationMonitorResultBeaen();
+                mNotificationMonitorResultBeaen.parse(mapping.getValue());
+
+//                String imgPath = SDCardUtil.getDiskFilePath(getApplicationContext(),mNotificationMonitorResultBeaen.snapshootPath);
+//                mNotificationMonitorResultBeaen.snapshoot = BitmapFactory.decodeFile(imgPath);
+
+                dateList.add(mNotificationMonitorResultBeaen);
+            }
+
+            if(dateList.size() > 0){
+                return dateList;
+            }
+        }
+
+        return null;
     }
 
 }
