@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -65,5 +66,62 @@ public class FileUtil {
     {
         File file = new File(filePath);
         return file.exists();
+    }
+
+    public static boolean writeFile(String destFilePath, InputStream in)
+    {
+        try
+        {
+            if (!createFile(destFilePath))
+            {
+                return false;
+            }
+            FileOutputStream fos = new FileOutputStream(destFilePath);
+            int readCount = 0;
+            int len = 1024;
+            byte[] buffer = new byte[len];
+            while ((readCount = in.read(buffer)) != -1)
+            {
+                fos.write(buffer, 0, readCount);
+            }
+            fos.flush();
+            if (null != fos)
+            {
+                fos.close();
+                fos = null;
+            }
+            if (null != in)
+            {
+                in.close();
+                in = null;
+            }
+            return true;
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public static boolean createFile(String filePath)
+    {
+        try
+        {
+            File file = new File(filePath);
+            if (!file.exists())
+            {
+                if (!file.getParentFile().exists())
+                {
+                    file.getParentFile().mkdirs();
+                }
+
+                return file.createNewFile();
+            }
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return true;
     }
 }

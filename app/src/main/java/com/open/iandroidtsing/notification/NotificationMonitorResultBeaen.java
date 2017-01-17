@@ -95,8 +95,7 @@ public class NotificationMonitorResultBeaen implements Parcelable {
                 "\n\nid            = " + id +
                 "\npkg         = " + pkg + "" +
                 "\ntitle         = " + title + "" +
-                "\ncontent  = " + content + "" +
-                "\nsubText  = " + subText + "";
+                "\ncontent  = " + content + "" ;
     }
 
 
