@@ -99,7 +99,7 @@ public class NotificationMonitorHistoryDetailActivity extends Activity implement
             @Override
             public void run() {
 
-                String fileName = String.format("%s_%s", SharedPreConfig.NOTIFICATION_MONITOR_HISTORY,date);
+                String fileName = String.format("%s_%s", SharedPreConfig.FILENAME_NOTIFICATION_MONITOR_HISTORY,date);
                 Map<String,String> historyMap = (Map<String, String>) SharedPreUtil.getAll(getApplicationContext(), fileName);
                 if(null != historyMap){
                     //这里将map.entrySet()转换成list

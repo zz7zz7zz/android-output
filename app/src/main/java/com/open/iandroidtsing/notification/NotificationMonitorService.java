@@ -66,7 +66,7 @@ public class NotificationMonitorService extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        super.onNotificationPosted(sbn);
+
 
         Log.v(TAG, "onNotificationPosted A :  "+sbn.toString());
 
@@ -100,6 +100,8 @@ public class NotificationMonitorService extends NotificationListenerService {
                 e.printStackTrace();
             }
         }
+
+        super.onNotificationPosted(sbn);
     }
 
     @Override
@@ -240,17 +242,17 @@ public class NotificationMonitorService extends NotificationListenerService {
         //记录总表（日期+数目）
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
         String date = df.format(new Date());
-        int count = SharedPreUtil.getInt(getApplicationContext(), SharedPreConfig.NOTIFICATION_MONITOR_HISTORY,date);
+        int count = SharedPreUtil.getInt(getApplicationContext(), SharedPreConfig.FILENAME_NOTIFICATION_MONITOR_HISTORY,date);
         ++count;
-        SharedPreUtil.putInt(getApplicationContext(), SharedPreConfig.NOTIFICATION_MONITOR_HISTORY,date,count);
+        SharedPreUtil.putInt(getApplicationContext(), SharedPreConfig.FILENAME_NOTIFICATION_MONITOR_HISTORY,date,count);
 
         resultBeaen.date    = date;
         resultBeaen.indexId = count;
-        resultBeaen.snapshootPath = String.format("%s/%s/%d.png",SharedPreConfig.NOTIFICATION_MONITOR_HISTORY,date,count);
+        resultBeaen.snapshootPath = String.format("%s/%s/%d.png",SharedPreConfig.FILENAME_NOTIFICATION_MONITOR_HISTORY,date,count);
         String nfText = resultBeaen.bulld();
 
         //记录日期对应的具体信息
-        String fileName = String.format("%s_%s",SharedPreConfig.NOTIFICATION_MONITOR_HISTORY,date);
+        String fileName = String.format("%s_%s",SharedPreConfig.FILENAME_NOTIFICATION_MONITOR_HISTORY,date);
         SharedPreUtil.putString(getApplicationContext(), fileName,""+count,nfText);
     }
 
@@ -362,7 +364,7 @@ public class NotificationMonitorService extends NotificationListenerService {
 
     private ArrayList<NotificationMonitorResultBeaen> getCacheRecord(String date){
 
-        String fileName = String.format("%s_%s", SharedPreConfig.NOTIFICATION_MONITOR_HISTORY,date);
+        String fileName = String.format("%s_%s", SharedPreConfig.FILENAME_NOTIFICATION_MONITOR_HISTORY,date);
         Map<String,String> historyMap = (Map<String, String>) SharedPreUtil.getAll(getApplicationContext(), fileName);
         if(null != historyMap){
             //这里将map.entrySet()转换成list

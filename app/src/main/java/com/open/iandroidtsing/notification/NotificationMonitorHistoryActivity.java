@@ -96,7 +96,7 @@ public class NotificationMonitorHistoryActivity extends Activity implements IPul
             @Override
             public void run() {
 
-                Map<String,Integer> historyMap = (Map<String, Integer>) SharedPreUtil.getAll(getApplicationContext(), SharedPreConfig.NOTIFICATION_MONITOR_HISTORY);
+                Map<String,Integer> historyMap = (Map<String, Integer>) SharedPreUtil.getAll(getApplicationContext(), SharedPreConfig.FILENAME_NOTIFICATION_MONITOR_HISTORY);
                 if(null != historyMap){
                     //这里将map.entrySet()转换成list
                     List<Map.Entry<String,Integer>> list = new ArrayList<>(historyMap.entrySet());

@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RemoteViews;
 import android.widget.TextView;
@@ -57,6 +58,7 @@ public class NotificationMonitorActivity extends Activity {
 
     private NotificationMonitorBroadcastReceiver mReceiver = new NotificationMonitorBroadcastReceiver();
 
+    private EditText     notification_monitor_api_edittext;
     private IScrollView  notification_monitor_logcat_scrollView;
     private LinearLayout notification_monitor_logcat_set;
     private TextView notification_monitor_logcat_snapshoot;
@@ -99,6 +101,7 @@ public class NotificationMonitorActivity extends Activity {
 
     private void initView(){
 
+        notification_monitor_api_edittext = (EditText)findViewById(R.id.notification_monitor_api_edittext);
         notification_monitor_logcat_scrollView = (IScrollView) findViewById(R.id.notification_monitor_logcat_scrollView);
         notification_monitor_logcat_scrollView.setOnScrollStateChanged(new IScrollView.OnScrollStateChanged() {
             @Override
@@ -121,6 +124,12 @@ public class NotificationMonitorActivity extends Activity {
         findViewById(R.id.notification_monitor_clear).setOnClickListener(clickListener);
         findViewById(R.id.notification_monitor_api_setting).setOnClickListener(clickListener);
         findViewById(R.id.notification_monitor_history).setOnClickListener(clickListener);
+
+
+        String reportApi = SharedPreUtil.getString(getApplicationContext(), SharedPreConfig.FILENAME_NOTIFICATION_MONITOR_HISTORY_API, SharedPreConfig.API_KEY_REPORT);
+        if(!TextUtils.isEmpty(reportApi)){
+            notification_monitor_api_edittext.setText(reportApi);
+        }
 
         mHandler.post(new Runnable() {
             @Override
@@ -170,6 +179,8 @@ public class NotificationMonitorActivity extends Activity {
                     break;
 
                 case R.id.notification_monitor_api_setting:
+                    SharedPreUtil.putString(getApplicationContext(), SharedPreConfig.FILENAME_NOTIFICATION_MONITOR_HISTORY_API,
+                            SharedPreConfig.API_KEY_REPORT,notification_monitor_api_edittext.getText().toString());
                     break;
 
                 case R.id.notification_monitor_history:
@@ -350,7 +361,7 @@ public class NotificationMonitorActivity extends Activity {
 
                     //记录日期对应的具体信息
                     String nfText = resultBeaen.bulld();
-                    String fileName = String.format("%s_%s", SharedPreConfig.NOTIFICATION_MONITOR_HISTORY,resultBeaen.date);
+                    String fileName = String.format("%s_%s", SharedPreConfig.FILENAME_NOTIFICATION_MONITOR_HISTORY,resultBeaen.date);
                     SharedPreUtil.putString(getApplicationContext(), fileName,""+resultBeaen.indexId,nfText);
 
                     ((TextView) dataItem.findViewById(R.id.push_info)).setText(tag.toString2());
