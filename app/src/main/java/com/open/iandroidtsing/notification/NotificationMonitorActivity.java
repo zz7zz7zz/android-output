@@ -615,12 +615,12 @@ public class NotificationMonitorActivity extends Activity {
                                         +"  getHeight "+notification_monitor_logcat_scrollView.computeVerticalScrollRange());
 
                                 boolean end = notification_monitor_logcat_scrollView.getScrollY() + notification_monitor_logcat_scrollView.getHeight() >=  notification_monitor_logcat_scrollView.computeVerticalScrollRange();
-                                scroll_bottom_duration -=200;
+                                scroll_bottom_duration -=100;
                                 if(end || scroll_bottom_duration < 0){
                                     notification_monitor_logcat_snapshoot.setVisibility(View.GONE);
                                 }else{
-                                    notification_monitor_logcat_scrollView.scrollBy(0,100);
-                                    mHandler.postDelayed(this,150);
+                                    notification_monitor_logcat_scrollView.scrollBy(0,120);
+                                    mHandler.postDelayed(this,100);
                                 }
                             }
                         },200);
