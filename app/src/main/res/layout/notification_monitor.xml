@@ -34,7 +34,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
             android:textAllCaps="false"
-            android:text="通知信息"/>
+            android:text="当前通知"/>
 
         <Button
             android:id="@+id/notification_monitor_create"
