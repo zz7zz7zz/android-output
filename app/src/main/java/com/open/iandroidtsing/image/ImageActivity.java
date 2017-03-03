@@ -4,15 +4,18 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.util.TypedValue;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.open.iandroidtsing.R;
+import com.open.iandroidtsing.com.open.frame.FileUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -86,6 +89,9 @@ public class ImageActivity extends Activity {
         decodeResource_img.setImageDrawable(new BitmapDrawable(getResources(),BitmapFactory.decodeResource(getResources(),R.mipmap.d)));
 
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "d.png";
+        FileUtil.deleteFile(path);
+        FileUtil.writeFile(path,getResources().openRawResource(R.mipmap.d));
+
         decodeFile_tv = (TextView) findViewById(R.id.decodeFile_tv);
         decodeFile_img = (ImageView) findViewById(R.id.decodeFile_img);
         decodeFile_img.setImageDrawable(new BitmapDrawable(getResources(),BitmapFactory.decodeFile(path)));

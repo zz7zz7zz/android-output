@@ -124,4 +124,19 @@ public class FileUtil {
         }
         return true;
     }
+
+    /**
+     * 删除一个文件
+     * @param filePath 要删除的文件路径名
+     * @return true if this file was deleted, false otherwise
+     */
+    public static boolean deleteFile(String filePath)
+    {
+        File file=new File(filePath);
+        if(file.exists())
+        {
+            return file.delete();
+        }
+        return false;
+    }
 }
