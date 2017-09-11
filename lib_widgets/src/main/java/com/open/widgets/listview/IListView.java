@@ -542,7 +542,7 @@ public class IListView extends ListView implements IMessagerDispatcher , IMessag
 			isPullUpLoading=true;
 
 			if(null != mFooterView) {
-				mFooterView.onFooterLoading();
+				mFooterView.onFooterStart();
 			}
 
 			if(null != mPullCallBackListener) {
@@ -654,7 +654,7 @@ public class IListView extends ListView implements IMessagerDispatcher , IMessag
 			}else{//2.有数据时
 
 				if(null != mHeaderView) {
-					mHeaderView.onHeaderLoading();
+					mHeaderView.onHeaderStart();
 				}
 			}
 
