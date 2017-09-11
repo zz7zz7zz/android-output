@@ -1,5 +1,7 @@
 package com.open.iandroidtsing.com.open.frame;
 
+import android.content.Context;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,6 +9,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.RandomAccessFile;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by long on 2016/9/5.
@@ -139,4 +144,53 @@ public class FileUtil {
         }
         return false;
     }
+
+    //-------------------------------------------------
+    public static boolean appendPushMesage(Context mContext , String message)
+    {
+        if(null != message){
+            Date date = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String dateString = formatter.format(date);
+            String fileName = SDCardUtil.getDiskCacheDir(mContext) + String.format("push/push_%s.txt",dateString);
+            byte[] msgBytes = message.getBytes();
+            FileUtil.appendFile(fileName,msgBytes,0,msgBytes.length);
+        }
+        return true;
+    }
+
+    public static boolean appendServerMesage(Context mContext , String message)
+    {
+        if(null != message){
+            Date date = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String dateString = formatter.format(date);
+            String fileName = SDCardUtil.getDiskCacheDir(mContext) + String.format("server/server_%s.txt",dateString);
+            byte[] msgBytes = message.getBytes();
+            FileUtil.appendFile(fileName,msgBytes,0,msgBytes.length);
+        }
+        return true;
+    }
+
+    public static boolean appendFile(String filename,byte[]data,int datapos,int datalength)
+    {
+        try {
+
+            createFile(filename);
+
+            RandomAccessFile rf= new RandomAccessFile(filename, "rw");
+            rf.seek(rf.length());
+            rf.write(data, datapos, datalength);
+            if(rf!=null)
+            {
+                rf.close();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+
 }
