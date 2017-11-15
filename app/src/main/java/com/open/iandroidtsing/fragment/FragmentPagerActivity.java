@@ -72,7 +72,7 @@ public class FragmentPagerActivity extends FragmentActivity {
 
         @Override
         public Object instantiateItem(ViewGroup arg0, int arg1) {
-            Log.v(TAG, "instantiateItem: ");
+            Log.v(TAG, "instantiateItem position : " + arg1);
             return super.instantiateItem(arg0, arg1);
 
         }

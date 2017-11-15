@@ -72,7 +72,7 @@ public class FragmentStatePagerActivity extends FragmentActivity {
 
         @Override
         public Object instantiateItem(ViewGroup arg0, int arg1) {
-            Log.v(TAG, "instantiateItem: ");
+            Log.v(TAG, "instantiateItem position : " + arg1);
             return super.instantiateItem(arg0, arg1);
 
         }
@@ -138,6 +138,18 @@ public class FragmentStatePagerActivity extends FragmentActivity {
             v.setTextColor(Color.WHITE);
             v.setBackgroundColor(colorArray[mNum]);
             return v;
+        }
+
+        @Override
+        public void onDestroyView() {
+            Log.v("MyFragment", "onDestroyView: ");
+            super.onDestroyView();
+        }
+
+        @Override
+        public void onDestroy() {
+            Log.v("MyFragment", "onDestroy: ");
+            super.onDestroy();
         }
     }
 }
