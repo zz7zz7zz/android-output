@@ -65,6 +65,9 @@
         <!-- TextView相关相关-->
         <activity android:name=".textview.TextViewActivity" android:screenOrientation="portrait" />
 
+        <!-- 网络测试-->
+        <activity android:name=".net.SocketConnectionActivity" android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

@@ -10,6 +10,7 @@ import com.open.iandroidtsing.fragment.FragmentPagerActivity;
 import com.open.iandroidtsing.fragment.FragmentStatePagerActivity;
 import com.open.iandroidtsing.image.Image2Activity;
 import com.open.iandroidtsing.image.ImageActivity;
+import com.open.iandroidtsing.net.SocketConnectionActivity;
 import com.open.iandroidtsing.notification.NotificationActivity;
 import com.open.iandroidtsing.notification.NotificationMonitorActivity;
 import com.open.iandroidtsing.sharedprefs.SharedPrefsActivity;
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.image2).setOnClickListener(clickListener);
 
         findViewById(R.id.textView).setOnClickListener(clickListener);
+
+        findViewById(R.id.net_socket_connection).setOnClickListener(clickListener);
     }
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
@@ -81,6 +84,10 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.textView:
                     startActivity(new Intent(getApplicationContext(),TextViewActivity.class));
+                    break;
+
+                case R.id.net_socket_connection:
+                    startActivity(new Intent(getApplicationContext(),SocketConnectionActivity.class));
                     break;
             }
         }
