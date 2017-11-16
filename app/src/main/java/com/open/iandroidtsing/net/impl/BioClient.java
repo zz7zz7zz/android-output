@@ -85,7 +85,7 @@ public class BioClient {
         sendMessage(SIGNAL_RECONNECT);
     }
 
-    public synchronized void reConnection(){
+    public synchronized void reconnect(){
         closeConnection(false);
         connect();
     }

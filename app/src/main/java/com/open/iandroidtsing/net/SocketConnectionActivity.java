@@ -57,7 +57,7 @@ public class SocketConnectionActivity extends Activity {
 					break;
 					
 				case R.id.reconn:
-					mBioClient.reConnect();
+					mBioClient.reconnect();
 					break;
 					
 				case R.id.send:
