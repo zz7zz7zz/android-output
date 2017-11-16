@@ -3,7 +3,6 @@ package com.open.iandroidtsing.net.impl;
 
 import android.util.Log;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
@@ -87,7 +86,7 @@ public class BioClient {
     }
 
     public synchronized void reConnection(){
-        closeConnection();
+        closeConnection(false);
         connect();
     }
 
@@ -100,7 +99,7 @@ public class BioClient {
 
 		index++;
 		if(index < tcpArray.length && index >= 0){
-			closeConnection();
+			closeConnection(false);
 			mConnection = new BioConnection(mBioConnectionListener,mConnectionReceiveListener);
 			mConnection.init(tcpArray[index].ip,tcpArray[index].port);
 			mConnectionThread =new Thread(mConnection);
@@ -116,16 +115,28 @@ public class BioClient {
 
 	public synchronized void closeConnection()
 	{
+		closeConnection(true);
+	}
+
+	public synchronized void closeConnection(boolean isCloseByUser)
+	{
+
 		try {
-			if( null!= mConnectionThread && mConnectionThread.isAlive() ) {
-				mConnectionThread.interrupt();
+
+			if(null != mConnection) {
+				mConnection.setCloseByUser(isCloseByUser);
 			}
-			mConnectionThread =null;
 
 			if(null != mConnection && !mConnection.isClosed()) {
 				mConnection.close();
 			}
 			mConnection= null;
+
+			if( null!= mConnectionThread && mConnectionThread.isAlive() ) {
+				mConnectionThread.interrupt();
+			}
+			mConnectionThread =null;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -138,6 +149,7 @@ public class BioClient {
 		private int state = STATE_CLOSE;
 		private IBioConnectListener mBioConnectionListener;
 		private IConnectionReceiveListener mConnectionReceiveListener;
+		private boolean isClosedByUser = false;
 
 		private Socket socket=null;
 		private OutputStream outStream=null;
@@ -166,6 +178,10 @@ public class BioClient {
 
 		public boolean isConnecting(){
 			return state == STATE_CONNECT_START;
+		}
+
+		public boolean setCloseByUser(boolean isClosedbyUser){
+			this.isClosedByUser = isClosedbyUser;
 		}
 
 		public void close(){
@@ -249,35 +265,29 @@ public class BioClient {
 			long start = System.currentTimeMillis();
 Log.v(TAG,"BioConnection :Start");
 			try {
-					try {
-						state=STATE_CONNECT_START;
-						socket=new Socket();
-						socket.connect(new InetSocketAddress(ip, port), 15*1000);
-						state=STATE_CONNECT_SUCCESS;
-					} catch (Exception e) {
-						e.printStackTrace();
-						state=STATE_CONNECT_FAILED;
-					}
+                    isClosedByUser = false;
+                    state=STATE_CONNECT_START;
+                    socket=new Socket();
+                    socket.connect(new InetSocketAddress(ip, port), 15*1000);
 
-					if(state==STATE_CONNECT_SUCCESS)
-					{
-						try {
-							outStream=socket.getOutputStream();
-							inStream=socket.getInputStream();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+                    outStream=socket.getOutputStream();
+                    inStream=socket.getInputStream();
 
-						writeThread =new Thread(new WriteRunnable());
-						readThread =new Thread(new ReadRunnable());
-						writeThread.start();
-						readThread.start();
-					}
+                    writeThread =new Thread(new WriteRunnable());
+                    readThread =new Thread(new ReadRunnable());
+                    writeThread.start();
+                    readThread.start();
+
+                    state=STATE_CONNECT_SUCCESS;
+
 			} catch (Exception e) {
 				e.printStackTrace();
+                state=STATE_CONNECT_FAILED;
 			}finally {
-				if(null != mBioConnectionListener){
-					mBioConnectionListener.onConnectionFailed();
+				if(!(state == STATE_CONNECT_SUCCESS || isClosedByUser)) {
+					if(null != mBioConnectionListener){
+						mBioConnectionListener.onConnectionFailed();
+					}
 				}
 			}
 
