@@ -55,11 +55,6 @@ public class BioClient {
 		this.mConnectionReceiveListener = mConnectionReceiveListener;
 	}
 
-	public void connect()
-	{
-		sendMessage(SIGNAL_RECONNECT);
-	}
-
 	public void sendMessage(Message msg)
 	{
 		//1.重连消息，进行重连
@@ -85,7 +80,17 @@ public class BioClient {
 			}
 		}
 	}
-	
+
+    public synchronized void connect()
+    {
+        sendMessage(SIGNAL_RECONNECT);
+    }
+
+    public synchronized void reConnection(){
+        closeConnection();
+        connect();
+    }
+
 	public synchronized void openConnection()
 	{
 		//已经在连接中就不再进行连接
@@ -108,11 +113,7 @@ public class BioClient {
 		}
 	}
 
-	public synchronized void reConnection(){
-		closeConnection();
-		connect();
-	}
-	
+
 	public synchronized void closeConnection()
 	{
 		try {
