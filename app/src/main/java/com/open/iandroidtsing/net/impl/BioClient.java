@@ -108,7 +108,7 @@ public class BioClient {
 		}
 	}
 
-	public synchronized void reConnect(){
+	public synchronized void reConnection(){
 		closeConnection();
 		connect();
 	}
