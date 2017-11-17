@@ -1,8 +1,5 @@
 package com.open.iandroidtsing.net.impl;
 
-
-import android.util.Log;
-
 import com.open.iandroidtsing.net.other.INetListeners;
 import com.open.iandroidtsing.net.other.INetListeners.IConnectListener;
 import com.open.iandroidtsing.net.other.INetListeners.IConnectReceiveListener;
@@ -260,8 +257,6 @@ public class BioClient {
 		}
 
 		public void run() {
-			long start = System.currentTimeMillis();
-Log.v(TAG,"BioConnection :Start");
 			try {
                     isClosedByUser = false;
                     state=STATE_CONNECT_START;
@@ -288,15 +283,12 @@ Log.v(TAG,"BioConnection :Start");
 					}
 				}
 			}
-
-Log.v(TAG,"BioConnection :End cost " + (System.currentTimeMillis() -start));
 		}
 
 
 		private class WriteRunnable implements Runnable
 		{
 			public void run() {
-				Log.v(TAG,"WriteRunnable :Start");
 				try {
 					while(state!=STATE_CLOSE&&state==STATE_CONNECT_SUCCESS&&null!=outStream)
 					{
@@ -308,12 +300,10 @@ Log.v(TAG,"BioConnection :End cost " + (System.currentTimeMillis() -start));
 							outStream.flush();
 						}
 
-						Log.v(TAG,"WriteRunnable :woken up AAAAAAAAA");
 						synchronized (lock)
 						{
 							lock.wait();
 						}
-						Log.v(TAG,"WriteRunnable :woken up BBBBBBBBBB");
 					}
 				}catch(SocketException e1)
 				{
@@ -321,23 +311,17 @@ Log.v(TAG,"BioConnection :End cost " + (System.currentTimeMillis() -start));
 					startConnect();
 				}
 				catch (Exception e) {
-					Log.v(TAG,"WriteRunnable ::Exception");
 					e.printStackTrace();
 				}
-
-				Log.v(TAG,"WriteRunnable ::End");
 			}
 		}
 
 		private class ReadRunnable implements Runnable
 		{
 			public void run() {
-				Log.v(TAG,"ReadRunnable :Start");
-
 				try {
 					while(state!=STATE_CLOSE&&state==STATE_CONNECT_SUCCESS&&null!=inStream)
 					{
-						Log.v(TAG,"ReadRunnable :---------");
 						byte[] bodyBytes=new byte[5];
 						int offset=0;
 						int length=5;
@@ -370,11 +354,8 @@ Log.v(TAG,"BioConnection :End cost " + (System.currentTimeMillis() -start));
 					e1.printStackTrace();//客户端主动socket.stopConnect()会调用这里 java.net.SocketException: Socket closed
 				}
 				catch (Exception e2) {
-					Log.v(TAG,"ReadRunnable :Exception");
 					e2.printStackTrace();
 				}
-
-				Log.v(TAG,"ReadRunnable :End");
 			}
 		}
 
