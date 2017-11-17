@@ -229,12 +229,15 @@ public class NioClient{
                         {
                             boolean ret = read(key);
                             if(!ret){
-                                throw new Exception("Server Stopping !");
+                                throw new Exception("read Exception !");
                             }
                         }
                         else if (key.isWritable())
                         {
-                            write(key);
+                            boolean ret = write(key);
+                            if(!ret){
+                                throw new Exception("write Exception !");
+                            }
                         }
                     }
 
@@ -289,18 +292,17 @@ public class NioClient{
             return true;
         }
 
-        private void write(SelectionKey key)
+        private boolean write(SelectionKey key)
         {
             SocketChannel socketChannel = (SocketChannel) key.channel();
             while (!mMessageQueen.isEmpty()){
                 AbsMessage msg = mMessageQueen.poll();
-                try {
-                    msg.write(socketChannel);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if(!msg.write(socketChannel)){
+                    return false;
                 }
             }
             key.interestOps(SelectionKey.OP_READ);
+            return true;
         }
 
         private void setConnectionTimeout(long timeout){

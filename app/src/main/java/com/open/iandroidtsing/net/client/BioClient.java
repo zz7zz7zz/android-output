@@ -144,7 +144,7 @@ public class BioClient {
 		private String ip ="192.168.1.1";
 		private int port =9999;
 		private int state = STATE_CLOSE;
-		private IConnectStatusListener mConnectionStatusListener;
+		private IConnectStatusListener mConnectStatusListener;
 		private IConnectReceiveListener mConnectReceiveListener;
 		private boolean isClosedByUser = false;
 
@@ -158,7 +158,7 @@ public class BioClient {
 		public BioConnection(String ip, int port,IConnectStatusListener mConnectionStatusListener, IConnectReceiveListener mConnectReceiveListener) {
 			this.ip = ip;
 			this.port = port;
-			this.mConnectionStatusListener = mConnectionStatusListener;
+			this.mConnectStatusListener = mConnectionStatusListener;
 			this.mConnectReceiveListener = mConnectReceiveListener;
 		}
 
@@ -277,8 +277,8 @@ public class BioClient {
                 state=STATE_CONNECT_FAILED;
 			}finally {
 				if(!(state == STATE_CONNECT_SUCCESS || isClosedByUser)) {
-					if(null != mConnectionStatusListener){
-						mConnectionStatusListener.onConnectionFailed();
+					if(null != mConnectStatusListener){
+						mConnectStatusListener.onConnectionFailed();
 					}
 				}
 			}
@@ -295,7 +295,10 @@ public class BioClient {
 						while(!mMessageQueen.isEmpty())
 						{
 							AbsMessage item= mMessageQueen.poll();
-							item.write(outStream);
+							boolean ret = item.write(outStream);
+							if(!ret){
+								throw new Exception("write Exception !");
+							}
 							outStream.flush();
 						}
 
@@ -307,10 +310,15 @@ public class BioClient {
 				}catch(SocketException e1)
 				{
 					e1.printStackTrace();//发送的时候出现异常，说明socket被关闭了(服务器关闭)java.net.SocketException: sendto failed: EPIPE (Broken pipe)
-					startConnect();
 				}
 				catch (Exception e) {
 					e.printStackTrace();
+				}finally {
+					if(!isClosedByUser){
+						if(null != mConnectStatusListener){
+							mConnectStatusListener.onConnectionFailed();
+						}
+					}
 				}
 			}
 		}
@@ -344,8 +352,7 @@ public class BioClient {
 							length=5-offset;
 						}
 
-						startConnect();//走到这一步，说明服务器socket断了
-						break;
+						throw new Exception("read Exception !");
 					}
 				}
 				catch(SocketException e1)
@@ -354,6 +361,12 @@ public class BioClient {
 				}
 				catch (Exception e2) {
 					e2.printStackTrace();
+				}finally {
+					if(!isClosedByUser){
+						if(null != mConnectStatusListener){
+							mConnectStatusListener.onConnectionFailed();
+						}
+					}
 				}
 			}
 		}

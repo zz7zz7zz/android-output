@@ -12,15 +12,27 @@ import java.nio.channels.SocketChannel;
  *
  */
 public abstract class AbsMessage {
-	
-	public abstract byte[] getPacket();
 
-	public void write(OutputStream outStream) throws IOException {
-		outStream.write(getPacket());
+	protected abstract byte[] getPacket();
+
+	public boolean write(OutputStream outStream){
+		try {
+			outStream.write(getPacket());
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
-	public void write(SocketChannel socketChannel) throws IOException{
+	public boolean write(SocketChannel socketChannel){
 		ByteBuffer buf=ByteBuffer.wrap(getPacket());
-		socketChannel.write(buf);
+		try {
+			socketChannel.write(buf);
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }
