@@ -7,14 +7,14 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 
 import com.open.iandroidtsing.R;
-import com.open.iandroidtsing.net.impl.BioClient;
 import com.open.iandroidtsing.net.other.INetListeners;
 import com.open.iandroidtsing.net.other.Message;
+import com.open.iandroidtsing.net.impl.NioClient;
 import com.open.iandroidtsing.net.other.Address;
 
-public class BioSocketConnectionActivity extends Activity {
+public class NioSocketConnectionActivity extends Activity {
 
-	private BioClient mConnection =null;
+	private NioClient mConnection =null;
 	private EditText ip,port,sendContent,recContent;
 	
 	@Override
@@ -41,11 +41,11 @@ public class BioSocketConnectionActivity extends Activity {
 		ip.setText("192.168.123.1");
 		port.setText("9999");
 
-		mConnection = new BioClient(new Address[]{new Address(ip.getText().toString(), Integer.valueOf(port.getText().toString()))},socketListener);
+		mConnection = new NioClient(new Address[]{new Address(ip.getText().toString(), Integer.valueOf(port.getText().toString()))},socketListener);
 	}
-	
+
 	private OnClickListener listener=new OnClickListener() {
-		
+
 		@Override
 		public void onClick(View v) {
 			mConnection.setConnectAddress(new Address[]{new Address(ip.getText().toString(), Integer.valueOf(port.getText().toString()))});

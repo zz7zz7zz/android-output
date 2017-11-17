@@ -3,14 +3,18 @@ package com.open.iandroidtsing.net.impl;
 
 import android.util.Log;
 
+import com.open.iandroidtsing.net.other.INetListeners;
+import com.open.iandroidtsing.net.other.INetListeners.IConnectListener;
+import com.open.iandroidtsing.net.other.INetListeners.IConnectReceiveListener;
+import com.open.iandroidtsing.net.other.Message;
+import com.open.iandroidtsing.net.other.Address;
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
-
 /**
  * 
  * @author Administrator
@@ -20,9 +24,9 @@ public class BioClient {
 
 	private final String TAG="BioClient";
 
-	private Tcp[] tcpArray;
+	private Address[] tcpArray;
 	private int index = -1;
-	private IConnectionReceiveListener mConnectionReceiveListener;
+	private IConnectReceiveListener mConnectReceiveListener;
 
 	private ConcurrentLinkedQueue<Message> mMessageQueen = new ConcurrentLinkedQueue();
 	private Thread mConnectionThread =null;
@@ -30,7 +34,7 @@ public class BioClient {
 
 	private final Object lock=new Object();
 
-	private IBioConnectListener mBioConnectionListener = new IBioConnectListener() {
+	private IConnectListener mBioConnectionListener = new IConnectListener() {
 		@Override
 		public void onConnectionSuccess() {
 
@@ -42,12 +46,12 @@ public class BioClient {
 		}
 	};
 
-	public BioClient(Tcp[] tcpArray , IConnectionReceiveListener mConnectionReceiveListener) {
+	public BioClient(Address[] tcpArray , INetListeners.IConnectReceiveListener mConnectReceiveListener) {
 		this.tcpArray = tcpArray;
-		this.mConnectionReceiveListener = mConnectionReceiveListener;
+		this.mConnectReceiveListener = mConnectReceiveListener;
 	}
 
-	public void setConnectAddress(Tcp[] tcpArray ){
+	public void setConnectAddress(Address[] tcpArray ){
 		this.tcpArray = tcpArray;
 	}
 	
@@ -102,7 +106,7 @@ public class BioClient {
 		index++;
 		if(index < tcpArray.length && index >= 0){
 			stopConnect(false);
-			mConnection = new BioConnection(tcpArray[index].ip,tcpArray[index].port,mBioConnectionListener,mConnectionReceiveListener);
+			mConnection = new BioConnection(tcpArray[index].ip,tcpArray[index].port,mBioConnectionListener, mConnectReceiveListener);
 			mConnectionThread =new Thread(mConnection);
 			mConnectionThread.start();
 		}else{
@@ -144,8 +148,8 @@ public class BioClient {
 		private String ip ="192.168.1.1";
 		private int port =9999;
 		private int state = STATE_CLOSE;
-		private IBioConnectListener mBioConnectionListener;
-		private IConnectionReceiveListener mConnectionReceiveListener;
+		private IConnectListener mBioConnectionListener;
+		private IConnectReceiveListener mConnectReceiveListener;
 		private boolean isClosedByUser = false;
 
 		private Socket socket=null;
@@ -155,11 +159,11 @@ public class BioClient {
 		private Thread readThread =null;
 
 
-		public BioConnection(String ip, int port,IBioConnectListener mBioConnectionListener, IConnectionReceiveListener mConnectionReceiveListener) {
+		public BioConnection(String ip, int port,IConnectListener mBioConnectionListener, IConnectReceiveListener mConnectReceiveListener) {
 			this.ip = ip;
 			this.port = port;
-			this.mBioConnectionListener 	= mBioConnectionListener;
-			this.mConnectionReceiveListener = mConnectionReceiveListener;
+			this.mBioConnectionListener  = mBioConnectionListener;
+			this.mConnectReceiveListener = mConnectReceiveListener;
 		}
 
 		public boolean isClosed(){
@@ -343,9 +347,9 @@ Log.v(TAG,"BioConnection :End cost " + (System.currentTimeMillis() -start));
 						{
 							if(length-read==0)
 							{
-								if(null!= mConnectionReceiveListener)
+								if(null!= mConnectReceiveListener)
 								{
-									mConnectionReceiveListener.onConnectionReceive(new String(bodyBytes));
+									mConnectReceiveListener.onConnectionReceive(new String(bodyBytes));
 								}
 
 								offset=0;
@@ -374,29 +378,5 @@ Log.v(TAG,"BioConnection :End cost " + (System.currentTimeMillis() -start));
 			}
 		}
 
-	}
-	
-
-	private interface IBioConnectListener {
-
-		void onConnectionSuccess();
-
-		void onConnectionFailed();
-
-	}
-
-	public interface IConnectionReceiveListener
-	{
-		void onConnectionReceive(String txt);
-	}
-
-	public static class Tcp{
-		public String  ip;
-		public int     port;
-
-		public Tcp(String ip, int port) {
-			this.ip = ip;
-			this.port = port;
-		}
 	}
 }

@@ -67,6 +67,7 @@
 
         <!-- 网络测试-->
         <activity android:name=".net.BioSocketConnectionActivity" android:screenOrientation="portrait" />
+        <activity android:name=".net.NioSocketConnectionActivity" android:screenOrientation="portrait" />
 
     </application>
 
