@@ -78,10 +78,10 @@ public class BioSocketConnectionActivity extends Activity {
 	private IConnectReceiveListener socketListener=new IConnectReceiveListener() {
 
 		@Override
-		public void onConnectionReceive(final String txt) {
+		public void onConnectionReceive(final byte[] array) {
 			runOnUiThread(new Runnable() {
 				public void run() {
-					recContent.getText().append(txt).append("\r\n");
+					recContent.getText().append(new String(array)).append("\r\n");
 				}
 			});
 		}

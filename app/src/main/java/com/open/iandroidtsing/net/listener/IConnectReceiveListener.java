@@ -7,6 +7,6 @@ package com.open.iandroidtsing.net.listener;
 
 public interface IConnectReceiveListener {
 
-    void onConnectionReceive(String txt);
+    void onConnectionReceive(byte[] array);
 
 }
