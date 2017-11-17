@@ -3,7 +3,7 @@ package com.open.iandroidtsing.net.client;
 import com.open.iandroidtsing.net.listener.IConnectReceiveListener;
 import com.open.iandroidtsing.net.listener.IConnectStatusListener;
 import com.open.iandroidtsing.net.data.Message;
-import com.open.iandroidtsing.net.data.Address;
+import com.open.iandroidtsing.net.data.TcpAddress;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -20,7 +20,7 @@ public class BioClient {
 
 	private final String TAG="BioClient";
 
-	private Address[] tcpArray;
+	private TcpAddress[] tcpArray;
 	private int index = -1;
 	private IConnectReceiveListener mConnectReceiveListener;
 
@@ -42,12 +42,12 @@ public class BioClient {
 		}
 	};
 
-	public BioClient(Address[] tcpArray , IConnectReceiveListener mConnectReceiveListener) {
+	public BioClient(TcpAddress[] tcpArray , IConnectReceiveListener mConnectReceiveListener) {
 		this.tcpArray = tcpArray;
 		this.mConnectReceiveListener = mConnectReceiveListener;
 	}
 
-	public void setConnectAddress(Address[] tcpArray ){
+	public void setConnectAddress(TcpAddress[] tcpArray ){
 		this.tcpArray = tcpArray;
 	}
 	

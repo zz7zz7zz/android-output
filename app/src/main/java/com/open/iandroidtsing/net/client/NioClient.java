@@ -1,6 +1,6 @@
 package com.open.iandroidtsing.net.client;
 
-import com.open.iandroidtsing.net.data.Address;
+import com.open.iandroidtsing.net.data.TcpAddress;
 import com.open.iandroidtsing.net.data.Message;
 import com.open.iandroidtsing.net.listener.IConnectReceiveListener;
 import com.open.iandroidtsing.net.listener.IConnectStatusListener;
@@ -23,7 +23,7 @@ public class NioClient{
 
     private final String TAG="NioClient";
 
-    private Address[] tcpArray;
+    private TcpAddress[] tcpArray;
     private int index = -1;
     private IConnectReceiveListener mConnectReceiveListener;
 
@@ -44,12 +44,12 @@ public class NioClient{
         }
     };
 
-    public NioClient(Address[] tcpArray, IConnectReceiveListener mConnectionReceiveListener) {
+    public NioClient(TcpAddress[] tcpArray, IConnectReceiveListener mConnectionReceiveListener) {
         this.tcpArray = tcpArray;
         this.mConnectReceiveListener = mConnectionReceiveListener;
     }
 
-    public void setConnectAddress(Address[] tcpArray ){
+    public void setConnectAddress(TcpAddress[] tcpArray ){
         this.tcpArray = tcpArray;
     }
 

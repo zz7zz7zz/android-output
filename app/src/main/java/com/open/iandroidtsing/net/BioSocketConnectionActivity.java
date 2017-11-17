@@ -10,7 +10,7 @@ import com.open.iandroidtsing.R;
 import com.open.iandroidtsing.net.client.BioClient;
 import com.open.iandroidtsing.net.listener.IConnectReceiveListener;
 import com.open.iandroidtsing.net.data.Message;
-import com.open.iandroidtsing.net.data.Address;
+import com.open.iandroidtsing.net.data.TcpAddress;
 
 public class BioSocketConnectionActivity extends Activity {
 
@@ -41,14 +41,14 @@ public class BioSocketConnectionActivity extends Activity {
 		ip.setText("192.168.123.1");
 		port.setText("9999");
 
-		mConnection = new BioClient(new Address[]{new Address(ip.getText().toString(), Integer.valueOf(port.getText().toString()))},socketListener);
+		mConnection = new BioClient(new TcpAddress[]{new TcpAddress(ip.getText().toString(), Integer.valueOf(port.getText().toString()))},socketListener);
 	}
 	
 	private OnClickListener listener=new OnClickListener() {
 		
 		@Override
 		public void onClick(View v) {
-			mConnection.setConnectAddress(new Address[]{new Address(ip.getText().toString(), Integer.valueOf(port.getText().toString()))});
+			mConnection.setConnectAddress(new TcpAddress[]{new TcpAddress(ip.getText().toString(), Integer.valueOf(port.getText().toString()))});
 			switch(v.getId())
 			{
 				case R.id.open:
