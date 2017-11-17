@@ -1,10 +1,10 @@
-package com.open.iandroidtsing.net.impl;
+package com.open.iandroidtsing.net.client;
 
-import com.open.iandroidtsing.net.other.INetListeners;
-import com.open.iandroidtsing.net.other.INetListeners.IConnectListener;
-import com.open.iandroidtsing.net.other.INetListeners.IConnectReceiveListener;
-import com.open.iandroidtsing.net.other.Message;
-import com.open.iandroidtsing.net.other.Address;
+import com.open.iandroidtsing.net.listener.IConnectReceiveListener;
+import com.open.iandroidtsing.net.listener.IConnectReceiveListener.IConnectListener;
+import com.open.iandroidtsing.net.listener.IConnectReceiveListener.IConnectReceiveListener;
+import com.open.iandroidtsing.net.data.Message;
+import com.open.iandroidtsing.net.data.Address;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -43,7 +43,7 @@ public class BioClient {
 		}
 	};
 
-	public BioClient(Address[] tcpArray , INetListeners.IConnectReceiveListener mConnectReceiveListener) {
+	public BioClient(Address[] tcpArray , IConnectReceiveListener.IConnectReceiveListener mConnectReceiveListener) {
 		this.tcpArray = tcpArray;
 		this.mConnectReceiveListener = mConnectReceiveListener;
 	}

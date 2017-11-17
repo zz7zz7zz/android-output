@@ -7,10 +7,10 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 
 import com.open.iandroidtsing.R;
-import com.open.iandroidtsing.net.impl.BioClient;
-import com.open.iandroidtsing.net.other.INetListeners;
-import com.open.iandroidtsing.net.other.Message;
-import com.open.iandroidtsing.net.other.Address;
+import com.open.iandroidtsing.net.client.BioClient;
+import com.open.iandroidtsing.net.listener.IConnectReceiveListener;
+import com.open.iandroidtsing.net.data.Message;
+import com.open.iandroidtsing.net.data.Address;
 
 public class BioSocketConnectionActivity extends Activity {
 
@@ -77,7 +77,7 @@ public class BioSocketConnectionActivity extends Activity {
 		}
 	};
 
-	private INetListeners.IConnectReceiveListener socketListener=new INetListeners.IConnectReceiveListener() {
+	private IConnectReceiveListener.IConnectReceiveListener socketListener=new IConnectReceiveListener.IConnectReceiveListener() {
 
 		@Override
 		public void onConnectionReceive(final String txt) {

@@ -1,9 +1,9 @@
-package com.open.iandroidtsing.net.impl;
+package com.open.iandroidtsing.net.client;
 
-import com.open.iandroidtsing.net.other.INetListeners.IConnectListener;
-import com.open.iandroidtsing.net.other.INetListeners.IConnectReceiveListener;
-import com.open.iandroidtsing.net.other.Address;
-import com.open.iandroidtsing.net.other.Message;
+import com.open.iandroidtsing.net.listener.IConnectReceiveListener.IConnectListener;
+import com.open.iandroidtsing.net.listener.IConnectReceiveListener.IConnectReceiveListener;
+import com.open.iandroidtsing.net.data.Address;
+import com.open.iandroidtsing.net.data.Message;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

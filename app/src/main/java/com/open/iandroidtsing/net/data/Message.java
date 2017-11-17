@@ -1,4 +1,4 @@
-package com.open.iandroidtsing.net.other;
+package com.open.iandroidtsing.net.data;
 
 
 /**
