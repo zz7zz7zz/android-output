@@ -289,18 +289,16 @@ public class NioClient{
             return true;
         }
 
-        private void write(SelectionKey key) throws IOException
+        private void write(SelectionKey key)
         {
             SocketChannel socketChannel = (SocketChannel) key.channel();
             while (!mMessageQueen.isEmpty()){
                 Message msg = mMessageQueen.poll();
-                ByteBuffer buf=ByteBuffer.wrap(msg.getPacket());
                 try {
-                    socketChannel.write(buf);
+                    msg.write(socketChannel);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
             key.interestOps(SelectionKey.OP_READ);
         }

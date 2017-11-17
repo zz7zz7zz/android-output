@@ -295,7 +295,7 @@ public class BioClient {
 						while(!mMessageQueen.isEmpty())
 						{
 							Message item= mMessageQueen.poll();
-							outStream.write(item.getPacket());
+							item.write(outStream);
 							outStream.flush();
 						}
 
