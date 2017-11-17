@@ -8,9 +8,8 @@ import android.widget.EditText;
 
 import com.open.iandroidtsing.R;
 import com.open.iandroidtsing.net.client.BioClient;
-import com.open.iandroidtsing.net.listener.IConnectReceiveListener;
-import com.open.iandroidtsing.net.data.Message;
 import com.open.iandroidtsing.net.data.TcpAddress;
+import com.open.iandroidtsing.net.listener.IConnectReceiveListener;
 
 public class BioSocketConnectionActivity extends Activity {
 
@@ -64,8 +63,7 @@ public class BioSocketConnectionActivity extends Activity {
 					break;
 					
 				case R.id.send:
-					Message packet=new Message();
-					packet.pack(sendContent.getText().toString());
+					WeMessage packet=new WeMessage(sendContent.getText().toString());
 					mConnection.sendMessage(packet);
 					sendContent.setText("");
 					break;

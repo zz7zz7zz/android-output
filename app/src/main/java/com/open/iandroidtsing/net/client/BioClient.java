@@ -2,7 +2,7 @@ package com.open.iandroidtsing.net.client;
 
 import com.open.iandroidtsing.net.listener.IConnectReceiveListener;
 import com.open.iandroidtsing.net.listener.IConnectStatusListener;
-import com.open.iandroidtsing.net.data.Message;
+import com.open.iandroidtsing.net.data.AbsMessage;
 import com.open.iandroidtsing.net.data.TcpAddress;
 
 import java.io.InputStream;
@@ -24,7 +24,7 @@ public class BioClient {
 	private int index = -1;
 	private IConnectReceiveListener mConnectReceiveListener;
 
-	private ConcurrentLinkedQueue<Message> mMessageQueen = new ConcurrentLinkedQueue();
+	private ConcurrentLinkedQueue<AbsMessage> mMessageQueen = new ConcurrentLinkedQueue();
 	private Thread mConnectionThread =null;
 	private BioConnection mConnection;
 
@@ -51,7 +51,7 @@ public class BioClient {
 		this.tcpArray = tcpArray;
 	}
 	
-	public void sendMessage(Message msg)
+	public void sendMessage(AbsMessage msg)
 	{
 		//1.没有连接,需要进行重连
 		//2.在连接不成功，并且也不在重连中时，需要进行重连;
@@ -294,7 +294,7 @@ public class BioClient {
 
 						while(!mMessageQueen.isEmpty())
 						{
-							Message item= mMessageQueen.poll();
+							AbsMessage item= mMessageQueen.poll();
 							item.write(outStream);
 							outStream.flush();
 						}

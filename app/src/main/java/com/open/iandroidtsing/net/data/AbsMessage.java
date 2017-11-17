@@ -11,19 +11,9 @@ import java.nio.channels.SocketChannel;
  * @author Administrator
  *
  */
-public class Message {
+public abstract class AbsMessage {
 	
-	private byte[] data;
-	
-	public void pack(String txt)
-	{
-		data=txt.getBytes();
-	}
-	
-	public byte[] getPacket()
-	{
-		return data;
-	}
+	public abstract byte[] getPacket();
 
 	public void write(OutputStream outStream) throws IOException {
 		outStream.write(getPacket());

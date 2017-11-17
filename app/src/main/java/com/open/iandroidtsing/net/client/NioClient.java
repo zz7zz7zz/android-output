@@ -1,7 +1,7 @@
 package com.open.iandroidtsing.net.client;
 
 import com.open.iandroidtsing.net.data.TcpAddress;
-import com.open.iandroidtsing.net.data.Message;
+import com.open.iandroidtsing.net.data.AbsMessage;
 import com.open.iandroidtsing.net.listener.IConnectReceiveListener;
 import com.open.iandroidtsing.net.listener.IConnectStatusListener;
 
@@ -28,7 +28,7 @@ public class NioClient{
     private IConnectReceiveListener mConnectReceiveListener;
 
     //无锁队列
-    private ConcurrentLinkedQueue<Message> mMessageQueen = new ConcurrentLinkedQueue();
+    private ConcurrentLinkedQueue<AbsMessage> mMessageQueen = new ConcurrentLinkedQueue();
     private Thread mConnectionThread;
     private NioConnection mConnection;
 
@@ -53,7 +53,7 @@ public class NioClient{
         this.tcpArray = tcpArray;
     }
 
-    public void sendMessage(Message msg){
+    public void sendMessage(AbsMessage msg){
         //1.没有连接,需要进行重连
         //2.在连接不成功，并且也不在重连中时，需要进行重连;
         if(null == mConnection){
@@ -145,12 +145,12 @@ public class NioClient{
         private SocketChannel socketChannel;
 
         private int state= STATE_CLOSE;
-        private ConcurrentLinkedQueue<Message> mMessageQueen;
+        private ConcurrentLinkedQueue<AbsMessage> mMessageQueen;
         private IConnectStatusListener mConnectStatusListener;
         private IConnectReceiveListener mConnectReceiveListener;
         private boolean isClosedByUser = false;
 
-        public NioConnection(String ip, int port, ConcurrentLinkedQueue<Message> queen, IConnectStatusListener mNioConnectionListener, IConnectReceiveListener mConnectReceiveListener) {
+        public NioConnection(String ip, int port, ConcurrentLinkedQueue<AbsMessage> queen, IConnectStatusListener mNioConnectionListener, IConnectReceiveListener mConnectReceiveListener) {
             this.ip = ip;
             this.port = port;
             this.mMessageQueen = queen;
@@ -293,7 +293,7 @@ public class NioClient{
         {
             SocketChannel socketChannel = (SocketChannel) key.channel();
             while (!mMessageQueen.isEmpty()){
-                Message msg = mMessageQueen.poll();
+                AbsMessage msg = mMessageQueen.poll();
                 try {
                     msg.write(socketChannel);
                 } catch (IOException e) {
