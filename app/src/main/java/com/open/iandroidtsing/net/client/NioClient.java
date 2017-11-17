@@ -1,9 +1,9 @@
 package com.open.iandroidtsing.net.client;
 
-import com.open.iandroidtsing.net.listener.IConnectReceiveListener.IConnectListener;
-import com.open.iandroidtsing.net.listener.IConnectReceiveListener.IConnectReceiveListener;
 import com.open.iandroidtsing.net.data.Address;
 import com.open.iandroidtsing.net.data.Message;
+import com.open.iandroidtsing.net.listener.IConnectReceiveListener;
+import com.open.iandroidtsing.net.listener.IConnectStatusListener;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -32,7 +32,7 @@ public class NioClient{
     private Thread mConnectionThread;
     private NioConnection mConnection;
 
-    private IConnectListener mNioConnectionListener = new IConnectListener() {
+    private IConnectStatusListener mConnectStatusListener = new IConnectStatusListener() {
         @Override
         public void onConnectionSuccess() {
 
@@ -98,7 +98,7 @@ public class NioClient{
         index++;
         if(index < tcpArray.length && index >= 0){
             stopConnect(false);
-            mConnection = new NioConnection(tcpArray[index].ip,tcpArray[index].port,mMessageQueen,mNioConnectionListener, mConnectReceiveListener);
+            mConnection = new NioConnection(tcpArray[index].ip,tcpArray[index].port,mMessageQueen, mConnectStatusListener, mConnectReceiveListener);
             mConnectionThread =new Thread(mConnection);
             mConnectionThread.start();
         }else{
@@ -146,15 +146,15 @@ public class NioClient{
 
         private int state= STATE_CLOSE;
         private ConcurrentLinkedQueue<Message> mMessageQueen;
-        private IConnectListener mNioConnectionListener;
+        private IConnectStatusListener mConnectStatusListener;
         private IConnectReceiveListener mConnectReceiveListener;
         private boolean isClosedByUser = false;
 
-        public NioConnection(String ip, int port, ConcurrentLinkedQueue<Message> queen, IConnectListener mNioConnectionListener, IConnectReceiveListener mConnectReceiveListener) {
+        public NioConnection(String ip, int port, ConcurrentLinkedQueue<Message> queen, IConnectStatusListener mNioConnectionListener, IConnectReceiveListener mConnectReceiveListener) {
             this.ip = ip;
             this.port = port;
             this.mMessageQueen = queen;
-            this.mNioConnectionListener = mNioConnectionListener;
+            this.mConnectStatusListener = mNioConnectionListener;
             this.mConnectReceiveListener = mConnectReceiveListener;
         }
 
@@ -249,8 +249,8 @@ public class NioClient{
             }finally{
                 close();
                 if(!isClosedByUser){
-                    if(null != mNioConnectionListener){
-                        mNioConnectionListener.onConnectionFailed();
+                    if(null != mConnectStatusListener){
+                        mConnectStatusListener.onConnectionFailed();
                     }
                 }
             }
@@ -265,7 +265,7 @@ public class NioClient{
             {
                 key.interestOps(SelectionKey.OP_READ);
                 state=STATE_CONNECT_SUCCESS;
-                this.mNioConnectionListener.onConnectionSuccess();
+                this.mConnectStatusListener.onConnectionSuccess();
             }
             return result;
         }

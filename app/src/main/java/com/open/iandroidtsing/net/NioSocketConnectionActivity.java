@@ -77,7 +77,7 @@ public class NioSocketConnectionActivity extends Activity {
 		}
 	};
 
-	private IConnectReceiveListener.IConnectReceiveListener socketListener=new IConnectReceiveListener.IConnectReceiveListener() {
+	private IConnectReceiveListener socketListener=new IConnectReceiveListener() {
 
 		@Override
 		public void onConnectionReceive(final String txt) {

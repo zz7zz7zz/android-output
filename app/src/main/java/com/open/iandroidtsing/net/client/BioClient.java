@@ -1,8 +1,7 @@
 package com.open.iandroidtsing.net.client;
 
 import com.open.iandroidtsing.net.listener.IConnectReceiveListener;
-import com.open.iandroidtsing.net.listener.IConnectReceiveListener.IConnectListener;
-import com.open.iandroidtsing.net.listener.IConnectReceiveListener.IConnectReceiveListener;
+import com.open.iandroidtsing.net.listener.IConnectStatusListener;
 import com.open.iandroidtsing.net.data.Message;
 import com.open.iandroidtsing.net.data.Address;
 
@@ -31,7 +30,7 @@ public class BioClient {
 
 	private final Object lock=new Object();
 
-	private IConnectListener mBioConnectionListener = new IConnectListener() {
+	private IConnectStatusListener mConnectionStatusListener = new IConnectStatusListener() {
 		@Override
 		public void onConnectionSuccess() {
 
@@ -43,7 +42,7 @@ public class BioClient {
 		}
 	};
 
-	public BioClient(Address[] tcpArray , IConnectReceiveListener.IConnectReceiveListener mConnectReceiveListener) {
+	public BioClient(Address[] tcpArray , IConnectReceiveListener mConnectReceiveListener) {
 		this.tcpArray = tcpArray;
 		this.mConnectReceiveListener = mConnectReceiveListener;
 	}
@@ -103,7 +102,7 @@ public class BioClient {
 		index++;
 		if(index < tcpArray.length && index >= 0){
 			stopConnect(false);
-			mConnection = new BioConnection(tcpArray[index].ip,tcpArray[index].port,mBioConnectionListener, mConnectReceiveListener);
+			mConnection = new BioConnection(tcpArray[index].ip,tcpArray[index].port, mConnectionStatusListener, mConnectReceiveListener);
 			mConnectionThread =new Thread(mConnection);
 			mConnectionThread.start();
 		}else{
@@ -145,7 +144,7 @@ public class BioClient {
 		private String ip ="192.168.1.1";
 		private int port =9999;
 		private int state = STATE_CLOSE;
-		private IConnectListener mBioConnectionListener;
+		private IConnectStatusListener mConnectionStatusListener;
 		private IConnectReceiveListener mConnectReceiveListener;
 		private boolean isClosedByUser = false;
 
@@ -156,10 +155,10 @@ public class BioClient {
 		private Thread readThread =null;
 
 
-		public BioConnection(String ip, int port,IConnectListener mBioConnectionListener, IConnectReceiveListener mConnectReceiveListener) {
+		public BioConnection(String ip, int port,IConnectStatusListener mConnectionStatusListener, IConnectReceiveListener mConnectReceiveListener) {
 			this.ip = ip;
 			this.port = port;
-			this.mBioConnectionListener  = mBioConnectionListener;
+			this.mConnectionStatusListener = mConnectionStatusListener;
 			this.mConnectReceiveListener = mConnectReceiveListener;
 		}
 
@@ -278,8 +277,8 @@ public class BioClient {
                 state=STATE_CONNECT_FAILED;
 			}finally {
 				if(!(state == STATE_CONNECT_SUCCESS || isClosedByUser)) {
-					if(null != mBioConnectionListener){
-						mBioConnectionListener.onConnectionFailed();
+					if(null != mConnectionStatusListener){
+						mConnectionStatusListener.onConnectionFailed();
 					}
 				}
 			}
