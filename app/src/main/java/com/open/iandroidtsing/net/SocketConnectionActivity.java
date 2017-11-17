@@ -88,4 +88,9 @@ public class SocketConnectionActivity extends Activity {
 		}
 	};
 
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		mBioClient.disconnect();
+	}
 }
