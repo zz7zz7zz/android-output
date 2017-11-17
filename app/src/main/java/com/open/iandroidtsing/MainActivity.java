@@ -10,7 +10,7 @@ import com.open.iandroidtsing.fragment.FragmentPagerActivity;
 import com.open.iandroidtsing.fragment.FragmentStatePagerActivity;
 import com.open.iandroidtsing.image.Image2Activity;
 import com.open.iandroidtsing.image.ImageActivity;
-import com.open.iandroidtsing.net.SocketConnectionActivity;
+import com.open.iandroidtsing.net.BioSocketConnectionActivity;
 import com.open.iandroidtsing.notification.NotificationActivity;
 import com.open.iandroidtsing.notification.NotificationMonitorActivity;
 import com.open.iandroidtsing.sharedprefs.SharedPrefsActivity;
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case R.id.net_socket_connection:
-                    startActivity(new Intent(getApplicationContext(),SocketConnectionActivity.class));
+                    startActivity(new Intent(getApplicationContext(),BioSocketConnectionActivity.class));
                     break;
             }
         }

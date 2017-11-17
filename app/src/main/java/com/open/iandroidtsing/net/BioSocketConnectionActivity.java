@@ -10,7 +10,7 @@ import com.open.iandroidtsing.R;
 import com.open.iandroidtsing.net.impl.BioClient;
 import com.open.iandroidtsing.net.impl.Message;
 
-public class SocketConnectionActivity extends Activity {
+public class BioSocketConnectionActivity extends Activity {
 
 	private BioClient mBioClient =null;
 	private EditText ip,port,sendContent,recContent;

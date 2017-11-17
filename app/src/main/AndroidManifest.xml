@@ -66,7 +66,7 @@
         <activity android:name=".textview.TextViewActivity" android:screenOrientation="portrait" />
 
         <!-- 网络测试-->
-        <activity android:name=".net.SocketConnectionActivity" android:screenOrientation="portrait" />
+        <activity android:name=".net.BioSocketConnectionActivity" android:screenOrientation="portrait" />
 
     </application>
 
