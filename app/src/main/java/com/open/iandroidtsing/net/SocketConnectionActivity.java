@@ -48,12 +48,12 @@ public class SocketConnectionActivity extends Activity {
 			switch(v.getId())
 			{
 				case R.id.open:
-					mBioClient =new BioClient(new BioClient.Tcp[]{new BioClient.Tcp(ip.getText().toString(), Integer.valueOf(port.getText().toString()))},socketListener);
+                    mBioClient = new BioClient(new BioClient.Tcp[]{new BioClient.Tcp(ip.getText().toString(), Integer.valueOf(port.getText().toString()))},socketListener);
 					mBioClient.connect();
 					break;
 					
 				case R.id.close:
-					mBioClient.closeConnection();
+					mBioClient.disconnect();
 					break;
 					
 				case R.id.reconn:

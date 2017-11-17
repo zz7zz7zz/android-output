@@ -20,13 +20,6 @@ public class BioClient {
 
 	private final String TAG="BioClient";
 
-	private final int STATE_CLOSE			= 1<<1;//socket关闭
-	private final int STATE_CONNECT_START	= 1<<2;//开始连接server
-	private final int STATE_CONNECT_SUCCESS	= 1<<3;//连接成功
-	private final int STATE_CONNECT_FAILED	= 1<<4;//连接失败
-
-	private final Message SIGNAL_RECONNECT = new Message();
-
 	private Tcp[] tcpArray;
 	private int index = -1;
 	private IConnectionReceiveListener mConnectionReceiveListener;
@@ -45,7 +38,7 @@ public class BioClient {
 
 		@Override
 		public void onConnectionFailed() {
-			sendMessage(SIGNAL_RECONNECT);//发送一个空的消息进行SocketConnect操作
+			connect();//try to connect next ip port
 		}
 	};
 
@@ -56,17 +49,14 @@ public class BioClient {
 
 	public void sendMessage(Message msg)
 	{
-		//1.重连消息，进行重连
-		//2.没有连接,需要进行重连
-		//3.在连接不成功，并且也不在重连中时，需要进行重连;
-		if(SIGNAL_RECONNECT == msg ){
-			openConnection();
-		}else if(null == mConnection){
+		//1.没有连接,需要进行重连
+		//2.在连接不成功，并且也不在重连中时，需要进行重连;
+		if(null == mConnection){
 			mMessageQueen.add(msg);
-			openConnection();
+			startConnect();
 		}else if(!mConnection.isConnected() && !mConnection.isConnecting()){
 			mMessageQueen.add(msg);
-			openConnection();
+			startConnect();
 		}else{
 			mMessageQueen.add(msg);
 			if(mConnection.isConnected()){
@@ -82,15 +72,23 @@ public class BioClient {
 
     public synchronized void connect()
     {
-        sendMessage(SIGNAL_RECONNECT);
+		startConnect();
     }
 
     public synchronized void reconnect(){
-        closeConnection(false);
-        connect();
+        stopConnect(true);
+		//reset the ip/port index of tcpArray
+		if(index+1 >= tcpArray.length || index+1 < 0){
+			index = -1;
+		}
+		startConnect();
     }
 
-	public synchronized void openConnection()
+	public synchronized void disconnect(){
+		stopConnect(true);
+	}
+
+	private synchronized void startConnect()
 	{
 		//已经在连接中就不再进行连接
 		if(null != mConnection && !mConnection.isClosed()){
@@ -99,9 +97,8 @@ public class BioClient {
 
 		index++;
 		if(index < tcpArray.length && index >= 0){
-			closeConnection(false);
-			mConnection = new BioConnection(mBioConnectionListener,mConnectionReceiveListener);
-			mConnection.init(tcpArray[index].ip,tcpArray[index].port);
+			stopConnect(false);
+			mConnection = new BioConnection(tcpArray[index].ip,tcpArray[index].port,mBioConnectionListener,mConnectionReceiveListener);
 			mConnectionThread =new Thread(mConnection);
 			mConnectionThread.start();
 		}else{
@@ -112,22 +109,12 @@ public class BioClient {
 		}
 	}
 
-
-	public synchronized void closeConnection()
+	private synchronized void stopConnect(boolean isCloseByUser)
 	{
-		closeConnection(true);
-	}
-
-	public synchronized void closeConnection(boolean isCloseByUser)
-	{
-
 		try {
 
 			if(null != mConnection) {
 				mConnection.setCloseByUser(isCloseByUser);
-			}
-
-			if(null != mConnection && !mConnection.isClosed()) {
 				mConnection.close();
 			}
 			mConnection= null;
@@ -144,6 +131,12 @@ public class BioClient {
 	
 	private class BioConnection implements Runnable
 	{
+
+		private final int STATE_CLOSE			= 1<<1;//socket关闭
+		private final int STATE_CONNECT_START	= 1<<2;//开始连接server
+		private final int STATE_CONNECT_SUCCESS	= 1<<3;//连接成功
+		private final int STATE_CONNECT_FAILED	= 1<<4;//连接失败
+
 		private String ip ="192.168.1.1";
 		private int port =9999;
 		private int state = STATE_CLOSE;
@@ -158,14 +151,11 @@ public class BioClient {
 		private Thread readThread =null;
 
 
-		public BioConnection(IBioConnectListener mBioConnectionListener, IConnectionReceiveListener mConnectionReceiveListener) {
-			this.mBioConnectionListener 	= mBioConnectionListener;
-			this.mConnectionReceiveListener = mConnectionReceiveListener;
-		}
-
-		public void init(String ip, int port){
+		public BioConnection(String ip, int port,IBioConnectListener mBioConnectionListener, IConnectionReceiveListener mConnectionReceiveListener) {
 			this.ip = ip;
 			this.port = port;
+			this.mBioConnectionListener 	= mBioConnectionListener;
+			this.mConnectionReceiveListener = mConnectionReceiveListener;
 		}
 
 		public boolean isClosed(){
@@ -180,7 +170,7 @@ public class BioClient {
 			return state == STATE_CONNECT_START;
 		}
 
-		public boolean setCloseByUser(boolean isClosedbyUser){
+		public void setCloseByUser(boolean isClosedbyUser){
 			this.isClosedByUser = isClosedbyUser;
 		}
 
@@ -320,7 +310,7 @@ Log.v(TAG,"BioConnection :End cost " + (System.currentTimeMillis() -start));
 				}catch(SocketException e1)
 				{
 					e1.printStackTrace();//发送的时候出现异常，说明socket被关闭了(服务器关闭)java.net.SocketException: sendto failed: EPIPE (Broken pipe)
-					openConnection();
+					startConnect();
 				}
 				catch (Exception e) {
 					Log.v(TAG,"WriteRunnable ::Exception");
@@ -363,13 +353,13 @@ Log.v(TAG,"BioConnection :End cost " + (System.currentTimeMillis() -start));
 							length=5-offset;
 						}
 
-						openConnection();//走到这一步，说明服务器socket断了
+						startConnect();//走到这一步，说明服务器socket断了
 						break;
 					}
 				}
 				catch(SocketException e1)
 				{
-					e1.printStackTrace();//客户端主动socket.closeConnection()会调用这里 java.net.SocketException: Socket closed
+					e1.printStackTrace();//客户端主动socket.stopConnect()会调用这里 java.net.SocketException: Socket closed
 				}
 				catch (Exception e2) {
 					Log.v(TAG,"ReadRunnable :Exception");
