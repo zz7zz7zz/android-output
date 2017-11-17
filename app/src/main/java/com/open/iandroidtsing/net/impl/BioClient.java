@@ -47,6 +47,10 @@ public class BioClient {
 		this.mConnectionReceiveListener = mConnectionReceiveListener;
 	}
 
+	public void setConnectAddress(Tcp[] tcpArray ){
+		this.tcpArray = tcpArray;
+	}
+	
 	public void sendMessage(Message msg)
 	{
 		//1.没有连接,需要进行重连

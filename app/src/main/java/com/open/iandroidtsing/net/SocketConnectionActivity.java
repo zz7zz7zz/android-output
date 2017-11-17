@@ -39,16 +39,18 @@ public class SocketConnectionActivity extends Activity {
 		
 		ip.setText("192.168.123.1");
 		port.setText("9999");
+
+		mBioClient = new BioClient(new BioClient.Tcp[]{new BioClient.Tcp(ip.getText().toString(), Integer.valueOf(port.getText().toString()))},socketListener);
 	}
 	
 	private OnClickListener listener=new OnClickListener() {
 		
 		@Override
 		public void onClick(View v) {
+			mBioClient.setConnectAddress(new BioClient.Tcp[]{new BioClient.Tcp(ip.getText().toString(), Integer.valueOf(port.getText().toString()))});
 			switch(v.getId())
 			{
 				case R.id.open:
-                    mBioClient = new BioClient(new BioClient.Tcp[]{new BioClient.Tcp(ip.getText().toString(), Integer.valueOf(port.getText().toString()))},socketListener);
 					mBioClient.connect();
 					break;
 					
