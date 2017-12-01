@@ -1,1 +1,1 @@
-include ':app', ':lib', ':lib_widgets'
+include ':app', ':lib', ':lib_widgets', ':net_socket_client'

@@ -102,7 +102,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp">
-        <com.open.iandroidtsing.notification.IScrollView
+        <com.open.test.notification.IScrollView
             android:id="@+id/notification_monitor_logcat_scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -112,7 +112,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
                 </LinearLayout>
-        </com.open.iandroidtsing.notification.IScrollView>
+        </com.open.test.notification.IScrollView>
 
         <TextView
             android:id="@+id/notification_monitor_logcat_snapshoot"
