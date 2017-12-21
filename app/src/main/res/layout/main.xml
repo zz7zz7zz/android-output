@@ -78,19 +78,13 @@
             android:text="textView"/>
 
         <Button
-            android:id="@+id/net_bio_socket"
+            android:id="@+id/net"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:textAllCaps="false"
-            android:text="net_bio_socket"/>
+            android:text="net"/>
 
-        <Button
-            android:id="@+id/net_nio_socket"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:text="net_nio_socket"/>
     </LinearLayout>
 
 </ScrollView>

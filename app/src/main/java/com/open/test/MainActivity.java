@@ -10,8 +10,7 @@ import com.open.test.fragment.FragmentPagerActivity;
 import com.open.test.fragment.FragmentStatePagerActivity;
 import com.open.test.image.Image2Activity;
 import com.open.test.image.ImageActivity;
-import com.open.test.net.BioClientConnectionActivity;
-import com.open.test.net.NioClientConnectionActivity;
+import com.open.test.net.NetMainActivity;
 import com.open.test.notification.NotificationActivity;
 import com.open.test.notification.NotificationMonitorActivity;
 import com.open.test.sharedprefs.SharedPrefsActivity;
@@ -44,8 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.textView).setOnClickListener(clickListener);
 
-        findViewById(R.id.net_bio_socket).setOnClickListener(clickListener);
-        findViewById(R.id.net_nio_socket).setOnClickListener(clickListener);
+        findViewById(R.id.net).setOnClickListener(clickListener);
     }
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
@@ -88,13 +86,10 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(),TextViewActivity.class));
                     break;
 
-                case R.id.net_bio_socket:
-                    startActivity(new Intent(getApplicationContext(), BioClientConnectionActivity.class));
+                case R.id.net:
+                    startActivity(new Intent(getApplicationContext(), NetMainActivity.class));
                     break;
 
-                case R.id.net_nio_socket:
-                    startActivity(new Intent(getApplicationContext(),NioClientConnectionActivity.class));
-                    break;
             }
         }
     };

@@ -1,46 +1,59 @@
-package com.open.net.client.impl.nio;
+package com.open.net.client.impl.udp.nio;
 
+import com.open.net.client.GClient;
 import com.open.net.client.structures.BaseClient;
 import com.open.net.client.structures.BaseMessageProcessor;
+import com.open.net.client.structures.IConnectListener;
+import com.open.net.client.structures.UdpAddress;
 import com.open.net.client.structures.message.Message;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.SocketChannel;
+import java.nio.channels.DatagramChannel;
 
 /**
  * author       :   long
  * created on   :   2017/11/30
- * description  :   NioClient
+ * description  :   UdpNioClient
  */
 
-public final class NioClient extends BaseClient {
+public final class UdpNioClient extends BaseClient {
 
-    private final String TAG="NioClient";
-
-    //-------------------------------------------------------------------------------------------
-    private NioConnector mConnector;
-
-    public NioConnector getConnector() {
-        return mConnector;
+    static {
+        GClient.init();
     }
 
-    public void setConnector(NioConnector mConnector) {
-        this.mConnector = mConnector;
+    private UdpNioConnector mConnector;
+
+    public UdpNioClient(BaseMessageProcessor mMessageProcessor, IConnectListener mConnectListener) {
+        super(mMessageProcessor);
+        mConnector = new UdpNioConnector(this,mConnectListener);
     }
 
     //-------------------------------------------------------------------------------------------
-    private SocketChannel mSocketChannel;
-    private Selector   mSelector;
+    public void setConnectAddress(UdpAddress[] tcpArray ){
+        mConnector.setConnectAddress(tcpArray);
+    }
+
+    public void connect(){
+        mConnector.connect();
+    }
+
+    public void disconnect(){
+        mConnector.disconnect();
+    }
+
+    public void reconnect(){
+        mConnector.reconnect();
+    }
+
+    //-------------------------------------------------------------------------------------------
+    private DatagramChannel mSocketChannel;
     private ByteBuffer mReadByteBuffer  = ByteBuffer.allocate(64*1024);
     private ByteBuffer mWriteByteBuffer = ByteBuffer.allocate(64*1024);
 
-    public void init(SocketChannel socketChannel,Selector   mSelector, BaseMessageProcessor mMessageProcessor) {
-        super.init(mMessageProcessor);
+    public void init(DatagramChannel socketChannel) {
         this.mSocketChannel = socketChannel;
-        this.mSelector = mSelector;
     }
 
     @Override
@@ -50,65 +63,36 @@ public final class NioClient extends BaseClient {
 
     @Override
     public void onClose() {
-        if(null!= mSocketChannel) {
-            try {
-                SelectionKey key = mSocketChannel.keyFor(mSelector);
-                if(null != key){
-                    key.cancel();
-                }
-                mSelector.close();
-                mSocketChannel.socket().close();
-                mSocketChannel.close();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        }
         mSocketChannel = null;
-        mSelector = null;
     }
 
     public boolean onRead() {
         boolean readRet = true;
         try{
             mReadByteBuffer.clear();
-            int readTotalLength = 0;
-            int readReceiveLength = 0;
             while (true){
                 int readLength = mSocketChannel.read(mReadByteBuffer);//客户端关闭连接后，此处将抛出异常/或者返回-1
                 if(readLength == -1){
                     readRet = false;
                     break;
                 }
-                readReceiveLength += readLength;
-                //如果一次性读满了，则先回调一次，然后接着读剩下的，目的是为了一次性读完单个通道的数据
-                if(readReceiveLength == mReadByteBuffer.capacity()){
-                    mReadByteBuffer.flip();
-                    if(mReadByteBuffer.remaining() > 0){
-                        this.mMessageProcessor.onReceiveData(this, mReadByteBuffer.array(), 0 , mReadByteBuffer.remaining());
-                    }
-                    mReadByteBuffer.clear();
-                    readReceiveLength = 0;
-                }
 
-                if(readLength > 0){
-                    readTotalLength += readLength;
-                }else {
+                mReadByteBuffer.flip();
+                if(mReadByteBuffer.remaining() > 0){
+                    this.mMessageProcessor.onReceiveData(this, mReadByteBuffer.array(), 0 , mReadByteBuffer.remaining());
+                }
+                mReadByteBuffer.clear();
+
+                if(readLength == 0){
                     break;
                 }
             }
-
-            mReadByteBuffer.flip();
-            if(mReadByteBuffer.remaining() > 0){
-                this.mMessageProcessor.onReceiveData(this, mReadByteBuffer.array(), 0 , mReadByteBuffer.remaining());
-            }
-            mReadByteBuffer.clear();
-
         }catch (Exception e){
             e.printStackTrace();
             readRet = false;
         }
 
-        mMessageProcessor.onReceiveMessages(this);
+        mMessageProcessor.onReceiveDataCompleted(this);
         //退出客户端的时候需要把要写给该客户端的数据清空
         if(!readRet){
             Message msg = pollWriteMessage();
@@ -154,7 +138,7 @@ public final class NioClient extends BaseClient {
                         }
                     }
                 }else{
-                    mWriteByteBuffer.put(msg.data,0,msg.length);
+                    mWriteByteBuffer.put(msg.data,msg.offset,msg.length);
                     mWriteByteBuffer.flip();
 
                     int writtenLength      = mSocketChannel.write(mWriteByteBuffer);//客户端关闭连接后，此处将抛出异常
@@ -190,8 +174,4 @@ public final class NioClient extends BaseClient {
 
         return writeRet;
     }
-
-    //-------------------------------------------------------------------------------------------
-
-
 }

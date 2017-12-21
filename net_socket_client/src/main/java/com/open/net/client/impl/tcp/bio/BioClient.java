@@ -1,13 +1,15 @@
-package com.open.net.client.impl.bio;
+package com.open.net.client.impl.tcp.bio;
 
+import com.open.net.client.GClient;
 import com.open.net.client.structures.BaseClient;
 import com.open.net.client.structures.BaseMessageProcessor;
+import com.open.net.client.structures.IConnectListener;
+import com.open.net.client.structures.TcpAddress;
 import com.open.net.client.structures.message.Message;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.Socket;
 import java.net.SocketException;
 
 /**
@@ -15,32 +17,49 @@ import java.net.SocketException;
  * created on   :   2017/11/30
  * description  :   BioClient
  */
-public class BioClient extends BaseClient {
+public class BioClient extends BaseClient{
 
-	private final String TAG = "BioClient";
+	static {
+		GClient.init();
+	}
 
 	//-------------------------------------------------------------------------------------------
 	private BioConnector mConnector;
 
-	public BioConnector getConnector() {
-		return mConnector;
-	}
-
-	public void setConnector(BioConnector mBioConnector) {
-		this.mConnector = mBioConnector;
+	public BioClient(BaseMessageProcessor mMessageProcessor, IConnectListener mConnectListener) {
+		super(mMessageProcessor);
+		mConnector = new BioConnector(this,mConnectListener);
 	}
 
 	//-------------------------------------------------------------------------------------------
-	private Socket mSocket =null;
-	private OutputStream mOutputStream =null;
-	private InputStream mInputStream =null;
-
-	public void init(Socket socket,BaseMessageProcessor messageProcessor) throws IOException{
-		super.init(messageProcessor);
-		mSocket    		= socket;
-		mOutputStream 	= socket.getOutputStream();
-		mInputStream 	= socket.getInputStream();
+	public void setConnectAddress(TcpAddress[] tcpArray ){
+		mConnector.setConnectAddress(tcpArray);
 	}
+
+	public void setConnectTimeout(long connect_timeout ){
+		mConnector.setConnectTimeout(connect_timeout);
+	}
+
+	public void connect(){
+		mConnector.connect();
+	}
+
+	public void disconnect(){
+		mConnector.disconnect();
+	}
+
+	public void reconnect(){
+		mConnector.reconnect();
+	}
+
+	//-------------------------------------------------------------------------------------------
+	private OutputStream mOutputStream =null;
+	private InputStream  mInputStream =null;
+
+    public void init(OutputStream mOutputStream , InputStream mInputStream) throws IOException{
+        this.mOutputStream 	= mOutputStream;
+        this.mInputStream 	= mInputStream;
+    }
 
 	@Override
 	public void onCheckConnect() {
@@ -48,49 +67,22 @@ public class BioClient extends BaseClient {
 	}
 
 	public void onClose(){
-		try {
-			if(null!= mOutputStream) {
-				mOutputStream.close();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally{
-			mOutputStream =null;
-		}
-
-		try {
-			if(null!= mInputStream) {
-				mInputStream.close();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally{
-			mInputStream =null;
-		}
-
-		try {
-			if(null!= mSocket) {
-				mSocket.close();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally{
-			mSocket =null;
-		}
+		mOutputStream = null;
+		mInputStream = null;
 	}
 
 	public boolean onRead(){
 		boolean readRet = false;
 		try {
 			int maximum_length = 64*1024;
-			byte[] bodyBytes=new byte[maximum_length];
+			byte[] bodyBytes = new byte[maximum_length];
 			int numRead;
 
 			while((numRead= mInputStream.read(bodyBytes, 0, maximum_length))>0) {
 				if(numRead > 0){
-					if(null!= mMessageProcessor) {
+					if(null != mMessageProcessor) {
 						mMessageProcessor.onReceiveData(this, bodyBytes,0,numRead);
-						mMessageProcessor.onReceiveMessages(this);
+						mMessageProcessor.onReceiveDataCompleted(this);
 					}
 				}
 			}
@@ -105,9 +97,11 @@ public class BioClient extends BaseClient {
 			readRet = false;
 		}
 
-		mMessageProcessor.onReceiveMessages(this);
+		if(null != mMessageProcessor){
+			mMessageProcessor.onReceiveDataCompleted(this);
+		}
 
-		//退出客户端的时候需要把要写给该客户端的数据清空
+		//退出客户端的时候需要把要该客户端要写出去的数据清空
 		if(!readRet){
 			Message msg = pollWriteMessage();
 			while (null != msg) {
@@ -123,7 +117,7 @@ public class BioClient extends BaseClient {
 		Message msg= pollWriteMessage();
 		try{
 			while(null != msg) {
-				mOutputStream.write(msg.data,0,msg.length);
+				mOutputStream.write(msg.data,msg.offset,msg.length);
 				mOutputStream.flush();
 				removeWriteMessage(msg);
 				msg= pollWriteMessage();
@@ -139,7 +133,7 @@ public class BioClient extends BaseClient {
 			writeRet = false;
 		}
 
-		//退出客户端的时候需要把要写给该客户端的数据清空
+		//退出客户端的时候需要把该客户端要写出去的数据清空
 		if(!writeRet){
 			if(null != msg){
 				removeWriteMessage(msg);

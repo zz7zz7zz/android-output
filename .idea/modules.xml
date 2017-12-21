@@ -3,12 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/IAndroidTsing.iml" filepath="$PROJECT_DIR$/IAndroidTsing.iml" />
-      <module fileurl="file://$PROJECT_DIR$/IAndroidTsing.iml" filepath="$PROJECT_DIR$/IAndroidTsing.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/lib_widgets/lib_widgets.iml" filepath="$PROJECT_DIR$/lib_widgets/lib_widgets.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib_widgets/lib_widgets.iml" filepath="$PROJECT_DIR$/lib_widgets/lib_widgets.iml" />
       <module fileurl="file://$PROJECT_DIR$/net_socket_client/net_socket_client.iml" filepath="$PROJECT_DIR$/net_socket_client/net_socket_client.iml" />
     </modules>
