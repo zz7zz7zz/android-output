@@ -10,6 +10,7 @@ import com.open.test.fragment.FragmentPagerActivity;
 import com.open.test.fragment.FragmentStatePagerActivity;
 import com.open.test.image.Image2Activity;
 import com.open.test.image.ImageActivity;
+import com.open.test.image.MatrixImageActivity;
 import com.open.test.net.NetMainActivity;
 import com.open.test.notification.NotificationActivity;
 import com.open.test.notification.NotificationMonitorActivity;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.image).setOnClickListener(clickListener);
         findViewById(R.id.image2).setOnClickListener(clickListener);
+        findViewById(R.id.image3).setOnClickListener(clickListener);
 
         findViewById(R.id.textView).setOnClickListener(clickListener);
 
@@ -80,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.image2:
                     startActivity(new Intent(getApplicationContext(),Image2Activity.class));
+                    break;
+
+                case R.id.image3:
+                    startActivity(new Intent(getApplicationContext(),MatrixImageActivity.class));
                     break;
 
                 case R.id.textView:

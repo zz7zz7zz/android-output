@@ -68,6 +68,12 @@
             android:layout_height="wrap_content"
             android:textAllCaps="false"
             android:text="image2"/>
+        <Button
+            android:id="@+id/image3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="MatrixImageActivity"/>
 
         <Button
             android:id="@+id/textView"
