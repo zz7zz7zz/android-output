@@ -84,6 +84,14 @@
             android:text="textView"/>
 
         <Button
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textAllCaps="false"
+            android:text="textView"/>
+
+        <Button
             android:id="@+id/net"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

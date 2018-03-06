@@ -65,6 +65,7 @@
 
         <!-- TextView相关相关-->
         <activity android:name="com.open.test.textview.TextViewActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.open.test.textview.TextViewLineCountActivity" android:screenOrientation="portrait" />
 
         <!-- 网络测试-->
         <activity android:name="com.open.test.net.NetMainActivity" android:screenOrientation="portrait" />

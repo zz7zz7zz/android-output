@@ -16,6 +16,7 @@ import com.open.test.notification.NotificationActivity;
 import com.open.test.notification.NotificationMonitorActivity;
 import com.open.test.sharedprefs.SharedPrefsActivity;
 import com.open.test.textview.TextViewActivity;
+import com.open.test.textview.TextViewLineCountActivity;
 import com.open.test.weakReference.WRA_Activity;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.image3).setOnClickListener(clickListener);
 
         findViewById(R.id.textView).setOnClickListener(clickListener);
+        findViewById(R.id.textView2).setOnClickListener(clickListener);
 
         findViewById(R.id.net).setOnClickListener(clickListener);
     }
@@ -91,6 +93,11 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.textView:
                     startActivity(new Intent(getApplicationContext(),TextViewActivity.class));
                     break;
+
+                case R.id.textView2:
+                    startActivity(new Intent(getApplicationContext(),TextViewLineCountActivity.class));
+                    break;
+
 
                 case R.id.net:
                     startActivity(new Intent(getApplicationContext(), NetMainActivity.class));
