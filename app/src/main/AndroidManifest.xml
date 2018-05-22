@@ -58,14 +58,17 @@
         <!-- 配置相关-->
         <activity android:name="com.open.test.sharedprefs.SharedPrefsActivity" android:screenOrientation="portrait" />
 
-        <!-- 图片相关相关-->
+        <!-- 图片相关-->
         <activity android:name="com.open.test.image.ImageActivity" android:screenOrientation="portrait" />
         <activity android:name="com.open.test.image.Image2Activity" android:screenOrientation="portrait" />
         <activity android:name="com.open.test.image.MatrixImageActivity" android:screenOrientation="portrait" />
 
-        <!-- TextView相关相关-->
+        <!-- TextView相关-->
         <activity android:name="com.open.test.textview.TextViewActivity" android:screenOrientation="portrait" />
         <activity android:name="com.open.test.textview.TextViewLineCountActivity" android:screenOrientation="portrait" />
+
+        <!-- Service相关-->
+        <service android:name="com.open.test.service.TIntentService"/>
 
         <!-- 网络测试-->
         <activity android:name="com.open.test.net.NetMainActivity" android:screenOrientation="portrait" />
