@@ -104,9 +104,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="50dp"
             android:textAllCaps="false"
             android:text="intentService"/>
+
+        <Button
+            android:id="@+id/intentService2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="50dp"
+            android:textAllCaps="false"
+            android:text="intentService2"/>
 
     </LinearLayout>
 

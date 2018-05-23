@@ -14,6 +14,7 @@ import com.open.test.image.MatrixImageActivity;
 import com.open.test.net.NetMainActivity;
 import com.open.test.notification.NotificationActivity;
 import com.open.test.notification.NotificationMonitorActivity;
+import com.open.test.service.ImplQueenService;
 import com.open.test.service.TIntentService;
 import com.open.test.sharedprefs.SharedPrefsActivity;
 import com.open.test.textview.TextViewActivity;
@@ -49,7 +50,10 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.textView2).setOnClickListener(clickListener);
 
         findViewById(R.id.net).setOnClickListener(clickListener);
+
         findViewById(R.id.intentService).setOnClickListener(clickListener);
+        findViewById(R.id.intentService2).setOnClickListener(clickListener);
+
     }
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
@@ -109,6 +113,10 @@ public class MainActivity extends AppCompatActivity {
                     TIntentService.loadConfig(getApplicationContext());
                     break;
 
+                case R.id.intentService2:
+                    ImplQueenService.turnOnPush(getApplicationContext());
+                    ImplQueenService.loadConfig(getApplicationContext());
+                    break;
             }
         }
     };

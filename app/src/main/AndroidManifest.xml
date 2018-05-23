@@ -69,6 +69,7 @@
 
         <!-- Service相关-->
         <service android:name="com.open.test.service.TIntentService"/>
+        <service android:name="com.open.test.service.ImplQueenService"/>
 
         <!-- 网络测试-->
         <activity android:name="com.open.test.net.NetMainActivity" android:screenOrientation="portrait" />
