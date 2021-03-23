@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.TypedValue;
 import android.widget.ImageView;
@@ -70,6 +72,18 @@ public class ImageActivity extends Activity {
         Log.v("ImageActivity" , "densitye: " + densitye);
         Log.v("ImageActivity" , "getDisplayMetrics density: " + getResources().getDisplayMetrics().densityDpi);
 
+        Drawable a = ContextCompat.getDrawable(this, R.mipmap.a);
+        Drawable b = ContextCompat.getDrawable(this, R.mipmap.b);
+        Drawable c = ContextCompat.getDrawable(this, R.mipmap.c);
+        Drawable d = ContextCompat.getDrawable(this, R.mipmap.d);
+        Drawable e = ContextCompat.getDrawable(this, R.mipmap.e);
+
+        Log.v("ImageActivity" , "drawable a : " + a.getIntrinsicWidth());
+        Log.v("ImageActivity" , "drawable b : " + b.getIntrinsicWidth());
+        Log.v("ImageActivity" , "drawable c : " + c.getIntrinsicWidth());
+        Log.v("ImageActivity" , "drawable d : " + d.getIntrinsicWidth());
+        Log.v("ImageActivity" , "drawable e : " + e.getIntrinsicWidth());
+
         texta = (TextView)findViewById(R.id.texta);
         textb = (TextView)findViewById(R.id.textb);
         textc = (TextView)findViewById(R.id.textc);
@@ -110,7 +124,7 @@ public class ImageActivity extends Activity {
                 textb.setText("b hdpi getMeasuredWidth " + imgb.getMeasuredWidth() + " getWidth " + imgb.getWidth());
                 textc.setText("c xhdpi getMeasuredWidth " + imgc.getMeasuredWidth() + " getWidth " + imgc.getWidth());
                 textd.setText("d xxhdpi getMeasuredWidth " + imgd.getMeasuredWidth() + " getWidth " + imgd.getWidth());
-                texte.setText("e xxhdpi getMeasuredWidth " + imge.getMeasuredWidth() + " getWidth " + imge.getWidth());
+                texte.setText("e xxxhdpi getMeasuredWidth " + imge.getMeasuredWidth() + " getWidth " + imge.getWidth());
 
                 decodeResource_tv.setText("decodeResource_tv getMeasuredWidth " + decodeResource_img.getMeasuredWidth() + " getWidth " + decodeResource_img.getWidth());
                 decodeFile_tv.setText("decodeFile_tv getMeasuredWidth " + decodeFile_img.getMeasuredWidth() + " getWidth " + decodeFile_img.getWidth());

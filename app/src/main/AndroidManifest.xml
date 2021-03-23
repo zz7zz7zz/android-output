@@ -13,6 +13,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:name=".App"
+        android:debuggable="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme" >
         <activity android:name="com.open.test.MainActivity" android:windowSoftInputMode="adjustUnspecified|stateHidden">
             <intent-filter>
@@ -78,6 +81,16 @@
         <activity android:name="com.open.test.net.UdpBioClientConnectionActivity" android:screenOrientation="portrait" />
         <activity android:name="com.open.test.net.UdpNioClientConnectionActivity" android:screenOrientation="portrait" />
 
+        <!-- 网络测试-->
+        <activity android:name=".thirdparty.okhttp.OKHttpActivity" android:screenOrientation="portrait" />
+        <activity android:name=".thirdparty.glide.GlideActivity" android:screenOrientation="portrait" />
+        <activity android:name=".thirdparty.rxjava.RxJavaActivity" android:screenOrientation="portrait" />
+        <activity android:name=".thirdparty.rxjava.RxJavaActivity2" android:screenOrientation="portrait" />
+
+        <activity android:name="com.open.test.profile.ProfileActivity" android:screenOrientation="portrait" />
+
+        <!-- ViewTouchEvent测试-->
+        <activity android:name="com.open.test.viewtouchevent.ViewTouchEventActivity" android:screenOrientation="portrait" />
     </application>
 
 </manifest>

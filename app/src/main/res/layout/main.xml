@@ -11,6 +11,53 @@
         android:orientation="vertical">
 
         <Button
+            android:id="@+id/profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textAllCaps="false"
+            android:text="profile"/>
+
+        <Button
+            android:id="@+id/viewTouchEvent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textAllCaps="false"
+            android:text="viewTouchEvent"/>
+
+        <Button
+            android:id="@+id/okHttp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textAllCaps="false"
+            android:text="okHttp"/>
+
+        <Button
+            android:id="@+id/glide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textAllCaps="false"
+            android:text="glide"/>
+
+        <Button
+            android:id="@+id/rxjava"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textAllCaps="false"
+            android:text="rxjava"/>
+        <Button
+            android:id="@+id/rxjava2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textAllCaps="false"
+            android:text="rxjava2"/>
+
+        <Button
             android:id="@+id/notification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

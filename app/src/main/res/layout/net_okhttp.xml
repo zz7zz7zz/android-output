@@ -1,0 +1,44 @@
+<ScrollView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/darker_gray"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity"
+    tools:keep="@layout/net_socket_connection">
+    <LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" 
+	    android:orientation="vertical">
+
+		<Button
+			android:id="@+id/request_get"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="5.0dp"
+			android:text="get"/>
+
+		<Button
+			android:id="@+id/request_post"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="5.0dp"
+			android:text="post"/>
+
+
+
+		<EditText
+			android:id="@+id/recContent"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1.0"
+			android:hint="接收到的数据"
+			android:lines="5"/>
+	</LinearLayout>
+</ScrollView>
+

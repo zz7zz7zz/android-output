@@ -2,24 +2,35 @@ package com.open.test;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.View;
 
 import com.open.test.fragment.FragmentPagerActivity;
 import com.open.test.fragment.FragmentStatePagerActivity;
+import com.open.test.thirdparty.glide.GlideActivity;
 import com.open.test.image.Image2Activity;
 import com.open.test.image.ImageActivity;
 import com.open.test.image.MatrixImageActivity;
 import com.open.test.net.NetMainActivity;
 import com.open.test.notification.NotificationActivity;
 import com.open.test.notification.NotificationMonitorActivity;
+import com.open.test.thirdparty.okhttp.OKHttpActivity;
+import com.open.test.profile.ProfileActivity;
+import com.open.test.thirdparty.rxjava.RxJavaActivity;
 import com.open.test.service.ImplQueenService;
 import com.open.test.service.TIntentService;
 import com.open.test.sharedprefs.SharedPrefsActivity;
 import com.open.test.textview.TextViewActivity;
 import com.open.test.textview.TextViewLineCountActivity;
+import com.open.test.thirdparty.rxjava.RxJavaActivity2;
+import com.open.test.viewtouchevent.ViewTouchEventActivity;
 import com.open.test.weakReference.WRA_Activity;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,7 +39,76 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         initView();
+        Log.v("MainActivity","onCreate");
+
+//        Debug.startMethodTracing("View.click1");
+//        printThreadInfo();
     }
+
+    void printThreadInfo(){
+        Map<Thread, StackTraceElement[]> threadMap = Thread.getAllStackTraces();
+        Log.e("albertThreadDebug","all start==============================================");
+        for (Map.Entry<Thread, StackTraceElement[]> entry : threadMap.entrySet()) {
+            Thread thread = entry.getKey();
+            StackTraceElement[] stackElements = entry.getValue();
+            Log.e("albertThreadDebug","name:"+thread.getName()+" id:"+thread.getId()+" thread:"+thread.getPriority()+" begin==========");
+            for (int i = 0; i < stackElements.length; i++) {
+                StringBuilder stringBuilder = new StringBuilder("    ");
+                stringBuilder.append(stackElements[i].getClassName()+".")
+                        .append(stackElements[i].getMethodName()+"(")
+                        .append(stackElements[i].getFileName()+":")
+                        .append(stackElements[i].getLineNumber()+")");
+                Log.e("albertThreadDebug",stringBuilder.toString());
+            }
+            Log.e("albertThreadDebug","name:"+thread.getName()+" id:"+thread.getId()+" thread:"+thread.getPriority()+" end==========");
+        }
+        Log.e("albertThreadDebug","all end==============================================");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.v("MainActivity","onRestart");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.v("MainActivity","onStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.v("MainActivity","onResume");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.v("MainActivity","onSaveInstanceState");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.v("MainActivity","onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Debug.stopMethodTracing();
+        Log.v("MainActivity","onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Log.v("MainActivity","onDestroy");
+    }
+
 
     private void initView(){
 
@@ -54,17 +134,89 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.intentService).setOnClickListener(clickListener);
         findViewById(R.id.intentService2).setOnClickListener(clickListener);
 
+
+
+        findViewById(R.id.viewTouchEvent).setOnClickListener(clickListener);
+        findViewById(R.id.profile).setOnClickListener(clickListener);
+
+        findViewById(R.id.okHttp).setOnClickListener(clickListener);
+        findViewById(R.id.glide).setOnClickListener(clickListener);
+        findViewById(R.id.rxjava).setOnClickListener(clickListener);
+        findViewById(R.id.rxjava2).setOnClickListener(clickListener);
     }
 
+
+    public static class News{
+        public long id;
+        public String content;
+    }
+    ArrayList<News> newsList = new ArrayList();
     private View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
             switch(v.getId()){
+                case R.id.profile:
+                    startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                    break;
+
+                case R.id.okHttp:
+                    startActivity(new Intent(getApplicationContext(), OKHttpActivity.class));
+                    break;
+
+                case R.id.glide:
+                    startActivity(new Intent(getApplicationContext(), GlideActivity.class));
+                    break;
+
+                case R.id.rxjava:
+                    startActivity(new Intent(getApplicationContext(), RxJavaActivity.class));
+                    break;
+
+                case R.id.rxjava2:
+                    startActivity(new Intent(getApplicationContext(), RxJavaActivity2.class));
+                    break;
+
+                case R.id.viewTouchEvent:
+                    startActivity(new Intent(getApplicationContext(), ViewTouchEventActivity.class));
+                    break;
+
+
 
                 case R.id.notification:
+//                    Trace.beginSection("Section1");
+
+//                    int i = 10000;
+//                    while(i>0){
+//                        i--;
+//                        Log.v("MainActivity", "i " + i);
+//                    }
+//                    try {
+//                        Thread.sleep(3000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+
+//                    Trace.endSection();
+
+//                    try {
+//                        Thread.sleep(3000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
                     startActivity(new Intent(getApplicationContext(),NotificationActivity.class));
                     break;
                 case R.id.notification_monitor:
+//                    Trace.beginSection("MainActivity");
+                    for (int  i = 0;i<500;i++){
+                        News news = new News();
+                        news.id = i;
+                        int j = new Random().nextInt(100);
+                        for (;j>=0;j--){
+                            news.content += "con = " + j;
+                        }
+                        newsList.add(news);
+                    };
+//                    Trace.endSection();
                     startActivity(new Intent(getApplicationContext(),NotificationMonitorActivity.class));
                     break;
 
@@ -117,19 +269,22 @@ public class MainActivity extends AppCompatActivity {
                     ImplQueenService.turnOnPush(getApplicationContext());
                     ImplQueenService.loadConfig(getApplicationContext());
                     break;
+
             }
+
+
         }
     };
 
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN)
-        {
-            android.os.Process.killProcess(android.os.Process.myPid());
-//			System.exit(0);
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN)
+//        {
+//            android.os.Process.killProcess(android.os.Process.myPid());
+////			System.exit(0);
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 }

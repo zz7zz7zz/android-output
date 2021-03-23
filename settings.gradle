@@ -1,1 +1,3 @@
+include ':plugin_strengthen'
+include ':javatest'
 include ':app', ':lib', ':lib_widgets', ':net_socket_client'
