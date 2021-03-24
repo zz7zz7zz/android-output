@@ -8,12 +8,25 @@ buildscript {
 
         //加固插件
         mavenLocal();
+
+        //fix2工程的仓库
+        maven {
+            url 'file:/Users/long/AndroidStudioProjects/Android-Testing/repository'
+        }
+        //或者
+//        maven {
+//            url uri('repository')
+//        }
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.1'
 
         //加固插件
         classpath 'com.module.plugin:strengthen:0.0.1'
+
+        ///bug修复2,使用Groovy开发
+        classpath 'com.module.plugin:fix2:0.0.1'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

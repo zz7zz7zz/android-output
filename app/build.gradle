@@ -4,13 +4,15 @@ apply plugin: 'com.android.application'
 com.module.plugin.fix.FixPlugin.main()
 apply plugin: 'com.module.plugin.fix'
 
-
 //加固插件,使用module开发
 apply plugin: 'com.module.plugin.strengthen'
 strengthen{
     userName 'Yang'
     passWord 'LongHui'
 }
+
+////bug修复2,使用Groovy开发
+apply plugin: 'com.module.plugin.fix2'
 
 android {
     compileSdkVersion 28

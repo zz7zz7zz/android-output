@@ -1,3 +1,4 @@
+include ':plugin_fix_groovy'
 include ':plugin_strengthen'
 include ':javatest'
 include ':app', ':lib', ':lib_widgets', ':net_socket_client'
