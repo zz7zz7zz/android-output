@@ -3,13 +3,13 @@ package com.module.plugin.fix;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 
-class FixClassVisitor extends ClassVisitor {
+class FixBugClassVisitor extends ClassVisitor {
 
-    public FixClassVisitor(int api) {
+    public FixBugClassVisitor(int api) {
         super(api);
     }
 
-    public FixClassVisitor(int api, ClassVisitor classVisitor) {
+    public FixBugClassVisitor(int api, ClassVisitor classVisitor) {
         super(api, classVisitor);
     }
 
@@ -18,7 +18,7 @@ class FixClassVisitor extends ClassVisitor {
     public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
         MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions);
         if(name.equals("onCreate") && descriptor.equals("(Landroid/os/Bundle;)V")){
-            System.out.println(" --------- visitMethod ---------");
+            System.out.println("FixBugClassVisitor --------- visitMethod ---------");
             return new FixMethod(api,mv);
         }
 
@@ -48,7 +48,7 @@ class FixClassVisitor extends ClassVisitor {
         public void visitLdcInsn(Object value) {
 
             if("我是错误的代码".equals(value)){
-                System.out.println(" --------- visitLdcInsn ---------" + value);
+                System.out.println("FixBugClassVisitor --------- visitLdcInsn ---------" + value);
                 super.visitLdcInsn("我是正确的代码，100%正确");
                 return;
             }

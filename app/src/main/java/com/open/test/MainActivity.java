@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+import com.open.test.exceptionfix.ClassAddCodeActivity;
 import com.open.test.exceptionfix.ExceptionFixActivity;
 import com.open.test.fragment.FragmentPagerActivity;
 import com.open.test.fragment.FragmentStatePagerActivity;
@@ -146,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.rxjava2).setOnClickListener(clickListener);
 
         findViewById(R.id.exceptionFix).setOnClickListener(clickListener);
+        findViewById(R.id.classModify).setOnClickListener(clickListener);
     }
 
 
@@ -159,6 +161,10 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
 
             switch(v.getId()){
+                case R.id.classModify:
+                    startActivity(new Intent(getApplicationContext(), ClassAddCodeActivity.class));
+                    break;
+
                 case R.id.exceptionFix:
                     startActivity(new Intent(getApplicationContext(), ExceptionFixActivity.class));
                     break;

@@ -92,8 +92,9 @@
         <!-- ViewTouchEvent测试-->
         <activity android:name="com.open.test.viewtouchevent.ViewTouchEventActivity" android:screenOrientation="portrait" />
 
-
+        <!-- 字节码插桩-->
         <activity android:name="com.open.test.exceptionfix.ExceptionFixActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.open.test.exceptionfix.ClassAddCodeActivity" android:screenOrientation="portrait" />
     </application>
 
 </manifest>

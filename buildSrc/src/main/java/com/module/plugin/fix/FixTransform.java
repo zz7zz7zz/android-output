@@ -28,7 +28,7 @@ import java.util.Set;
 class FixTransform extends Transform {
     @Override
     public String getName() {
-        return "fix_ExceptionFixActivity";
+        return "FixTransform";
     }
 
     @Override
@@ -105,17 +105,60 @@ class FixTransform extends Transform {
                         }
                     }
 
-                    byte[] bytes = FileUtil.readFile(file.getPath());
-                    ClassReader cr = new ClassReader(bytes);
-                    ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+                    if(null != file && file.isFile()){
+                        System.out.println("FixTransform fix start ");
 
-                    cr.accept(new FixClassVisitor(Opcodes.ASM5,cw),0);
-                    byte[] newClassBytes = cw.toByteArray();
-                    FileUtil.delete(file);
-                    FileUtil.writeFile(file.getPath(), newClassBytes);
+                        byte[] bytes = FileUtil.readFile(file.getPath());
+                        ClassReader cr = new ClassReader(bytes);
+                        ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
 
+                        cr.accept(new FixBugClassVisitor(Opcodes.ASM5,cw),0);
+                        byte[] newClassBytes = cw.toByteArray();
+                        FileUtil.delete(file);
+                        FileUtil.writeFile(file.getPath(), newClassBytes);
+
+                        System.out.println("FixTransform fix end ");
+                    }
                 }
                 //--------------------修复bug end --------------------
+
+                //--------------------方法前后添加代码 start --------------------
+                {
+                    String[] path = {"com","open","test","exceptionfix","ClassAddCodeActivity.class"};
+                    File file =src;
+                    for (int i = 0;i<path.length;i++){
+                        final String acceptString = path[i];
+                        File[] files = file.listFiles(new FileFilter() {
+                            @Override
+                            public boolean accept(File file) {
+                                return file.getName().equals(acceptString);
+                            }
+                        });
+                        for (File f:files) {
+                            System.out.println("FixTransform file " + f.getPath());
+                        }
+                        file = files.length > 0 ? files[0] : null;
+                        if(null == file){
+                            break;
+                        }
+                    }
+
+                    if(null != file && file.isFile()) {
+                        System.out.println("FixTransform addCode start ");
+
+                        byte[] bytes = FileUtil.readFile(file.getPath());
+                        ClassReader cr = new ClassReader(bytes);
+                        ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+
+                        cr.accept(new AddCodeClassVisitor(Opcodes.ASM5,cw),0);
+                        byte[] newClassBytes = cw.toByteArray();
+                        FileUtil.delete(file);
+                        FileUtil.writeFile(file.getPath(), newClassBytes);
+
+                        System.out.println("FixTransform addCode end ");
+                    }
+                }
+                //--------------------方法前后添加代码 end --------------------
 
                 File dest = transformOutputProvider.getContentLocation(destName,directoryInput.getContentTypes(), directoryInput.getScopes(), Format.DIRECTORY);
                 FileUtil.copyDirectory(src,dest);
