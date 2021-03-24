@@ -140,18 +140,21 @@ println(ctClass.getName())
 //            method.insertBefore("start = System.currentTimeMillis();");
 //            method.insertAfter("System.out.println(\"exec time is :\" + (System.currentTimeMillis() - start) + \"ms\");");
 
-            if(method.getName() == "onCreate"){
+//            if(method.getName() == "onCreate"){
                 method.addLocalVariable("start", CtClass.longType);
                 method.insertBefore("start = System.currentTimeMillis();\n")
-            }
+//            }
 
             method.insertBefore("if (com.open.test.exceptionfix.PatchProxy.isSupport()) {\n" +
                     "System.out.println(\"I am fixed \");\n" +
                     "}\n")
 
-            if(method.getName() == "onCreate"){
-                method.insertAfter(String.format("System.out.println(\"%s %s() cost \" + (System.currentTimeMillis() - start) + \" ms\");\n",ctClass.getName(),method.getName()))
-            }
+//            if(method.getName() == "onCreate"){
+//                method.insertAfter(String.format("System.out.println(\"%s %s() cost \" + (System.currentTimeMillis() - start) + \" ms\");\n",ctClass.getName(),method.getName()))
+                method.insertAfter("if((System.currentTimeMillis() - start) > 16){\n"+
+                        String.format("android.util.Log.e(\"MethodTracking\",\"%s %s() cost \" + (System.currentTimeMillis() - start) + \" ms\");\n",ctClass.getName(),method.getName())+
+                    "}\n")
+//            }
 
         }
 
