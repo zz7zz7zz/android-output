@@ -1,0 +1,15 @@
+import javax.tools.JavaCompiler
+
+repositories {
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    google()
+    jcenter()
+}
+
+dependencies {
+    implementation 'com.android.tools.build:gradle:3.6.1'
+}
+
+//tasks.withType(JavaCompile){
+//    options.encoding = "UTF-8"
+//}

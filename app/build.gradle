@@ -1,7 +1,12 @@
 apply plugin: 'com.android.application'
 
-//加固插件
-apply plugin: 'strengthen'
+//bug修复,使用buildSrc开发
+com.module.plugin.fix.FixPlugin.main()
+apply plugin: 'com.module.plugin.fix'
+
+
+//加固插件,使用module开发
+apply plugin: 'com.module.plugin.strengthen'
 strengthen{
     userName 'Yang'
     passWord 'LongHui'

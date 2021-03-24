@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+import com.open.test.exceptionfix.ExceptionFixActivity;
 import com.open.test.fragment.FragmentPagerActivity;
 import com.open.test.fragment.FragmentStatePagerActivity;
 import com.open.test.thirdparty.glide.GlideActivity;
@@ -143,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.glide).setOnClickListener(clickListener);
         findViewById(R.id.rxjava).setOnClickListener(clickListener);
         findViewById(R.id.rxjava2).setOnClickListener(clickListener);
+
+        findViewById(R.id.exceptionFix).setOnClickListener(clickListener);
     }
 
 
@@ -156,6 +159,10 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
 
             switch(v.getId()){
+                case R.id.exceptionFix:
+                    startActivity(new Intent(getApplicationContext(), ExceptionFixActivity.class));
+                    break;
+
                 case R.id.profile:
                     startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                     break;
