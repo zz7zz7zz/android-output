@@ -11,4 +11,6 @@ java {
 
 dependencies {
     compile 'org.openjdk.jol:jol-core:0.11'
+
+    compile 'cglib:cglib:3.2.12'
 }
