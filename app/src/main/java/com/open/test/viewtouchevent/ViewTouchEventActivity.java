@@ -1,16 +1,13 @@
 package com.open.test.viewtouchevent;
 
 import android.os.Bundle;
-import android.os.MessageQueue;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.open.test.R;
-
-import java.io.FileDescriptor;
-import java.util.ArrayList;
 
 public class ViewTouchEventActivity extends AppCompatActivity {
 

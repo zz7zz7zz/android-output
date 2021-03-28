@@ -3,7 +3,7 @@ package com.open.test.service;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 
 public class TIntentService extends IntentService {

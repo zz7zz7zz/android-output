@@ -3,7 +3,7 @@ package com.open.test;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
@@ -11,6 +11,7 @@ import com.open.test.exceptionfix.ClassAddCodeActivity;
 import com.open.test.exceptionfix.ExceptionFixActivity;
 import com.open.test.fragment.FragmentPagerActivity;
 import com.open.test.fragment.FragmentStatePagerActivity;
+import com.open.test.permission.PermissionActivity;
 import com.open.test.thirdparty.glide.GlideActivity;
 import com.open.test.image.Image2Activity;
 import com.open.test.image.ImageActivity;
@@ -148,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.exceptionFix).setOnClickListener(clickListener);
         findViewById(R.id.classModify).setOnClickListener(clickListener);
+        findViewById(R.id.aspectJ).setOnClickListener(clickListener);
     }
 
 
@@ -167,6 +169,10 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.exceptionFix:
                     startActivity(new Intent(getApplicationContext(), ExceptionFixActivity.class));
+                    break;
+
+                case R.id.aspectJ:
+                    startActivity(new Intent(getApplicationContext(), PermissionActivity.class));
                     break;
 
                 case R.id.profile:

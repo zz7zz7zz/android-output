@@ -21,9 +21,14 @@
             android:id="@+id/exceptionFix"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:textAllCaps="false"
             android:text="exceptionFix"/>
+        <Button
+            android:id="@+id/aspectJ"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="Permission(aspectJ)"/>
 
         <Button
             android:id="@+id/profile"
