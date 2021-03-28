@@ -28,9 +28,11 @@ buildscript {
         ///bug修复2,使用Groovy开发
         classpath 'com.module.plugin:fix2:0.0.1'
 
-        //AspectJ
-        classpath 'org.aspectj:aspectjtools:1.9.1'
-        classpath 'org.aspectj:aspectjweaver:1.9.1'
+        //AspectJ使用在build.gradle编译的形式AspectJ
+//        classpath 'org.aspectj:aspectjtools:1.9.1'
+//        classpath 'org.aspectj:aspectjweaver:1.9.1'
+        //使用自定义aspectJ插件的形式
+        classpath 'com.module.plugin:aspectj:0.0.1'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
