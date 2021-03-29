@@ -16,7 +16,12 @@ public class ExceptionFixActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.net_okhttp);
 
+        System.out.println("onCreate 0 --I am from System.out.println");
+        android.util.Log.v(TAG,"onCreate 1 --I am from android.util.Log");
+
         Toast.makeText(this,"我是错误的代码",Toast.LENGTH_LONG).show();
+
+        android.util.Log.v(TAG,"onCreate 2 --I am from android.util.Log");
     }
 
 
