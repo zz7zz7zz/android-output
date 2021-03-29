@@ -10,6 +10,7 @@ import android.view.View;
 import com.module.aop.annotation.AsyncThread;
 import com.module.aop.annotation.MainThread;
 import com.module.aop.annotation.TimeLogger;
+import com.module.aop.annotation.TestAspectJ;
 import com.module.aop.annotation.permission.PermissionCancel;
 import com.module.aop.annotation.permission.PermissionDenied;
 import com.module.aop.annotation.permission.PermissionNeed;
@@ -51,6 +52,36 @@ public class PermissionActivity extends Activity {
             }
         });
 
+
+
+        findViewById(R.id.testBefore).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testBefore();
+            }
+        });
+
+        findViewById(R.id.testAfter).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testAfter();
+            }
+        });
+
+        findViewById(R.id.testReplace).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testReplace();
+            }
+        });
+
+        findViewById(R.id.testInner).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testInner();
+            }
+        });
+
     }
 
 //    @PermissionNeed(permissions={Manifest.permission.ACCESS_FINE_LOCATION},requestCode = 100)
@@ -87,5 +118,25 @@ public class PermissionActivity extends Activity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    @TestAspectJ
+    private void testBefore() {
+        System.out.println("------I am boody testBefore------");
+    }
+
+    @TestAspectJ
+    private void testAfter() {
+        System.out.println("------I am boody testAfter------");
+    }
+
+    @TestAspectJ
+    private void testReplace() {
+        System.out.println("------I am boody testReplace------");
+    }
+
+    @TestAspectJ
+    private void testInner() {
+        System.out.println("------I am boody testInner------");
     }
 }

@@ -35,6 +35,32 @@
             android:layout_height="wrap_content"
             android:textAllCaps="false"
             android:text="timeconsumption"/>
+
+
+        <Button
+            android:id="@+id/testBefore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="testBefore"/>
+        <Button
+            android:id="@+id/testAfter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="testAfter"/>
+        <Button
+            android:id="@+id/testReplace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="testReplace"/>
+        <Button
+            android:id="@+id/testInner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="testInner"/>
     </LinearLayout>
 
 </ScrollView>
