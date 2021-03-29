@@ -1,4 +1,4 @@
-package com.open.test.exceptionfix;
+package com.open.test.aop;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import com.open.test.R;
 
-public class ExceptionFixActivity extends Activity {
+public class AsmFixActivity extends Activity {
 
     private String TAG = "ExceptionFixActivity";
 

@@ -24,10 +24,10 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.open.test.R;
-import com.open.test.com.open.frame.FileUtil;
-import com.open.test.com.open.frame.SDCardUtil;
-import com.open.test.com.open.frame.SharedPreConfig;
-import com.open.test.com.open.frame.SharedPreUtil;
+import com.open.test.utils.FileUtil;
+import com.open.test.utils.SDCardUtil;
+import com.open.test.utils.SharedPreConfig;
+import com.open.test.utils.SharedPreUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;

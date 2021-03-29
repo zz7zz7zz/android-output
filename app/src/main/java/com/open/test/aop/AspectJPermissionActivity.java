@@ -1,4 +1,4 @@
-package com.open.test.permission;
+package com.open.test.aop;
 
 import android.Manifest;
 import android.app.Activity;
@@ -16,7 +16,7 @@ import com.module.aop.annotation.permission.PermissionDenied;
 import com.module.aop.annotation.permission.PermissionNeed;
 import com.open.test.R;
 
-public class PermissionActivity extends Activity {
+public class AspectJPermissionActivity extends Activity {
 
     private String TAG = "PermissionActivity";
 

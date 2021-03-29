@@ -8,21 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="通知"/>
+        android:text="Java四种引用"/>
 
     <Button
-        android:id="@+id/notification"
+        android:id="@+id/weakreference"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Notification"
         android:gravity="left"
+        android:text="Weakreference"
         android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/notification_monitor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Notification_monitor"
-        android:gravity="left"
-        android:textAllCaps="false" />
 </merge>

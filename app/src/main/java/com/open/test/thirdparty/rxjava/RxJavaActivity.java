@@ -26,7 +26,7 @@ public class RxJavaActivity extends Activity {
         setContentView(R.layout.rxjava);
 
 
-        findViewById(R.id.rxjava).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.thirdparty_rxjava).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 demo();

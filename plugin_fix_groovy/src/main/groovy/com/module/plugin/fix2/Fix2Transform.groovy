@@ -132,7 +132,7 @@ println(ctClass.getName())
             }
 
 
-//            def body= "if (com.open.test.exceptionfix.PatchProxy.isSupport()) {\n" +
+//            def body= "if (com.open.test.aop.PatchProxy.isSupport()) {\n" +
 //                    "System.out.println(\"I am fixed \");\n" +
 //                    "}"
 
@@ -145,7 +145,7 @@ println(ctClass.getName())
                 method.insertBefore("start = System.currentTimeMillis();\n")
 //            }
 
-            method.insertBefore("if (com.open.test.exceptionfix.PatchProxy.isSupport()) {\n" +
+            method.insertBefore("if (com.open.test.aop.PatchProxy.isSupport()) {\n" +
                     "System.out.println(\"I am fixed \");\n" +
                     "}\n")
 

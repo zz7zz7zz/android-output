@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.open.test.R;
-import com.open.test.com.open.frame.FileUtil;
+import com.open.test.utils.FileUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

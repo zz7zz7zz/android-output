@@ -8,21 +8,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="通知"/>
+        android:text="Fragment"/>
 
     <Button
-        android:id="@+id/notification"
+        android:id="@+id/fragment_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Notification"
         android:gravity="left"
+        android:text="Fragment_pager"
         android:textAllCaps="false" />
 
     <Button
-        android:id="@+id/notification_monitor"
+        android:id="@+id/fragment_statepager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Notification_monitor"
         android:gravity="left"
+        android:text="Fragment_statepager"
         android:textAllCaps="false" />
+
 </merge>

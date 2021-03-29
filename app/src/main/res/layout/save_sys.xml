@@ -8,21 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="通知"/>
+        android:text="Java存储方式"/>
 
     <Button
-        android:id="@+id/notification"
+        android:id="@+id/shared_prefs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Notification"
         android:gravity="left"
+        android:text="Shared_prefs"
         android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/notification_monitor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Notification_monitor"
-        android:gravity="left"
-        android:textAllCaps="false" />
 </merge>

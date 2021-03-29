@@ -8,21 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="通知"/>
+        android:text="性能优化"/>
 
     <Button
-        android:id="@+id/notification"
+        android:id="@+id/viewTouchEvent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Notification"
+        android:text="viewTouchEvent"
         android:gravity="left"
         android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/notification_monitor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Notification_monitor"
-        android:gravity="left"
-        android:textAllCaps="false" />
 </merge>

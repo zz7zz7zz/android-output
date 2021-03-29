@@ -1,4 +1,4 @@
-package com.open.test.exceptionfix;
+package com.open.test.aop;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.open.test.R;
 
-public class ClassAddCodeActivity extends Activity {
+public class JavassistAddCodeActivity extends Activity {
 
     private String TAG = "ClassAddCodeActivity";
 

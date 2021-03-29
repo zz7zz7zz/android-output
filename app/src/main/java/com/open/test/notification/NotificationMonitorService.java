@@ -12,8 +12,8 @@ import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.open.test.com.open.frame.SharedPreConfig;
-import com.open.test.com.open.frame.SharedPreUtil;
+import com.open.test.utils.SharedPreConfig;
+import com.open.test.utils.SharedPreUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

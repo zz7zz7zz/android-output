@@ -29,7 +29,7 @@ public class TextViewLineCountActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.textview);
+        setContentView(R.layout.textview1);
         initView();
     }
 

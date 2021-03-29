@@ -21,6 +21,7 @@
         android:debuggable="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme" >
+
         <activity android:name="com.open.test.MainActivity" android:windowSoftInputMode="adjustUnspecified|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +30,39 @@
             </intent-filter>
         </activity>
 
-        <!-- 通知相关-->
+        <!-- Aop  -->
+        <activity android:name="com.open.test.aop.AsmFixActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.open.test.aop.JavassistAddCodeActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.open.test.aop.AspectJPermissionActivity" android:screenOrientation="portrait" />
+
+        <!-- 性能优化 -->
+        <activity android:name="com.open.test.apm.ProfileActivity" android:screenOrientation="portrait" />
+
+        <!-- 第三方框架 -->
+        <activity android:name=".thirdparty.okhttp.OKHttpActivity" android:screenOrientation="portrait" />
+        <activity android:name=".thirdparty.glide.GlideActivity" android:screenOrientation="portrait" />
+        <activity android:name=".thirdparty.rxjava.RxJavaActivity" android:screenOrientation="portrait" />
+        <activity android:name=".thirdparty.rxjava.RxJavaActivity2" android:screenOrientation="portrait" />
+
+        <!-- 事件分发 -->
+        <activity android:name="com.open.test.viewtouchevent.ViewTouchEventActivity" android:screenOrientation="portrait" />
+
+        <!-- 网络 -->
+        <activity android:name="com.open.test.net.NetMainActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.open.test.net.TcpBioClientConnectionActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.open.test.net.TcpNioClientConnectionActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.open.test.net.UdpBioClientConnectionActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.open.test.net.UdpNioClientConnectionActivity" android:screenOrientation="portrait" />
+
+        <!-- 服务 -->
+        <service android:name="com.open.test.service.TIntentService"/>
+        <service android:name="com.open.test.service.ImplQueenService"/>
+
+        <!-- Java四种引用 -->
+        <activity android:name="com.open.test.weakReference.WRA_Activity" android:screenOrientation="portrait" />
+        <activity android:name="com.open.test.weakReference.WRB_Activity" android:screenOrientation="portrait" />
+
+        <!-- 通知 -->
         <activity android:name="com.open.test.notification.NotificationActivity" android:screenOrientation="portrait" />
         <activity android:name="com.open.test.notification.NotificationMonitorActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
         <activity android:name="com.open.test.notification.NotificationMonitorHistoryActivity" android:screenOrientation="portrait" />
@@ -47,59 +80,28 @@
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
-               <intent-filter>
-                   <action android:name="android.accessibilityservice.AccessibilityService"/>
-               </intent-filter>
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService"/>
+            </intent-filter>
             <meta-data android:name="android.accessibilityservice"
                 android:resource="@xml/nf_accessibility_service_config"></meta-data>
         </service>
 
-        <!-- 弱引用相关-->
-        <activity android:name="com.open.test.weakReference.WRA_Activity" android:screenOrientation="portrait" />
-        <activity android:name="com.open.test.weakReference.WRB_Activity" android:screenOrientation="portrait" />
+        <!-- 数据存储 -->
+        <activity android:name="com.open.test.sharedprefs.SharedPrefsActivity" android:screenOrientation="portrait" />
 
-        <!-- ViewPager相关-->
+        <!-- Fragment -->
         <activity android:name="com.open.test.fragment.FragmentPagerActivity" android:screenOrientation="portrait" />
         <activity android:name="com.open.test.fragment.FragmentStatePagerActivity" android:screenOrientation="portrait" />
 
-        <!-- 配置相关-->
-        <activity android:name="com.open.test.sharedprefs.SharedPrefsActivity" android:screenOrientation="portrait" />
-
-        <!-- 图片相关-->
+        <!-- 图片 -->
         <activity android:name="com.open.test.image.ImageActivity" android:screenOrientation="portrait" />
         <activity android:name="com.open.test.image.Image2Activity" android:screenOrientation="portrait" />
         <activity android:name="com.open.test.image.MatrixImageActivity" android:screenOrientation="portrait" />
 
-        <!-- TextView相关-->
+        <!-- Textview -->
         <activity android:name="com.open.test.textview.TextViewActivity" android:screenOrientation="portrait" />
         <activity android:name="com.open.test.textview.TextViewLineCountActivity" android:screenOrientation="portrait" />
-
-        <!-- Service相关-->
-        <service android:name="com.open.test.service.TIntentService"/>
-        <service android:name="com.open.test.service.ImplQueenService"/>
-
-        <!-- 网络测试-->
-        <activity android:name="com.open.test.net.NetMainActivity" android:screenOrientation="portrait" />
-        <activity android:name="com.open.test.net.TcpBioClientConnectionActivity" android:screenOrientation="portrait" />
-        <activity android:name="com.open.test.net.TcpNioClientConnectionActivity" android:screenOrientation="portrait" />
-        <activity android:name="com.open.test.net.UdpBioClientConnectionActivity" android:screenOrientation="portrait" />
-        <activity android:name="com.open.test.net.UdpNioClientConnectionActivity" android:screenOrientation="portrait" />
-
-        <!-- 网络测试-->
-        <activity android:name=".thirdparty.okhttp.OKHttpActivity" android:screenOrientation="portrait" />
-        <activity android:name=".thirdparty.glide.GlideActivity" android:screenOrientation="portrait" />
-        <activity android:name=".thirdparty.rxjava.RxJavaActivity" android:screenOrientation="portrait" />
-        <activity android:name=".thirdparty.rxjava.RxJavaActivity2" android:screenOrientation="portrait" />
-
-        <activity android:name="com.open.test.profile.ProfileActivity" android:screenOrientation="portrait" />
-
-        <!-- ViewTouchEvent测试-->
-        <activity android:name="com.open.test.viewtouchevent.ViewTouchEventActivity" android:screenOrientation="portrait" />
-
-        <!-- 字节码插桩-->
-        <activity android:name="com.open.test.exceptionfix.ExceptionFixActivity" android:screenOrientation="portrait" />
-        <activity android:name="com.open.test.exceptionfix.ClassAddCodeActivity" android:screenOrientation="portrait" />
-        <activity android:name="com.open.test.permission.PermissionActivity" android:screenOrientation="portrait" />
 
     </application>
 

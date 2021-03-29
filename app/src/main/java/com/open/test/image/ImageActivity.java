@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.open.test.R;
-import com.open.test.com.open.frame.FileUtil;
+import com.open.test.utils.FileUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,7 +53,7 @@ public class ImageActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.image);
+        setContentView(R.layout.image1);
         initView();
     }
 

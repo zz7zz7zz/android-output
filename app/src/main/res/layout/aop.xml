@@ -8,21 +8,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="通知"/>
+        android:text="Aop 方案"/>
 
     <Button
-        android:id="@+id/notification"
+        android:id="@+id/aop_javassist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Notification"
+        android:textAllCaps="false"
         android:gravity="left"
-        android:textAllCaps="false" />
-
+        android:text="aop_javassist(增加代码)"/>
     <Button
-        android:id="@+id/notification_monitor"
+        android:id="@+id/aop_asm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Notification_monitor"
+        android:textAllCaps="false"
         android:gravity="left"
-        android:textAllCaps="false" />
+        android:text="aop_asm(禁用方法，替换参数，替换代码)"/>
+    <Button
+        android:id="@+id/aop_aspectJ"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:gravity="left"
+        android:text="aop_aspectJ(权限框架)"/>
+
 </merge>

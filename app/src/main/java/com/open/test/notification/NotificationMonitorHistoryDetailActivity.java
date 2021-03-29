@@ -17,9 +17,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.open.test.R;
-import com.open.test.com.open.frame.SDCardUtil;
-import com.open.test.com.open.frame.SharedPreConfig;
-import com.open.test.com.open.frame.SharedPreUtil;
+import com.open.test.utils.SDCardUtil;
+import com.open.test.utils.SharedPreConfig;
+import com.open.test.utils.SharedPreUtil;
 import com.open.widgets.listview.IListView;
 import com.open.widgets.listview.IPullCallBacks;
 import com.open.widgets.recyclerview.BaseRecyclerAdapter;

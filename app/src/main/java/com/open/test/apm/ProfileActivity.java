@@ -1,4 +1,4 @@
-package com.open.test.profile;
+package com.open.test.apm;
 
 
 import android.os.Bundle;
@@ -18,7 +18,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
 
-        findViewById(R.id.profile).setOnClickListener(this);
+        findViewById(R.id.apm).setOnClickListener(this);
         BlockTrackChoreographer.getInstance().start();
     }
 

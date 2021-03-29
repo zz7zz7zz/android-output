@@ -1,187 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:rotationX="-360">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/classModify"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAllCaps="false"
-            android:text="classModify"/>
-        <Button
-            android:id="@+id/exceptionFix"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:text="exceptionFix"/>
-        <Button
-            android:id="@+id/aspectJ"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:text="Permission(aspectJ)"/>
+        <!-- Aop Demo -->
+        <include layout="@layout/aop" />
 
-        <Button
-            android:id="@+id/profile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAllCaps="false"
-            android:text="profile"/>
+        <!-- 性能优化 -->
+        <include layout="@layout/apm" />
 
-        <Button
-            android:id="@+id/viewTouchEvent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAllCaps="false"
-            android:text="viewTouchEvent"/>
+        <!-- 第三方框架 -->
+        <include layout="@layout/thirdparty" />
 
-        <Button
-            android:id="@+id/okHttp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAllCaps="false"
-            android:text="okHttp"/>
+        <!-- 事件分发 -->
+        <include layout="@layout/view_touch" />
 
-        <Button
-            android:id="@+id/glide"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAllCaps="false"
-            android:text="glide"/>
+        <!-- 网络 -->
+        <include layout="@layout/net" />
 
-        <Button
-            android:id="@+id/rxjava"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAllCaps="false"
-            android:text="rxjava"/>
-        <Button
-            android:id="@+id/rxjava2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAllCaps="false"
-            android:text="rxjava2"/>
+        <!-- 服务 -->
+        <include layout="@layout/service" />
 
-        <Button
-            android:id="@+id/notification"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAllCaps="false"
-            android:text="Notification"/>
+        <!-- Java四种引用 -->
+        <include layout="@layout/java_ref" />
 
-        <Button
-            android:id="@+id/notification_monitor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:text="Notification_monitor"/>
+        <!-- 通知 -->
+        <include layout="@layout/notification" />
 
-        <Button
-            android:id="@+id/fragment_pager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAllCaps="false"
-            android:text="Fragment_pager"/>
-        <Button
-            android:id="@+id/fragment_statepager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:text="Fragment_statepager"/>
+        <!-- 数据存储 -->
+        <include layout="@layout/save_sys" />
 
-        <Button
-            android:id="@+id/weakreference"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAllCaps="false"
-            android:text="Weakreference"/>
+        <!-- Fragment -->
+        <include layout="@layout/fragment" />
 
-        <Button
-            android:id="@+id/shared_prefs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAllCaps="false"
-            android:text="Shared_prefs"/>
+        <!-- 图片 -->
+        <include layout="@layout/image" />
 
-        <Button
-            android:id="@+id/image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAllCaps="false"
-            android:text="image"/>
-        <Button
-            android:id="@+id/image2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:text="image2"/>
-        <Button
-            android:id="@+id/image3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:text="MatrixImageActivity"/>
+        <!-- Textview -->
+        <include layout="@layout/textview" />
 
-        <Button
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAllCaps="false"
-            android:text="textView"/>
-
-        <Button
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAllCaps="false"
-            android:text="textView"/>
-
-        <Button
-            android:id="@+id/net"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAllCaps="false"
-            android:text="net"/>
-
-        <Button
-            android:id="@+id/intentService"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAllCaps="false"
-            android:text="intentService"/>
-
-        <Button
-            android:id="@+id/intentService2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="50dp"
-            android:textAllCaps="false"
-            android:text="intentService2"/>
 
     </LinearLayout>
 

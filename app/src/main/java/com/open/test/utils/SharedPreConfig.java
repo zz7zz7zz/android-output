@@ -1,4 +1,4 @@
-package com.open.test.com.open.frame;
+package com.open.test.utils;
 
 /**
  * Created by long on 2017/1/16.

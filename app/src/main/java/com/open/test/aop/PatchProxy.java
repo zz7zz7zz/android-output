@@ -1,4 +1,4 @@
-package com.open.test.exceptionfix;
+package com.open.test.aop;
 
 public class PatchProxy {
 

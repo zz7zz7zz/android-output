@@ -86,7 +86,7 @@ class FixTransform extends Transform {
 
                 //--------------------修复bug start --------------------
                 {
-                    String[] path = {"com","open","test","exceptionfix","ExceptionFixActivity.class"};
+                    String[] path = {"com","open","test","aop","AsmFixActivity.class"};
                     File file =src;
                     for (int i = 0;i<path.length;i++){
                         final String acceptString = path[i];
@@ -124,7 +124,7 @@ class FixTransform extends Transform {
 
                 //--------------------方法前后添加代码 start --------------------
                 {
-                    String[] path = {"com","open","test","exceptionfix","ClassAddCodeActivity.class"};
+                    String[] path = {"com","open","test","aop","JavassistAddCodeActivity.class"};
                     File file =src;
                     for (int i = 0;i<path.length;i++){
                         final String acceptString = path[i];
