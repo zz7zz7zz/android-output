@@ -103,6 +103,9 @@
         <activity android:name="com.open.test.textview.TextViewActivity" android:screenOrientation="portrait" />
         <activity android:name="com.open.test.textview.TextViewLineCountActivity" android:screenOrientation="portrait" />
 
+        <!-- 调用祖父类方法 -->
+        <activity android:name="com.open.test.callgrandfathermethod.CallGrandFatherMethodActivity" android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

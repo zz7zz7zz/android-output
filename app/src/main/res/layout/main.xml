@@ -46,7 +46,8 @@
         <!-- Textview -->
         <include layout="@layout/textview" />
 
-
+        <!-- 调用祖父类方法 -->
+        <include layout="@layout/callgrandfathermethod" />
     </LinearLayout>
 
 </ScrollView>

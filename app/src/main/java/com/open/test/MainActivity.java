@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.open.test.aop.JavassistAddCodeActivity;
 import com.open.test.aop.AsmFixActivity;
+import com.open.test.callgrandfathermethod.CallGrandFatherMethodActivity;
 import com.open.test.fragment.FragmentPagerActivity;
 import com.open.test.fragment.FragmentStatePagerActivity;
 import com.open.test.aop.AspectJPermissionActivity;
@@ -129,6 +130,8 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.textView).setOnClickListener(clickListener);
         findViewById(R.id.textView2).setOnClickListener(clickListener);
+
+        findViewById(R.id.callgrandfathermethod).setOnClickListener(clickListener);
     }
 
 
@@ -267,6 +270,10 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.textView2:
                     startActivity(new Intent(getApplicationContext(),TextViewLineCountActivity.class));
+                    break;
+
+                case R.id.callgrandfathermethod:
+                    startActivity(new Intent(getApplicationContext(), CallGrandFatherMethodActivity.class));
                     break;
             }
 

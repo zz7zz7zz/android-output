@@ -58,7 +58,6 @@ class FixBugClassVisitor extends ClassVisitor {
                         "java/lang/System",
                         "out",
                         "Ljava/io/PrintStream;");
-                // pushes the "Hello World!" String constant
                 mv.visitLdcInsn(android_util_log_param + " , I replace code success");
                 // invokes the 'println' method (defined in the PrintStream class)
                 mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
