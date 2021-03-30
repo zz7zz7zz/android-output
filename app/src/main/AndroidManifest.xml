@@ -106,6 +106,12 @@
         <!-- 调用祖父类方法 -->
         <activity android:name="com.open.test.callgrandfathermethod.CallGrandFatherMethodActivity" android:screenOrientation="portrait" />
 
+        <!-- MVC/MVP/MVVM -->
+        <activity android:name="com.open.test.arch.mvc.controller.MvcActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.open.test.arch.mvp.view.MvpActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.open.test.arch.mvvm.view.MvvmActivity" android:screenOrientation="portrait" />
+
+
     </application>
 
 </manifest>

@@ -48,6 +48,10 @@
 
         <!-- 调用祖父类方法 -->
         <include layout="@layout/callgrandfathermethod" />
+
+        <!-- MVC/MVP/MVVM -->
+        <include layout="@layout/arch" />
+
     </LinearLayout>
 
 </ScrollView>
