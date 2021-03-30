@@ -48,16 +48,18 @@ class CallGrandFatherMethodVisitor extends ClassVisitor {
                 System.out.println("------------modifying----------");
 
 
-                //invoke-super {p0}, Lcom/open/test/callgrandfathermethod/CallGrandFatherMethodActivity$Father;->do2()V
+                /**
+                 Label label3 = new Label();
+                 methodVisitor.visitLabel(label3);
+                 methodVisitor.visitLineNumber(28, label3);
+                 methodVisitor.visitVarInsn(ALOAD, 0);
+                 methodVisitor.visitMethodInsn(INVOKESPECIAL, "com/open/test/callgrandfathermethod/Father", "do2", "()V", false);
+                 */
 
-//                mv.visitFieldInsn();
-//                mv.visitLdcInsn();
 
-                mv.visitMethodInsn(Opcodes.INVOKESPECIAL,
-                        "com/open/test/callgrandfathermethod/CallGrandFatherMethodActivity$GrandFather",
-                        "do2",
-                        "()V");
-                return;
+                mv.visitVarInsn(Opcodes.ALOAD, 0);
+                mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "com/open/test/callgrandfathermethod/GrandFather", "do2", "()V",false);
+//                return;
             }
 
             super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);

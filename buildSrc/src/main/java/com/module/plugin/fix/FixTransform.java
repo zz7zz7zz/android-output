@@ -162,41 +162,41 @@ class FixTransform extends Transform {
 
 
                 //--------------------调用祖父类方法 start --------------------
-//                {
-//                    String[] path = {"com","open","test","callgrandfathermethod","CallGrandFatherMethodActivity$Son.class"};
-//                    File file =src;
-//                    for (int i = 0;i<path.length;i++){
-//                        final String acceptString = path[i];
-//                        File[] files = file.listFiles(new FileFilter() {
-//                            @Override
-//                            public boolean accept(File file) {
-//                                return file.getName().equals(acceptString);
-//                            }
-//                        });
-//                        for (File f:files) {
-//                            System.out.println("FixTransform file " + f.getPath());
-//                        }
-//                        file = files.length > 0 ? files[0] : null;
-//                        if(null == file){
-//                            break;
-//                        }
-//                    }
-//
-//                    if(null != file && file.isFile()) {
-//                        System.out.println("FixTransform callGrandFatherMethod start ");
-//
-//                        byte[] bytes = FileUtil.readFile(file.getPath());
-//                        ClassReader cr = new ClassReader(bytes);
-//                        ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
-//
-//                        cr.accept(new CallGrandFatherMethodVisitor(Opcodes.ASM5,cw),0);
-//                        byte[] newClassBytes = cw.toByteArray();
-//                        FileUtil.delete(file);
-//                        FileUtil.writeFile(file.getPath(), newClassBytes);
-//
-//                        System.out.println("FixTransform callGrandFatherMethod end ");
-//                    }
-//                }
+                {
+                    String[] path = {"com","open","test","callgrandfathermethod","Son.class"};
+                    File file =src;
+                    for (int i = 0;i<path.length;i++){
+                        final String acceptString = path[i];
+                        File[] files = file.listFiles(new FileFilter() {
+                            @Override
+                            public boolean accept(File file) {
+                                return file.getName().equals(acceptString);
+                            }
+                        });
+                        for (File f:files) {
+                            System.out.println("FixTransform file " + f.getPath());
+                        }
+                        file = files.length > 0 ? files[0] : null;
+                        if(null == file){
+                            break;
+                        }
+                    }
+
+                    if(null != file && file.isFile()) {
+                        System.out.println("FixTransform callGrandFatherMethod start ");
+
+                        byte[] bytes = FileUtil.readFile(file.getPath());
+                        ClassReader cr = new ClassReader(bytes);
+                        ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+
+                        cr.accept(new CallGrandFatherMethodVisitor(Opcodes.ASM5,cw),0);
+                        byte[] newClassBytes = cw.toByteArray();
+                        FileUtil.delete(file);
+                        FileUtil.writeFile(file.getPath(), newClassBytes);
+
+                        System.out.println("FixTransform callGrandFatherMethod end ");
+                    }
+                }
                 //--------------------调用祖父类方法 end --------------------
 
                 File dest = transformOutputProvider.getContentLocation(destName,directoryInput.getContentTypes(), directoryInput.getScopes(), Format.DIRECTORY);
