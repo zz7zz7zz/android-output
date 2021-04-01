@@ -18,8 +18,8 @@ apply plugin: 'com.module.plugin.fix2'
 apply plugin: 'com.module.plugin.aspectj'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "com.open.test"
         minSdkVersion 17
