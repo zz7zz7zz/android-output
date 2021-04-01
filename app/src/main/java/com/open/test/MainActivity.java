@@ -32,12 +32,12 @@ import com.open.test.sharedprefs.SharedPrefsActivity;
 import com.open.test.textview.TextViewActivity;
 import com.open.test.textview.TextViewLineCountActivity;
 import com.open.test.thirdparty.rxjava.RxJavaActivity2;
+import com.open.test.thread.threadpool.ThreadMemoryActivity;
 import com.open.test.viewtouchevent.ViewTouchEventActivity;
 import com.open.test.weakReference.WRA_Activity;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -139,6 +139,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.arch_mvc).setOnClickListener(clickListener);
         findViewById(R.id.arch_mvp).setOnClickListener(clickListener);
         findViewById(R.id.arch_mvvm).setOnClickListener(clickListener);
+
+        findViewById(R.id.thread_memory).setOnClickListener(clickListener);
     }
 
 
@@ -293,6 +295,10 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.arch_mvvm:
                     startActivity(new Intent(getApplicationContext(), MvvmActivity.class));
+                    break;
+
+                case R.id.thread_memory:
+                    startActivity(new Intent(getApplicationContext(), ThreadMemoryActivity.class));
                     break;
             }
 

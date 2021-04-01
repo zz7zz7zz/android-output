@@ -1,4 +1,4 @@
-package com.open.test.threadpool;
+package com.open.test.thread.threadpool;
 
 import java.util.ArrayList;
 import java.util.concurrent.Executors;

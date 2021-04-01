@@ -52,6 +52,9 @@
         <!-- MVC/MVP/MVVM -->
         <include layout="@layout/arch" />
 
+        <!-- 线程相关 -->
+        <include layout="@layout/thread" />
+
     </LinearLayout>
 
 </ScrollView>

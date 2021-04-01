@@ -1,4 +1,4 @@
-package com.open.test.threadpool;
+package com.open.test.thread.threadpool;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
