@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">android-Testing</string>
+    <string name="app_name">android-output</string>
 
     <string name="nf_accessibility_service_label">Push监听辅助服务</string>
     <string name="nf_accessibility_service_description">包含以下功能：\n\n\t\t可以监听系统通知; \n\n\t\t可以监听自定义布局的通知; \n\n抓取通知的标题和内容等信息，用于上报。</string>

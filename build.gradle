@@ -11,7 +11,7 @@ buildscript {
 
         //fix2工程的仓库
         maven {
-            url 'file:/Users/long/AndroidStudioProjects/Android-Testing/repository'
+            url 'file:/Users/long/AndroidStudioProjects/Android-output/repository'
         }
         //或者
 //        maven {
