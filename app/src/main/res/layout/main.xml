@@ -55,6 +55,11 @@
         <!-- 线程相关 -->
         <include layout="@layout/thread" />
 
+        <!-- ddms -->
+        <include layout="@layout/ddms" />
+
+        <!-- launchmode -->
+        <include layout="@layout/launchmode" />
     </LinearLayout>
 
 </ScrollView>

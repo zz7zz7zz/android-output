@@ -13,9 +13,14 @@ import com.open.test.arch.mvc.controller.MvcActivity;
 import com.open.test.arch.mvp.view.MvpActivity;
 import com.open.test.arch.mvvm.view.MvvmActivity;
 import com.open.test.callgrandfathermethod.CallGrandFatherMethodActivity;
+import com.open.test.ddms.ViewServerActivity;
 import com.open.test.fragment.FragmentPagerActivity;
 import com.open.test.fragment.FragmentStatePagerActivity;
 import com.open.test.aop.AspectJPermissionActivity;
+import com.open.test.launchmode.SingleInstanceActivity;
+import com.open.test.launchmode.SingleTaskActivity;
+import com.open.test.launchmode.SingleTopActivity;
+import com.open.test.launchmode.StandardActivity;
 import com.open.test.thirdparty.glide.GlideActivity;
 import com.open.test.image.Image2Activity;
 import com.open.test.image.ImageActivity;
@@ -141,6 +146,13 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.arch_mvvm).setOnClickListener(clickListener);
 
         findViewById(R.id.thread_memory).setOnClickListener(clickListener);
+
+        findViewById(R.id.ddms).setOnClickListener(clickListener);
+
+        findViewById(R.id.launchmode_standard).setOnClickListener(clickListener);
+        findViewById(R.id.launchmode_singleTop).setOnClickListener(clickListener);
+        findViewById(R.id.launchmode_singleTask).setOnClickListener(clickListener);
+        findViewById(R.id.launchmode_singleInstance).setOnClickListener(clickListener);
     }
 
 
@@ -299,6 +311,26 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.thread_memory:
                     startActivity(new Intent(getApplicationContext(), ThreadMemoryActivity.class));
+                    break;
+
+                case R.id.ddms:
+                    startActivity(new Intent(getApplicationContext(), ViewServerActivity.class));
+                    break;
+
+                case R.id.launchmode_standard:
+                    startActivity(new Intent(getApplicationContext(), StandardActivity.class));
+                    break;
+
+                case R.id.launchmode_singleTop:
+                    startActivity(new Intent(getApplicationContext(), SingleTopActivity.class));
+                    break;
+
+                case R.id.launchmode_singleTask:
+                    startActivity(new Intent(getApplicationContext(), SingleTaskActivity.class));
+                    break;
+
+                case R.id.launchmode_singleInstance:
+                    startActivity(new Intent(getApplicationContext(), SingleInstanceActivity.class));
                     break;
             }
 

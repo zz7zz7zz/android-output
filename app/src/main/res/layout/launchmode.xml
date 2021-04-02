@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/launchmode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:text="launchmode"/>
+
+    <Button
+        android:id="@+id/launchmode_standard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:gravity="left"
+        android:text="launchmode_standard"/>
+    <Button
+        android:id="@+id/launchmode_singleTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:gravity="left"
+        android:text="launchmode_singleTop"/>
+    <Button
+        android:id="@+id/launchmode_singleTask"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:gravity="left"
+        android:text="launchmode_singleTask"/>
+    <Button
+        android:id="@+id/launchmode_singleInstance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:gravity="left"
+        android:text="launchmode_singleInstance"/>
+
+</LinearLayout>
+

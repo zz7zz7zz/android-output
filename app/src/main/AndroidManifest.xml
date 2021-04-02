@@ -114,6 +114,14 @@
         <!-- Thread -->
         <activity android:name="com.open.test.thread.threadpool.ThreadMemoryActivity" android:screenOrientation="portrait" />
 
+        <!-- DDMS -->
+        <activity android:name="com.open.test.ddms.ViewServerActivity" android:screenOrientation="portrait" />
+
+        <!-- LaunchMode -->
+        <activity android:name="com.open.test.launchmode.StandardActivity" android:launchMode="standard" android:screenOrientation="portrait" />
+        <activity android:name="com.open.test.launchmode.SingleTopActivity" android:launchMode="singleTop"  android:screenOrientation="portrait" />
+        <activity android:name="com.open.test.launchmode.SingleTaskActivity" android:launchMode="singleTask"  android:screenOrientation="portrait" />
+        <activity android:name="com.open.test.launchmode.SingleInstanceActivity" android:launchMode="singleInstance"  android:screenOrientation="portrait" />
 
     </application>
 
