@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+
+    <Button
+        android:id="@+id/room_insert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:textAllCaps="false"
+        android:text="room_insert"/>
+
+    <Button
+        android:id="@+id/room_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:textAllCaps="false"
+        android:text="room_delete"/>
+
+    <Button
+        android:id="@+id/room_query"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:textAllCaps="false"
+        android:text="room_query"/>
+
+    <Button
+        android:id="@+id/room_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:textAllCaps="false"
+        android:text="room_update"/>
+
+</LinearLayout>
+

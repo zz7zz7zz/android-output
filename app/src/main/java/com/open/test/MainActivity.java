@@ -17,6 +17,7 @@ import com.open.test.ddms.ViewServerActivity;
 import com.open.test.fragment.FragmentPagerActivity;
 import com.open.test.fragment.FragmentStatePagerActivity;
 import com.open.test.aop.AspectJPermissionActivity;
+import com.open.test.jetpack.room.JetPackRoomActivity;
 import com.open.test.launchmode.SingleInstanceActivity;
 import com.open.test.launchmode.SingleTaskActivity;
 import com.open.test.launchmode.SingleTopActivity;
@@ -55,6 +56,22 @@ public class MainActivity extends AppCompatActivity {
 
 //        Debug.startMethodTracing("View.click1");
 //        printThreadInfo();
+
+        int mSize = 10;
+        int n = idealIntArraySize(mSize + 1);
+        Log.v("MainActivity","onCreate size " + mSize);
+    }
+
+    public static int idealIntArraySize(int need) {
+        return idealByteArraySize(need * 4) / 4;
+    }
+
+    public static int idealByteArraySize(int need) {
+        for (int i = 4; i < 32; i++)
+            if (need <= (1 << i) - 12)
+                return (1 << i) - 12;
+
+        return need;
     }
 
     @Override
@@ -153,6 +170,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.launchmode_singleTop).setOnClickListener(clickListener);
         findViewById(R.id.launchmode_singleTask).setOnClickListener(clickListener);
         findViewById(R.id.launchmode_singleInstance).setOnClickListener(clickListener);
+
+        findViewById(R.id.jetpack_room).setOnClickListener(clickListener);
     }
 
 
@@ -331,6 +350,10 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.launchmode_singleInstance:
                     startActivity(new Intent(getApplicationContext(), SingleInstanceActivity.class));
+                    break;
+
+                case R.id.jetpack_room:
+                    startActivity(new Intent(getApplicationContext(), JetPackRoomActivity.class));
                     break;
             }
 

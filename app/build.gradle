@@ -69,6 +69,10 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.0.1'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
+    implementation "org.reactivestreams:reactive-streams:1.0.2"
+    implementation "androidx.room:room-runtime:2.3.0-alpha01"
+    annotationProcessor "androidx.room:room-compiler:2.3.0-alpha01"
+
 //    implementation 'com.github.markzhai:blockcanary-android:1.5.0'
     // 仅在debug包启用BlockCanary进行卡顿监控和提示的话，可以这么用
     debugCompile 'com.github.markzhai:blockcanary-android:1.5.0'

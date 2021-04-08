@@ -60,6 +60,10 @@
 
         <!-- launchmode -->
         <include layout="@layout/launchmode" />
+
+        <!-- jetPack -->
+        <include layout="@layout/jetpack" />
+
     </LinearLayout>
 
 </ScrollView>
