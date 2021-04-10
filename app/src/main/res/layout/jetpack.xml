@@ -22,15 +22,13 @@
         android:textAllCaps="false"
         android:text="Jetpack:Room"/>
 
-<!--    <Button-->
-<!--        android:id="@+id/arch_mvp"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:gravity="left"-->
-<!--        android:textAllCaps="false"-->
-<!--        android:text="mvp"/>-->
-
-
+    <Button
+        android:id="@+id/jetpack_livedata"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:textAllCaps="false"
+        android:text="jetpack:Livedata"/>
 
 </LinearLayout>
 

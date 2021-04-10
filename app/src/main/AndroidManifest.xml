@@ -125,6 +125,7 @@
 
         <!-- JetPack -->
         <activity android:name="com.open.test.jetpack.room.JetPackRoomActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.open.test.jetpack.livedata.JetPackLiveDataActivity" android:screenOrientation="portrait" />
 
     </application>
 

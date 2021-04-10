@@ -17,6 +17,7 @@ import com.open.test.ddms.ViewServerActivity;
 import com.open.test.fragment.FragmentPagerActivity;
 import com.open.test.fragment.FragmentStatePagerActivity;
 import com.open.test.aop.AspectJPermissionActivity;
+import com.open.test.jetpack.livedata.JetPackLiveDataActivity;
 import com.open.test.jetpack.room.JetPackRoomActivity;
 import com.open.test.launchmode.SingleInstanceActivity;
 import com.open.test.launchmode.SingleTaskActivity;
@@ -172,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.launchmode_singleInstance).setOnClickListener(clickListener);
 
         findViewById(R.id.jetpack_room).setOnClickListener(clickListener);
+        findViewById(R.id.jetpack_livedata).setOnClickListener(clickListener);
     }
 
 
@@ -354,6 +356,9 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.jetpack_room:
                     startActivity(new Intent(getApplicationContext(), JetPackRoomActivity.class));
+                    break;
+                case R.id.jetpack_livedata:
+                    startActivity(new Intent(getApplicationContext(), JetPackLiveDataActivity.class));
                     break;
             }
 
