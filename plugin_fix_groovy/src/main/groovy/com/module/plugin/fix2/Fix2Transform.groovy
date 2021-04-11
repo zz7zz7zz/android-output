@@ -60,6 +60,7 @@ class Fix2Transform extends Transform {
                 pool.importPackage("android.os.Bundle");
 
                 def preFileName = it.file.absolutePath
+println("-----preFileName----- " + preFileName)
                 pool.insertClassPath(preFileName)
                 findTarget(it.file,preFileName)
 
@@ -95,6 +96,13 @@ class Fix2Transform extends Transform {
                 .replace("\\",".")
                 .replace("/",".")
         def name = className.replace(".class","").substring(1)
+
+println("-----start----- ")
+println("filePath " + filePath)
+println("fileName " + fileName)
+println("name " + name)
+println("-----end----- ")
+
         if(name.contains("com.open.test")){
             //修改类，插入代码
             CtClass ctClass = pool.get(name)
@@ -116,8 +124,9 @@ class Fix2Transform extends Transform {
             return
         }
 
-println(ctClass)
-println(ctClass.getName())
+println("class "+ctClass)
+println("className "+ctClass.getName())
+
         CtMethod[] ctMethods = ctClass.getDeclaredMethods()
         for (method in ctMethods){
 
