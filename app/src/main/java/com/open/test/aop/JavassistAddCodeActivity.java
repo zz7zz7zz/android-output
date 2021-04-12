@@ -26,4 +26,16 @@ public class JavassistAddCodeActivity extends Activity {
 
     }
 
+    static IDo DEFAULT = new IDo() {
+        @Override
+        public void do1() {
+
+        }
+
+        @Override
+        public void do2() {
+
+        }
+    };
+
 }

@@ -5,14 +5,19 @@ import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.math.BigDecimal;
 
 import sun.misc.ProxyGenerator;
+
+//https://www.cnblogs.com/whirly/p/10154887.html
 
 public class JavaDynProxy {
 
 
     public interface IDo {
         void onDo();
+        int onDo2(int a);
+        Object onDo3(String b,Integer c);
     }
 
     public static class A implements IDo{
@@ -33,6 +38,18 @@ public class JavaDynProxy {
         public void onDo() {
             System.out.println("onDo");
         }
+
+        @Override
+        public int onDo2(int a) {
+            System.out.println("onDo2");
+            return 0;
+        }
+
+        @Override
+        public Object onDo3(String b,Integer c) {
+            System.out.println("onDo3");
+            return null;
+        }
     }
 
     public static final class B implements IDo{
@@ -52,6 +69,16 @@ public class JavaDynProxy {
         @Override
         public void onDo() {
             System.out.println("onDo");
+        }
+
+        @Override
+        public int onDo2(int a) {
+            return 0;
+        }
+
+        @Override
+        public Object onDo3(String b,Integer c) {
+            return null;
         }
     }
 
@@ -92,10 +119,19 @@ public class JavaDynProxy {
 
         @Override
         public Object invoke(Object o, Method method, Object[] objects) throws Throwable {
-            System.out.println("--------do before--------");
-            method.invoke(target,objects);
-            System.out.println("--------do after--------");
-            return null;
+            System.out.println("invoke ----target "+target.toString() + " method " + method.getName() );
+            if(null != objects){
+                for (int i = 0; i < objects.length; i++) {
+                    System.out.println("invoke ---- objects["+i+"] " +objects[i] );
+                }
+            }else{
+                System.out.println("invoke ---- objects null" );
+            }
+
+            System.out.println("invoke ---- do before--------");
+            Object ret = method.invoke(target,objects);
+            System.out.println("invoke ---- do after-------- ret " + ret + "\n");
+            return ret;
         }
 
         // 生成代理类
@@ -106,12 +142,64 @@ public class JavaDynProxy {
 
     public static void main(String[] args) {
 
+        test();
+
+        System.out.println("###############################");
+
         testA();
 
         System.out.println("###############################");
 
 //        testB();
     }
+
+    public static void test(){
+
+        IDo iDo = new IDo() {
+            @Override
+            public void onDo() {
+
+            }
+
+            @Override
+            public int onDo2(int a) {
+                return 0;
+            }
+
+            @Override
+            public Object onDo3(String b, Integer c) {
+                return null;
+            }
+        };
+        // 1.获取对应的ClassLoader
+        ClassLoader classLoader = iDo.getClass().getClassLoader();
+
+        // 2.获取A 所实现的所有接口
+        Class[] interfaces = iDo.getClass().getInterfaces();
+
+        // 3.设置一个来自代理传过来的方法调用请求处理器，处理所有的代理对象上的方法调用
+        InvocationHandler handler = new InvocationHandlerImp2(iDo);
+		/*
+		  4.根据上面提供的信息，创建代理对象 在这个过程中，
+                         a.JDK会通过根据传入的参数信息动态地在内存中创建和.class 文件等同的字节码
+		         b.然后根据相应的字节码转换成对应的class，
+                         c.然后调用newInstance()创建实例
+		 */
+        Object o = Proxy.newProxyInstance(classLoader, interfaces, handler);
+
+        IDo a1 = (IDo) o;
+        a1.onDo();
+        a1.onDo2(100);
+        a1.onDo3("Lucky",888);
+
+        generateClassFile(iDo.getClass(),"IDoProxy");
+//
+//        A a2 = (A) o;
+//        a2.do1();
+//        a2.do2();
+//        a2.do3();
+    }
+
 
     public static void testA(){
         A a = new A();
@@ -133,9 +221,10 @@ public class JavaDynProxy {
 
         IDo a1 = (IDo) o;
         a1.onDo();
+        a1.onDo2(100);
+        a1.onDo3("Lucky",888);
 
-
-        generateClassFile(A.class,"AProxy");
+        generateClassFile(a.getClass(),"AProxy");
 
         A a2 = (A) o;
         a2.do1();

@@ -1,6 +1,7 @@
 package com.module.plugin.fix;
 
 import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -14,12 +15,18 @@ class AddCodeClassVisitor extends ClassVisitor {
         super(api, classVisitor);
     }
 
+    @Override
+    public FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
+        System.out.println(" --------- AddCodeClassVisitor FieldVisitor ---------" + name);
+        return super.visitField(access, name, descriptor, signature, value);
+    }
 
     @Override
     public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+        System.out.println(" --------- AddCodeClassVisitor visitMethod ---------" + name);
         MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions);
         if(name.equals("doSomething") && descriptor.equals("()V")){
-            System.out.println(" --------- AddCodeClassVisitor visitMethod ---------");
+            System.out.println(" --------- AddCodeClassVisitor visitMethod doSomething ---------");
             return new FixMethod(api,mv);
         }
 
