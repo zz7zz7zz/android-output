@@ -38,4 +38,12 @@ public class JavassistAddCodeActivity extends Activity {
         }
     };
 
+    interface IDo {
+
+        void do1();
+
+        void do2();
+    }
+
+
 }
