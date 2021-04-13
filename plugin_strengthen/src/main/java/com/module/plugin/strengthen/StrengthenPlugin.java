@@ -29,7 +29,7 @@ public class StrengthenPlugin implements Plugin<Project> {
                     public void execute(ApplicationVariant applicationVariant) {
                         //debug /release
                         final String name = applicationVariant.getName();
-                        System.out.println(applicationVariant.toString());
+                        System.out.println("debug/release "+applicationVariant.getName());
 
                         applicationVariant.getOutputs().all(new Action<BaseVariantOutput>() {
                             @Override
