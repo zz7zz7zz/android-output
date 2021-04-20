@@ -140,6 +140,14 @@ println("className "+ctClass.getName())
                 continue
             }
 
+            //修复FixNullException中的空指针问题，这里需要判断类名，方法名，才可以加这段逻辑
+            if(method.getName().equals("isSuccess")){
+                method.insertBefore("if (null == o) {\n" +
+                        "System.out.println(\"I am fixed NullPointException\");\n" +
+                        "return false;\n" +
+                        "}\n")
+                continue
+            }
 
 //            def body= "if (com.open.test.aop.PatchProxy.isSupport()) {\n" +
 //                    "System.out.println(\"I am fixed \");\n" +

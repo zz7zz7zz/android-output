@@ -22,6 +22,10 @@ public class AsmFixActivity extends Activity {
         Toast.makeText(this,"我是错误的代码",Toast.LENGTH_LONG).show();
 
         android.util.Log.v(TAG,"onCreate 2 --I am from android.util.Log");
+
+        //修复空指针问题
+        FixNullException.isSuccessNew(null);
+        FixNullException.isSuccess(null);
     }
 
 

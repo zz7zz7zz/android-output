@@ -17,6 +17,7 @@ public class JavassistAddCodeActivity extends Activity {
         setContentView(R.layout.net_okhttp);
 
         doSomething();
+        DEFAULT.do1();
     }
 
     public void doSomething(){
@@ -29,6 +30,12 @@ public class JavassistAddCodeActivity extends Activity {
     static IDo DEFAULT = new IDo() {
         @Override
         public void do1() {
+
+            try{
+                Thread.sleep(100);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
         }
 

@@ -25,6 +25,15 @@ class FixBugClassVisitor extends ClassVisitor {
             return new FixMethod(api,mv);
         }
 
+        //4.asm修改空指针
+        else if(name.equals("isSuccess") && descriptor.equals("(Ljava/lang/Object;)Z")){
+            System.out.println("FixBugClassVisitor visitMethod isSuccess ------------------");
+            return new FixMethod(api,mv);
+        }
+//        else if(name.equals("isSuccessNew") && descriptor.equals("(Ljava/lang/Object;)Z")){
+//            System.out.println("FixBugClassVisitor visitMethod isSuccessNew ------------------");
+//            return new FixMethod(api,mv);
+//        }
         return mv;
     }
 
@@ -66,6 +75,12 @@ class FixBugClassVisitor extends ClassVisitor {
                         "(Ljava/lang/String;)V");
                 return;
             }
+
+            //4.asm修改空指针
+//            if("java/lang/Object".equals(owner)){
+//
+//                return;
+//            }
 
             super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
         }

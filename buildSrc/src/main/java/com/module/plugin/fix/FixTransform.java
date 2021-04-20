@@ -120,6 +120,45 @@ class FixTransform extends Transform {
                         System.out.println("FixTransform fix end ");
                     }
                 }
+
+
+                //修复空指针问题
+                {
+                    String[] path = {"com","open","test","aop","FixNullException.class"};
+                    File file =src;
+                    for (int i = 0;i<path.length;i++){
+                        final String acceptString = path[i];
+                        File[] files = file.listFiles(new FileFilter() {
+                            @Override
+                            public boolean accept(File file) {
+                                return file.getName().equals(acceptString);
+                            }
+                        });
+                        for (File f:files) {
+                            System.out.println("FixTransform file2 " + f.getPath());
+                        }
+                        file = files.length > 0 ? files[0] : null;
+                        if(null == file){
+                            break;
+                        }
+                    }
+
+                    if(null != file && file.isFile()){
+                        System.out.println("FixTransform fix start2 ");
+
+                        byte[] bytes = FileUtil.readFile(file.getPath());
+                        ClassReader cr = new ClassReader(bytes);
+                        ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+
+                        cr.accept(new FixBugClassVisitor(Opcodes.ASM5,cw),0);
+                        byte[] newClassBytes = cw.toByteArray();
+                        FileUtil.delete(file);
+                        FileUtil.writeFile(file.getPath(), newClassBytes);
+
+                        System.out.println("FixTransform fix2 end 2");
+                    }
+                }
+
                 //--------------------修复bug end --------------------
 
                 //--------------------方法前后添加代码 start --------------------
