@@ -9,7 +9,7 @@ import com.open.test.R;
 
 public class AsmFixActivity extends Activity {
 
-    private String TAG = "ExceptionFixActivity";
+    private String TAG = "AsmFixActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,8 +24,12 @@ public class AsmFixActivity extends Activity {
         android.util.Log.v(TAG,"onCreate 2 --I am from android.util.Log");
 
         //修复空指针问题
-        FixNullException.isSuccessNew(null);
-        FixNullException.isSuccess(null);
+
+        System.out.println("Success1 "+FixNullException.isSuccessNew("yes"));
+        System.out.println("Success2 "+FixNullException.isSuccess("yes"));
+
+        System.out.println("Error1 "+FixNullException.isSuccessNew(null));
+        System.out.println("Error2 "+FixNullException.isSuccess(null));
     }
 
 

@@ -1,6 +1,7 @@
 package com.module.plugin.fix;
 
 import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -25,15 +26,11 @@ class FixBugClassVisitor extends ClassVisitor {
             return new FixMethod(api,mv);
         }
 
-        //4.asm修改空指针
+        //4.asm修改FixNullException.java空指针
         else if(name.equals("isSuccess") && descriptor.equals("(Ljava/lang/Object;)Z")){
             System.out.println("FixBugClassVisitor visitMethod isSuccess ------------------");
             return new FixMethod(api,mv);
         }
-//        else if(name.equals("isSuccessNew") && descriptor.equals("(Ljava/lang/Object;)Z")){
-//            System.out.println("FixBugClassVisitor visitMethod isSuccessNew ------------------");
-//            return new FixMethod(api,mv);
-//        }
         return mv;
     }
 
@@ -76,9 +73,23 @@ class FixBugClassVisitor extends ClassVisitor {
                 return;
             }
 
-            //4.asm修改空指针
+            //4.asm修改FixNullException.java空指针，单独使用asm插件没有问题，但是同时使用javassist插件(fix2)后就报错
 //            if("java/lang/Object".equals(owner)){
 //
+//                Label label0 = new Label();
+//                mv.visitLabel(label0);
+//                mv.visitVarInsn(Opcodes.ALOAD, 0);
+//
+//                Label label1 = new Label();
+//                mv.visitJumpInsn(Opcodes.IFNONNULL,label1);
+//
+//                Label label2 = new Label();
+//                mv.visitLabel(label2);
+//                mv.visitInsn(Opcodes.ICONST_0);
+//                mv.visitInsn(Opcodes.IRETURN);
+//
+//                mv.visitLabel(label1);
+//                super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
 //                return;
 //            }
 
@@ -106,4 +117,56 @@ class FixBugClassVisitor extends ClassVisitor {
             super.visitLdcInsn(value);
         }
     }
+
+//    static final class FixMethod4 extends MethodVisitor {
+//        //3.替换功能：android.util.Log.v -> System.out.println
+//        Object android_util_log_param = null;
+//
+//        public FixMethod4(int api) {
+//            super(api);
+//        }
+//
+//        public FixMethod4(int api, MethodVisitor methodVisitor) {
+//            super(api, methodVisitor);
+//        }
+//
+//        @Override
+//        public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
+//            System.out.println("visitMethodInsn "+String.format("%d %s %s %s %b",opcode,owner,name,descriptor,isInterface));
+//
+//            //4.asm修改FixNullException.java空指针
+//            if("java/lang/Object".equals(owner)){
+//
+//                Label label0 = new Label();
+//                mv.visitLabel(label0);
+//                mv.visitVarInsn(Opcodes.ALOAD, 0);
+//
+//                Label label1 = new Label();
+//                mv.visitJumpInsn(Opcodes.IFNONNULL,label1);
+//
+//                Label label2 = new Label();
+//                mv.visitLabel(label2);
+//                mv.visitInsn(Opcodes.ICONST_0);
+//                mv.visitInsn(Opcodes.IRETURN);
+//
+//                mv.visitLabel(label1);
+//                super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
+//                return;
+//            }
+//
+//            super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
+//        }
+//
+//        @Override
+//        public void visitFieldInsn(int opcode, String owner, String name, String descriptor) {
+//            System.out.println("visitFieldInsn "+String.format("%d %s %s %s",opcode,owner,name,descriptor));
+//            super.visitFieldInsn(opcode, owner, name, descriptor);
+//        }
+//
+//        @Override
+//        public void visitMaxs(int maxStack, int maxLocals) {
+//            super.visitMaxs(maxStack + 4, maxLocals);
+//        }
+//
+//    }
 }
