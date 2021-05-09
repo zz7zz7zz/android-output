@@ -1,28 +1,48 @@
 apply plugin: 'com.android.application'
 
-//bug修复,使用buildSrc开发
-com.module.plugin.fix.FixPlugin.main()
-apply plugin: 'com.module.plugin.fix'
+////bug修复,使用buildSrc开发
+//com.module.plugin.fix.FixPlugin.main()
+//apply plugin: 'com.module.plugin.fix'
+//
+////加固插件,使用module开发
+//apply plugin: 'com.module.plugin.strengthen'
+//strengthen{
+//    userName 'Yang'
+//    passWord 'LongHui'
+//}
+//
+////bug修复2,使用Groovy开发
+//apply plugin: 'com.module.plugin.fix2'
+//
+////使用自定义的AspectJ插件
+//apply plugin: 'com.module.plugin.aspectj'
 
-//加固插件,使用module开发
-apply plugin: 'com.module.plugin.strengthen'
-strengthen{
-    userName 'Yang'
-    passWord 'LongHui'
+dependencies {
+    implementation group: "com.tencent.matrix", name: "matrix-android-lib", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-android-commons", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-trace-canary", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-resource-canary-android", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-resource-canary-common", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-io-canary", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-sqlite-lint-android-sdk", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-battery-canary", version: MATRIX_VERSION, changing: true
 }
 
-//bug修复2,使用Groovy开发
-apply plugin: 'com.module.plugin.fix2'
-
-//使用自定义的AspectJ插件
-apply plugin: 'com.module.plugin.aspectj'
+apply plugin: 'com.tencent.matrix-plugin'
+matrix {
+    trace {
+        enable = true	//if you don't want to use trace canary, set false
+        baseMethodMapFile = "${project.buildDir}/matrix_output/Debug.methodmap"
+        blackListFile = "${project.projectDir}/matrixTrace/blackMethodList.txt"
+    }
+}
 
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "com.open.test"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
