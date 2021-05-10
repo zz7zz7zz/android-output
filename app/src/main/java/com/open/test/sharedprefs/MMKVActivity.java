@@ -66,6 +66,30 @@ public class MMKVActivity extends Activity {
     }
 
     private void testMigrate(){
+
+        //https://github.com/Tencent/MMKV/wiki/android_tutorial_cn
+
+//        //SharedPreferences preferences = getSharedPreferences("myData", MODE_PRIVATE);
+//        MMKV preferences = MMKV.mmkvWithID("myData");
+//        // 迁移旧数据
+//        {
+//            SharedPreferences old_man = getSharedPreferences("myData", MODE_PRIVATE);
+//            preferences.importFromSharedPreferences(old_man);
+//            old_man.edit().clear().commit();
+//        }
+//        // 跟以前用法一样
+//        SharedPreferences.Editor editor = preferences.edit();
+//        editor.putBoolean("bool", true);
+//        editor.putInt("int", Integer.MIN_VALUE);
+//        editor.putLong("long", Long.MAX_VALUE);
+//        editor.putFloat("float", -3.14f);
+//        editor.putString("string", "hello, imported");
+//        HashSet<String> set = new HashSet<String>();
+//        set.add("W"); set.add("e"); set.add("C"); set.add("h"); set.add("a"); set.add("t");
+//        editor.putStringSet("string-set", set);
+//        // 无需调用 commit()
+//        //editor.commit();
+
 //        MMKV preferences = MMKV.mmkvWithID("file100");
         MMKV preferences = MMKV.mmkvWithID("file100",(mode & Context.MODE_MULTI_PROCESS) == Context.MODE_MULTI_PROCESS ? MMKV.MULTI_PROCESS_MODE : MMKV.SINGLE_PROCESS_MODE);
 
