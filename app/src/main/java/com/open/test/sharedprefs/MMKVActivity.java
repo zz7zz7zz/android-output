@@ -90,6 +90,7 @@ public class MMKVActivity extends Activity {
 //        // 无需调用 commit()
 //        //editor.commit();
 
+        int mode = Context.MODE_MULTI_PROCESS;
 //        MMKV preferences = MMKV.mmkvWithID("file100");
         MMKV preferences = MMKV.mmkvWithID("file100",(mode & Context.MODE_MULTI_PROCESS) == Context.MODE_MULTI_PROCESS ? MMKV.MULTI_PROCESS_MODE : MMKV.SINGLE_PROCESS_MODE);
 
@@ -103,8 +104,13 @@ public class MMKVActivity extends Activity {
         boolean bKey = preferences.getBoolean("bKey",false);
         int iKey = preferences.getInt("iKey",-1);
         String iString = preferences.getString("iString",null);
-        System.out.println(String.format("mmkv testMigrate: bKey %b ikey %d iString %s " ,bKey,iKey,iString));
+        System.out.println(String.format("mmkv testMigrate: bKey %b iKey %d iString %s " ,bKey,iKey,iString));
 
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("bKey", true);
+        editor.putInt("iKey", 88880001);
+        editor.putString("iString", "Success !!! ");
     }
 
 }
