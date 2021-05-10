@@ -21,8 +21,10 @@ public class MMKVActivity extends Activity {
         setContentView(R.layout.sharedprefs);
 
         testShared();
+        testShared2();
         testMMKV();
-        testMigrate();
+//        testMigrate();
+        testMigrate2();//合并文件
     }
 
     private void testMMKV(){
@@ -54,14 +56,31 @@ public class MMKVActivity extends Activity {
         String iString = SharedPreUtil.getString(this,"file100","iString");
         System.out.println(String.format("mmkv doTest: bKey %b ikey %d iString %s " ,bKey,iKey,iString));
 
-//        SharedPreUtil.putBoolean(this,"file100","bKey",true);
-//        SharedPreUtil.putInt(this,"file100","iKey",99999);
-//        SharedPreUtil.putString(this,"file100","iString","I am from SharedPre 20210510");
-//
-//        bKey = SharedPreUtil.getBoolean(this,"file100","bKey");
-//        iKey = SharedPreUtil.getInt(this,"file100","iKey");
-//        iString = SharedPreUtil.getString(this,"file100","iString");
-//        System.out.println(String.format("mmkv doTest: bKey %b ikey %d iString %s " ,bKey,iKey,iString));
+        SharedPreUtil.putBoolean(this,"file100","bKey",true);
+        SharedPreUtil.putInt(this,"file100","iKey",8888);
+        SharedPreUtil.putString(this,"file100","iString","I am from file100");
+
+        bKey = SharedPreUtil.getBoolean(this,"file100","bKey");
+        iKey = SharedPreUtil.getInt(this,"file100","iKey");
+        iString = SharedPreUtil.getString(this,"file100","iString");
+        System.out.println(String.format("mmkv doTest: bKey %b ikey %d iString %s " ,bKey,iKey,iString));
+
+    }
+
+    private void testShared2(){
+        boolean bKey1 = SharedPreUtil.getBoolean(this,"file101","bKey1");
+        int iKey1 = SharedPreUtil.getInt(this,"file101","iKey1");
+        String iString1 = SharedPreUtil.getString(this,"file101","iString1");
+        System.out.println(String.format("mmkv doTest: bKey1 %b ikey1 %d iString1 %s " ,bKey1,iKey1,iString1));
+
+        SharedPreUtil.putBoolean(this,"file101","bKey1",false);
+        SharedPreUtil.putInt(this,"file101","iKey1",9999);
+        SharedPreUtil.putString(this,"file101","iString1","I am from file101");
+
+        bKey1 = SharedPreUtil.getBoolean(this,"file101","bKey1");
+        iKey1 = SharedPreUtil.getInt(this,"file101","iKey1");
+        iString1 = SharedPreUtil.getString(this,"file101","iString1");
+        System.out.println(String.format("mmkv doTest: bKey1 %b ikey1 %d iString1 %s " ,bKey1,iKey1,iString1));
 
     }
 
@@ -113,4 +132,33 @@ public class MMKVActivity extends Activity {
         editor.putString("iString", "Success !!! ");
     }
 
+    private void testMigrate2(){
+        int mode = Context.MODE_MULTI_PROCESS;
+//        MMKV preferences = MMKV.mmkvWithID("file100");
+//        MMKV preferences = MMKV.mmkvWithID("file100",(mode & Context.MODE_MULTI_PROCESS) == Context.MODE_MULTI_PROCESS ? MMKV.MULTI_PROCESS_MODE : MMKV.SINGLE_PROCESS_MODE);
+        MMKV preferences = MMKV.defaultMMKV();
+
+        //迁移旧数据
+        {
+            SharedPreferences old_man = getSharedPreferences("file100", Context.MODE_PRIVATE);
+            preferences.importFromSharedPreferences(old_man);
+            old_man.edit().clear().commit();
+
+            old_man = getSharedPreferences("file101", Context.MODE_PRIVATE);
+            preferences.importFromSharedPreferences(old_man);
+            old_man.edit().clear().commit();
+        }
+
+        boolean bKey = preferences.getBoolean("bKey",false);
+        int iKey = preferences.getInt("iKey",-1);
+        String iString = preferences.getString("iString",null);
+
+        boolean bKey1 = preferences.getBoolean("bKey1",false);
+        int iKey1 = preferences.getInt("iKey1",-1);
+        String iString1 = preferences.getString("iString1",null);
+
+
+        System.out.println(String.format("mmkv testMigrate2: bKey %b iKey %d iString %s " ,bKey,iKey,iString));
+        System.out.println(String.format("mmkv testMigrate2: bKey1 %b iKey1 %d iString1 %s " ,bKey1,iKey1,iString1));
+    }
 }
