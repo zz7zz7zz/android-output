@@ -66,7 +66,8 @@ public class MMKVActivity extends Activity {
     }
 
     private void testMigrate(){
-        MMKV preferences = MMKV.mmkvWithID("file100");
+//        MMKV preferences = MMKV.mmkvWithID("file100");
+        MMKV preferences = MMKV.mmkvWithID("file100",(mode & Context.MODE_MULTI_PROCESS) == Context.MODE_MULTI_PROCESS ? MMKV.MULTI_PROCESS_MODE : MMKV.SINGLE_PROCESS_MODE);
 
         //迁移旧数据
         {
