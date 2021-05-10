@@ -85,4 +85,35 @@ public final class SharedPreUtil {
         editor.apply();
     }
 
+    //-------------------------------------------------------------------------------------
+    public static boolean getBoolean(Context mContext , String mFileName , String mKey){
+        if (null == mContext || TextUtils.isEmpty(mFileName) || TextUtils.isEmpty(mKey)) {
+            return false;
+        }
+
+        SharedPreferences spf = mContext.getSharedPreferences(mFileName,Context.MODE_PRIVATE);
+        return spf.getBoolean(mKey, false);
+    }
+
+    public static void putBoolean(Context mContext , String mFileName , String mKey , boolean mValue){
+        if (null == mContext || TextUtils.isEmpty(mFileName) || TextUtils.isEmpty(mKey)) {
+            return ;
+        }
+
+        SharedPreferences shared = mContext.getSharedPreferences(mFileName, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = shared.edit();
+        editor.putBoolean(mKey, mValue);
+        editor.commit();
+    }
+
+    public static void asynPutBoolean(Context mContext , String mFileName , String mKey , boolean mValue){
+        if (null == mContext || TextUtils.isEmpty(mFileName) || TextUtils.isEmpty(mKey)) {
+            return ;
+        }
+
+        SharedPreferences shared = mContext.getSharedPreferences(mFileName, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = shared.edit();
+        editor.putBoolean(mKey, mValue);
+        editor.apply();
+    }
 }
