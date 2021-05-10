@@ -82,6 +82,8 @@ dependencies {
 
     implementation project(path: ':lib_permission')
     implementation 'org.aspectj:aspectjrt:1.9.1'
+
+    implementation 'com.tencent:mmkv-static:1.2.8'
 }
 
 //gradle执行会解析build.gradle文件，afterEvaluate表示在解析完成之后会执行我们的代码

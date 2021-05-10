@@ -89,6 +89,7 @@
 
         <!-- 数据存储 -->
         <activity android:name="com.open.test.sharedprefs.SharedPrefsActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.open.test.sharedprefs.MMKVActivity" android:screenOrientation="portrait" />
 
         <!-- Fragment -->
         <activity android:name="com.open.test.fragment.FragmentPagerActivity" android:screenOrientation="portrait" />

@@ -23,6 +23,7 @@ import com.open.test.launchmode.SingleInstanceActivity;
 import com.open.test.launchmode.SingleTaskActivity;
 import com.open.test.launchmode.SingleTopActivity;
 import com.open.test.launchmode.StandardActivity;
+import com.open.test.sharedprefs.MMKVActivity;
 import com.open.test.thirdparty.glide.GlideActivity;
 import com.open.test.image.Image2Activity;
 import com.open.test.image.ImageActivity;
@@ -143,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.intentService2).setOnClickListener(clickListener);
 
         findViewById(R.id.shared_prefs).setOnClickListener(clickListener);
+        findViewById(R.id.mmkv).setOnClickListener(clickListener);
 
         findViewById(R.id.notification).setOnClickListener(clickListener);
         findViewById(R.id.notification_monitor).setOnClickListener(clickListener);
@@ -285,6 +287,9 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.shared_prefs:
                     startActivity(new Intent(getApplicationContext(),SharedPrefsActivity.class));
+                    break;
+                case R.id.mmkv:
+                    startActivity(new Intent(getApplicationContext(), MMKVActivity.class));
                     break;
 
                 case R.id.fragment_pager:
