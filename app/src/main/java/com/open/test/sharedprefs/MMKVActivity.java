@@ -138,15 +138,24 @@ public class MMKVActivity extends Activity {
 //        MMKV preferences = MMKV.mmkvWithID("file100",(mode & Context.MODE_MULTI_PROCESS) == Context.MODE_MULTI_PROCESS ? MMKV.MULTI_PROCESS_MODE : MMKV.SINGLE_PROCESS_MODE);
         MMKV preferences = MMKV.defaultMMKV();
 
-        //迁移旧数据
-        {
-            SharedPreferences old_man = getSharedPreferences("file100", Context.MODE_PRIVATE);
-            preferences.importFromSharedPreferences(old_man);
-            old_man.edit().clear().commit();
 
-            old_man = getSharedPreferences("file101", Context.MODE_PRIVATE);
-            preferences.importFromSharedPreferences(old_man);
-            old_man.edit().clear().commit();
+        boolean isMigrateSuccess = preferences.decodeBool("isMigrateSuccess");
+        System.out.println("mmkv isMigrateSuccess" + isMigrateSuccess);
+        if(!isMigrateSuccess){
+            long start = System.currentTimeMillis();
+            //迁移旧数据
+            {
+                SharedPreferences old_man = getSharedPreferences("file100", Context.MODE_PRIVATE);
+                preferences.importFromSharedPreferences(old_man);
+                old_man.edit().clear().commit();
+
+                old_man = getSharedPreferences("file101", Context.MODE_PRIVATE);
+                preferences.importFromSharedPreferences(old_man);
+                old_man.edit().clear().commit();
+            }
+
+            System.out.println("mmkv migrate cost" + (System.currentTimeMillis() - start) + "ms");
+            preferences.encode("isMigrateSuccess",true);
         }
 
         boolean bKey = preferences.getBoolean("bKey",false);
