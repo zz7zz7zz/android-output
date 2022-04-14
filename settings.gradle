@@ -1,5 +1,6 @@
 
 include ':lib_permission'
+include ':plugin_bug_fixer'
 include ':plugin_aspectJ'
 include ':plugin_fix_groovy'
 include ':plugin_strengthen'
