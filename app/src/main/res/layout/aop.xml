@@ -25,6 +25,13 @@
         android:gravity="left"
         android:text="aop_asm(禁用方法，替换参数，替换代码)"/>
     <Button
+        android:id="@+id/aop_asm_jar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:gravity="left"
+        android:text="aop_asm(修复第三方jar问题)"/>
+    <Button
         android:id="@+id/aop_aspectJ"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

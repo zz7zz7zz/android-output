@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.app_bug_8_0">
+        <application>
+            <activity
+                android:name="com.example.app_bug_8_0.Bug80Activity"
+                android:launchMode="standard"
+                android:screenOrientation="portrait"
+                android:theme="@android:style/Theme.Dialog"/>
+        </application>
+</manifest>

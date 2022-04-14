@@ -146,7 +146,7 @@ public class FileUtil {
     }
 
     //-------------------------------------------------
-    public static boolean appendPushMesage(Context mContext , String message)
+    public static boolean appendPushMessage(Context mContext , String message)
     {
         if(null != message){
             Date date = new Date();
@@ -159,7 +159,7 @@ public class FileUtil {
         return true;
     }
 
-    public static boolean appendServerMesage(Context mContext , String message)
+    public static boolean appendServerMessage(Context mContext , String message)
     {
         if(null != message){
             Date date = new Date();
@@ -172,7 +172,7 @@ public class FileUtil {
         return true;
     }
 
-    public static boolean appendFile(String filename,byte[]data,int datapos,int datalength)
+    public static boolean appendFile(String filename,byte[]data,int dataPos,int dataLength)
     {
         try {
 
@@ -180,7 +180,7 @@ public class FileUtil {
 
             RandomAccessFile rf= new RandomAccessFile(filename, "rw");
             rf.seek(rf.length());
-            rf.write(data, datapos, datalength);
+            rf.write(data, dataPos, dataLength);
             if(rf!=null)
             {
                 rf.close();

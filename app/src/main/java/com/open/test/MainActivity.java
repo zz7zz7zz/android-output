@@ -123,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
     private void initView(){
 
         findViewById(R.id.aop_asm).setOnClickListener(clickListener);
+        findViewById(R.id.aop_asm_jar).setOnClickListener(clickListener);
         findViewById(R.id.aop_javassist).setOnClickListener(clickListener);
         findViewById(R.id.aop_aspectJ).setOnClickListener(clickListener);
 
@@ -195,6 +196,14 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.aop_asm:
                     startActivity(new Intent(getApplicationContext(), AsmFixActivity.class));
+                    break;
+
+                case R.id.aop_asm_jar:
+                    try {
+                        startActivity(new Intent(getApplicationContext(), Class.forName("com.example.app_bug_8_0.Bug80Activity")));
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
                     break;
 
                 case R.id.aop_aspectJ:

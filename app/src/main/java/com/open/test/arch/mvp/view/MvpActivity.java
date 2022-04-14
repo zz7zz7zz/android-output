@@ -10,7 +10,6 @@ import com.open.test.arch.mvp.model.MvpModel;
 import com.open.test.arch.mvp.presenter.MvpPresenter;
 
 import com.open.test.R;
-import com.open.test.arch.mvvm.model.MVVMModel;
 
 public class MvpActivity extends Activity implements IMVPView{
 
