@@ -15,15 +15,15 @@ class Bug80InTxOauthSdk {
     static final String jarNameTag = "app_bug_8_0"
     static ArrayList<String> jarClassTag = new ArrayList<>()
     static {
-        jarClassTag.add("com.cmic.sso.sdk.tencent.view.LoginAuthActivity.class".replace(".","/"))
-        jarClassTag.add("com.tencent.tendinsv.view.CmccLoginActivity.class".replace(".","/"))
-        jarClassTag.add("com.tencent.tendinsv.view.NSVOneKeyActivity.class".replace(".","/"))
+        jarClassTag.add("com.cmic.sso.sdk.tencent.view.LoginAuthActivity".replace(".","/") +".class")
+        jarClassTag.add("com.tencent.tendinsv.view.CmccLoginActivity".replace(".","/") +".class")
+        jarClassTag.add("com.tencent.tendinsv.view.NSVOneKeyActivity".replace(".","/") +".class")
     }
 
     static ArrayList<String> fixClasses = new ArrayList<>()
     static {
-        fixClasses.add("com.tencent.tendinsv.view.CmccLoginActivity.class".replace(".","/"))
-        fixClasses.add("com.tencent.tendinsv.view.NSVOneKeyActivity.class".replace(".","/"))
+        fixClasses.add("com.tencent.tendinsv.view.CmccLoginActivity".replace(".","/") +".class")
+        fixClasses.add("com.tencent.tendinsv.view.NSVOneKeyActivity".replace(".","/") +".class")
     }
 
 //    static ArrayList<String> jarClassTag = new ArrayList<>()
@@ -56,7 +56,7 @@ class Bug80InTxOauthSdk {
     static void scanJar(File jarFile, File destFile) {
 
 //        if(BugFixerPlugin.isDebug)
-//        println(TAG+"----------scanJar------------ " + jarFile.absolutePath)
+        println(TAG+"----------scanJar------------ " + jarFile.absolutePath)
 
         if (jarFile) {
             def file = new JarFile(jarFile)
@@ -66,7 +66,7 @@ class Bug80InTxOauthSdk {
                 String entryName = jarEntry.getName()
 
 //                if(BugFixerPlugin.isDebug)
-//                println(TAG+"----------scanJar shouldProcessClass ------------ " + (entryName))
+                println(TAG+"----------scanJar shouldProcessClass ------------ " + (entryName))
 
                 for (int i=0; i<Bug80InTxOauthSdk.jarClassTag.size(); i++){
                     if(Bug80InTxOauthSdk.jarClassTag.get(i) == entryName){
