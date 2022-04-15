@@ -1,4 +1,4 @@
-package com.module.plugin.bug.fixer
+package com.module.plugin.bugfixer
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project

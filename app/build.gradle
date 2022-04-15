@@ -17,6 +17,9 @@ apply plugin: 'com.module.plugin.fix2'
 //使用自定义的AspectJ插件
 apply plugin: 'com.module.plugin.aspectj'
 
+//修复8.0bug
+apply plugin: 'com.module.plugin.bugfixer'
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -49,7 +52,8 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':app_bug_8_0')
+//    implementation project(path: ':app_bug_8_0')
+    implementation files('libs/app_bug_8_0-debug.aar')
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'androidx.appcompat:appcompat:1.0.0'
     compile 'androidx.constraintlayout:constraintlayout:1.1.3'

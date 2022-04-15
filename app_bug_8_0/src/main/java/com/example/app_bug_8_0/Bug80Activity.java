@@ -13,12 +13,4 @@ public class Bug80Activity extends Activity {
         setContentView(R.layout.bug80);
     }
 
-    public static void start(Context context){
-        Intent mIntent = new Intent(context,Bug80Activity.class);
-        if (!(context instanceof Activity)) {    // Non activity, need less one flag.
-            mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
-        context.startActivity(mIntent);
-    }
-
 }
