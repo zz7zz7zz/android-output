@@ -4,6 +4,7 @@ import com.android.build.api.transform.DirectoryInput
 import com.android.build.api.transform.Format
 import com.android.build.api.transform.JarInput
 import com.android.build.api.transform.TransformInvocation
+import com.module.plugin.bugfixer.BugFixerPlugin
 import org.apache.commons.codec.digest.DigestUtils
 
 import java.util.jar.JarEntry
@@ -15,7 +16,9 @@ class BugScanService {
 
 
     static void scanServiceAndServiceImpl(TransformInvocation transformInvocation){
+//        if(BugFixerPlugin.isDebug)
         println(TAG+"---------------- scanServiceAndServiceImpl start----------------")
+
         long startTime = System.currentTimeMillis()
         //        transformInvocation.outputProvider.deleteAll()
         boolean leftSlash = File.separator == '/'
@@ -50,8 +53,10 @@ class BugScanService {
             }
         }
 
-        println(TAG+"---------------- initCodeToClassFile ----------------" + (null != Bug80InTxOauthSdk.initCodeToJarClassFile ? Bug80InTxOauthSdk.initCodeToJarClassFile : null))
-        println(TAG+"---------------- ScanService scanServiceAndServiceImpl end ----------------"  + (System.currentTimeMillis() - startTime) + "ms")
+//        if(BugFixerPlugin.isDebug){
+            println(TAG+"---------------- initCodeToClassFile ----------------" + (null != Bug80InTxOauthSdk.initCodeToJarClassFile ? Bug80InTxOauthSdk.initCodeToJarClassFile : null))
+            println(TAG+"---------------- ScanService scanServiceAndServiceImpl end ----------------"  + (System.currentTimeMillis() - startTime) + "ms")
+//        }
     }
 
 

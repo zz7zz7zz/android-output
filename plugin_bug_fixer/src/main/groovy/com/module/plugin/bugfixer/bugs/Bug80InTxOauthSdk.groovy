@@ -1,5 +1,6 @@
 package com.module.plugin.bugfixer.bugs
 
+import com.module.plugin.bugfixer.BugFixerPlugin
 import org.apache.commons.io.IOUtils
 import org.objectweb.asm.*
 
@@ -42,23 +43,36 @@ class Bug80InTxOauthSdk {
     }
 
     static boolean shouldProcessPreDexJar(String path) {
-//        println(TAG+"----------shouldProcessPreDexJar------------ " + path)
-        return path.contains(jarNameTag)
+
+        if(BugFixerPlugin.isDebug)
+        println(TAG+"----------shouldProcessPreDexJar------------ " + path)
+
+        //不能用以下代码，因为有可能有其它的插件，传递到这里时名字会改变；只有一个插件时没有问题
+//        return path.contains(jarNameTag)
+
+        return true
     }
 
     static void scanJar(File jarFile, File destFile) {
-        println(TAG+"----------scanJar------------ " + jarFile.absolutePath)
+
+//        if(BugFixerPlugin.isDebug)
+//        println(TAG+"----------scanJar------------ " + jarFile.absolutePath)
+
         if (jarFile) {
             def file = new JarFile(jarFile)
             Enumeration enumeration = file.entries()
             while (enumeration.hasMoreElements()) {
                 JarEntry jarEntry = (JarEntry) enumeration.nextElement()
                 String entryName = jarEntry.getName()
-                println(TAG+"----------scanJar shouldProcessClass ------------ " + (entryName))
+
+//                if(BugFixerPlugin.isDebug)
+//                println(TAG+"----------scanJar shouldProcessClass ------------ " + (entryName))
 
                 for (int i=0; i<Bug80InTxOauthSdk.jarClassTag.size(); i++){
                     if(Bug80InTxOauthSdk.jarClassTag.get(i) == entryName){
                         Bug80InTxOauthSdk.initCodeToJarClassFile= destFile
+
+                        if(BugFixerPlugin.isDebug)
                         println(TAG+"----------Bug80InTxOauthSdk.initCodeToClassFile------------ " + Bug80InTxOauthSdk.initCodeToJarClassFile)
                         break
                     }
@@ -102,6 +116,7 @@ class Bug80InTxOauthSdk {
                     }
                 }
 
+                if(BugFixerPlugin.isDebug)
                 println(TAG+'--------------RegisterCodeGenerator Insert init code to class >> ' + entryName + " isModifySuccess " + isModifySuccess)
                 if(!isModifySuccess){
                     jarOutputStream.write(IOUtils.toByteArray(inputStream))
