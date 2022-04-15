@@ -13,28 +13,28 @@ class Bug80InTxOauthSdk {
 
     static final String TAG = "Bug80InTxOauthSdk"
     static final String jarNameTag = "app_bug_8_0"
-//    static ArrayList<String> jarTag = new ArrayList<>()
-//    static {
-//        jarTag.add("com.cmic.sso.sdk.tencent.view.LoginAuthActivity.class".replace(".","/"))
-//        jarTag.add("com.tencent.tendinsv.view.CmccLoginActivity.class".replace(".","/"))
-//        jarTag.add("com.tencent.tendinsv.view.NSVOneKeyActivity.class".replace(".","/"))
-//    }
-//
-//    static ArrayList<String> modifyClass = new ArrayList<>()
-//    static {
-//        modifyClass.add("com.tencent.tendinsv.view.CmccLoginActivity.class".replace(".","/"))
-//        modifyClass.add("com.tencent.tendinsv.view.NSVOneKeyActivity.class".replace(".","/"))
-//    }
-
     static ArrayList<String> jarClassTag = new ArrayList<>()
     static {
-        jarClassTag.add("com.example.app_bug_8_0.Bug80Activity".replace(".","/") +".class")
+        jarClassTag.add("com.cmic.sso.sdk.tencent.view.LoginAuthActivity.class".replace(".","/"))
+        jarClassTag.add("com.tencent.tendinsv.view.CmccLoginActivity.class".replace(".","/"))
+        jarClassTag.add("com.tencent.tendinsv.view.NSVOneKeyActivity.class".replace(".","/"))
     }
 
-    static ArrayList<String> modifyClass = new ArrayList<>()
+    static ArrayList<String> fixClasses = new ArrayList<>()
     static {
-        modifyClass.add("com.example.app_bug_8_0.Bug80Activity".replace(".","/") +".class")
+        fixClasses.add("com.tencent.tendinsv.view.CmccLoginActivity.class".replace(".","/"))
+        fixClasses.add("com.tencent.tendinsv.view.NSVOneKeyActivity.class".replace(".","/"))
     }
+
+//    static ArrayList<String> jarClassTag = new ArrayList<>()
+//    static {
+//        jarClassTag.add("com.example.app_bug_8_0.Bug80Activity".replace(".","/") +".class")
+//    }
+//
+//    static ArrayList<String> fixClasses = new ArrayList<>()
+//    static {
+//        fixClasses.add("com.example.app_bug_8_0.Bug80Activity".replace(".","/") +".class")
+//    }
 
     static String initCodeToJarClassFile
 
@@ -107,8 +107,8 @@ class Bug80InTxOauthSdk {
                 jarOutputStream.putNextEntry(zipEntry)
 
                 boolean isModifySuccess = false
-                for (int i=0;i<modifyClass.size();i++){
-                    if(modifyClass.get(i) == entryName){
+                for (int i=0; i<fixClasses.size(); i++){
+                    if(fixClasses.get(i) == entryName){
                         def bytes = referHackWhenInit(inputStream)
                         jarOutputStream.write(bytes)
                         isModifySuccess = true

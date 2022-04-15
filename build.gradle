@@ -27,6 +27,7 @@ buildscript {
 
         ///bug修复2,使用Groovy开发
         classpath 'com.module.plugin:fix2:0.0.1'
+//        classpath 'com.module.plugin:bugfixer:0.0.1'
 
         //AspectJ使用在build.gradle编译的形式AspectJ
 //        classpath 'org.aspectj:aspectjtools:1.9.1'
