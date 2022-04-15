@@ -116,8 +116,14 @@ class Bug80InTxOauthSdk {
                     }
                 }
 
-                if(BugFixerPlugin.isDebug)
-                println(TAG+'--------------RegisterCodeGenerator Insert init code to class >> ' + entryName + " isModifySuccess " + isModifySuccess)
+                if(BugFixerPlugin.isDebug){
+                    println(TAG+'--------------RegisterCodeGenerator Insert init code to class >> ' + entryName + " isModifySuccess " + isModifySuccess)
+                }else{
+                    if(isModifySuccess){
+                        println(TAG+'--------------RegisterCodeGenerator Insert init code to class >> ' + entryName + " isModifySuccess " + isModifySuccess)
+                    }
+                }
+
                 if(!isModifySuccess){
                     jarOutputStream.write(IOUtils.toByteArray(inputStream))
                 }
