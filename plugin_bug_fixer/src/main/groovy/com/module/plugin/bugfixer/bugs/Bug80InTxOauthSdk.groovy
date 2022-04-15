@@ -55,7 +55,7 @@ class Bug80InTxOauthSdk {
 
     static void scanJar(File jarFile, File destFile) {
 
-//        if(BugFixerPlugin.isDebug)
+        if(BugFixerPlugin.isDebug)
         println(TAG+"----------scanJar------------ " + jarFile.absolutePath)
 
         if (jarFile) {
@@ -65,7 +65,7 @@ class Bug80InTxOauthSdk {
                 JarEntry jarEntry = (JarEntry) enumeration.nextElement()
                 String entryName = jarEntry.getName()
 
-//                if(BugFixerPlugin.isDebug)
+                if(BugFixerPlugin.isDebug)
                 println(TAG+"----------scanJar shouldProcessClass ------------ " + (entryName))
 
                 for (int i=0; i<Bug80InTxOauthSdk.jarClassTag.size(); i++){
