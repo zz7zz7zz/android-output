@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/junk_image_et"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="输入数目"/>
+
+        <Button
+            android:id="@+id/junk_image_bt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="开始生成垃圾图片"
+            android:layout_marginTop="10dp"
+            android:scaleType="matrix"/>
+
+        <TextView
+            android:id="@+id/junk_image_tv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="已生成0张图片"/>
+    </LinearLayout>
+
+</ScrollView>

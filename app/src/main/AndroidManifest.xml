@@ -99,6 +99,7 @@
         <activity android:name="com.open.test.image.ImageActivity" android:screenOrientation="portrait" />
         <activity android:name="com.open.test.image.Image2Activity" android:screenOrientation="portrait" />
         <activity android:name="com.open.test.image.MatrixImageActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.open.test.image.JunkImageGeneratorActivity" android:screenOrientation="portrait" />
 
         <!-- Textview -->
         <activity android:name="com.open.test.textview.TextViewActivity" android:screenOrientation="portrait" />

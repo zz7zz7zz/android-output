@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Debug;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
+import android.util.LruCache;
 import android.view.View;
 
 import com.open.test.aop.JavassistAddCodeActivity;
@@ -17,6 +18,7 @@ import com.open.test.ddms.ViewServerActivity;
 import com.open.test.fragment.FragmentPagerActivity;
 import com.open.test.fragment.FragmentStatePagerActivity;
 import com.open.test.aop.AspectJPermissionActivity;
+import com.open.test.image.JunkImageGeneratorActivity;
 import com.open.test.jetpack.livedata.JetPackLiveDataActivity;
 import com.open.test.jetpack.room.JetPackRoomActivity;
 import com.open.test.launchmode.SingleInstanceActivity;
@@ -62,6 +64,32 @@ public class MainActivity extends AppCompatActivity {
         int mSize = 10;
         int n = idealIntArraySize(mSize + 1);
         Log.v("MainActivity","onCreate size " + mSize);
+
+
+        LruCache<String,String> lruCache = new LruCache<>(3);
+        lruCache.put("0", "0");
+        Log.v("MainActivity",lruCache.snapshot().toString());
+
+        lruCache.put("1", "1");
+        Log.v("MainActivity",lruCache.snapshot().toString());
+
+        lruCache.put("2", "2");
+        Log.v("MainActivity",lruCache.snapshot().toString());
+
+        lruCache.put("3", "3");
+        Log.v("MainActivity",lruCache.snapshot().toString());
+
+        lruCache.put("4", "4");
+        Log.v("MainActivity",lruCache.snapshot().toString());
+
+        lruCache.put("5", "5");
+        Log.v("MainActivity",lruCache.snapshot().toString());
+
+        lruCache.put("3", "3");
+        Log.v("MainActivity",lruCache.snapshot().toString());
+
+        lruCache.put("6", "6");
+        Log.v("MainActivity",lruCache.snapshot().toString());
     }
 
     public static int idealIntArraySize(int need) {
@@ -156,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.image).setOnClickListener(clickListener);
         findViewById(R.id.image2).setOnClickListener(clickListener);
         findViewById(R.id.image3).setOnClickListener(clickListener);
+        findViewById(R.id.image4).setOnClickListener(clickListener);
 
         findViewById(R.id.textView).setOnClickListener(clickListener);
         findViewById(R.id.textView2).setOnClickListener(clickListener);
@@ -318,6 +347,10 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.image3:
                     startActivity(new Intent(getApplicationContext(),MatrixImageActivity.class));
+                    break;
+
+                case R.id.image4:
+                    startActivity(new Intent(getApplicationContext(), JunkImageGeneratorActivity.class));
                     break;
 
                 case R.id.textView:
