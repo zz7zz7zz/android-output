@@ -25,6 +25,7 @@ import com.open.test.launchmode.SingleInstanceActivity;
 import com.open.test.launchmode.SingleTaskActivity;
 import com.open.test.launchmode.SingleTopActivity;
 import com.open.test.launchmode.StandardActivity;
+import com.open.test.paint.PaintActivity;
 import com.open.test.sharedprefs.MMKVActivity;
 import com.open.test.thirdparty.glide.GlideActivity;
 import com.open.test.image.Image2Activity;
@@ -178,6 +179,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.notification).setOnClickListener(clickListener);
         findViewById(R.id.notification_monitor).setOnClickListener(clickListener);
 
+        findViewById(R.id.paint_pentacle).setOnClickListener(clickListener);
+
         findViewById(R.id.fragment_pager).setOnClickListener(clickListener);
         findViewById(R.id.fragment_statepager).setOnClickListener(clickListener);
 
@@ -322,6 +325,9 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(),NotificationMonitorActivity.class));
                     break;
 
+                case R.id.paint_pentacle:
+                    startActivity(new Intent(getApplicationContext(), PaintActivity.class));
+                    break;
 
                 case R.id.shared_prefs:
                     startActivity(new Intent(getApplicationContext(),SharedPrefsActivity.class));

@@ -87,6 +87,9 @@
                 android:resource="@xml/nf_accessibility_service_config"></meta-data>
         </service>
 
+        <!-- 画笔 -->
+        <activity android:name="com.open.test.paint.PaintActivity" android:screenOrientation="portrait" />
+
         <!-- 数据存储 -->
         <activity android:name="com.open.test.sharedprefs.SharedPrefsActivity" android:screenOrientation="portrait" />
         <activity android:name="com.open.test.sharedprefs.MMKVActivity" android:screenOrientation="portrait" />
