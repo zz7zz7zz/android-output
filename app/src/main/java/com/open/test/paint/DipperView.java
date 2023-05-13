@@ -90,7 +90,7 @@ public class DipperView extends View {
 
         //第三个点
         x = 3*startX;
-        y = (float) (startY - (mPointBeanList.get(01).pointY -mPointBeanList.get(1).pointY) * 0.05);
+        y = (float) (startY - (mPointBeanList.get(0).pointY -mPointBeanList.get(1).pointY) * 0.05);
         pointBean = new PointBean(x, y);
         mPointBeanList.add(pointBean);
 
