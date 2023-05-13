@@ -54,7 +54,7 @@ public class DipperView extends View {
         int height = canvas.getHeight();
         canvas.drawRect(0, 0, width, height, mBgPaint);
 
-        Log.v("PentacleView","width = " + width + " height = " +height);
+        Log.v("DipperView","width = " + width + " height = " +height);
 
 //        2023-05-10 15:44:49.879  2373-2373  PentacleView            com.open.test                        V  width = 1080 height = 2102
 //        2023-05-10 15:44:49.879  2373-2373  PentacleView            com.open.test                        V  circleX = 540.0 circleY = 1051.0 radius = 540
@@ -118,11 +118,18 @@ public class DipperView extends View {
         pointBean = new PointBean(x, y);
         mPointBeanList.add(pointBean);
 
-//        2023-05-10 15:41:00.067 32124-32124 PentacleView            com.open.test                        V  18 -> x = 1053.5706 y = 1217.8691
-//        2023-05-10 15:41:00.067 32124-32124 PentacleView            com.open.test                        V  90 -> x = 540.0 y = 1591.0
-//        2023-05-10 15:41:00.067 32124-32124 PentacleView            com.open.test                        V  162 -> x = 26.429482 y = 1217.8691
-//        2023-05-10 15:41:00.067 32124-32124 PentacleView            com.open.test                        V  234 -> x = 222.59596 y = 614.1308
-//        2023-05-10 15:41:00.067 32124-32124 PentacleView            com.open.test                        V  306 -> x = 857.40405 y = 614.1308
+
+        for(int i =0;i<mPointBeanList.size();i++){
+            Log.v("DipperView",i + " -> x = " + mPointBeanList.get(i).pointX + " y = " +mPointBeanList.get(i).pointY);
+        }
+
+//        2023-05-13 17:38:56.140 10701-10701 DipperView              com.open.test                        V  0 -> x = 154.0 y = 1401.0
+//        2023-05-13 17:38:56.140 10701-10701 DipperView              com.open.test                        V  1 -> x = 308.0 y = 1134.2642
+//        2023-05-13 17:38:56.140 10701-10701 DipperView              com.open.test                        V  2 -> x = 462.0 y = 1401.0
+//        2023-05-13 17:38:56.140 10701-10701 DipperView              com.open.test                        V  3 -> x = 616.0 y = 1247.0
+//        2023-05-13 17:38:56.141 10701-10701 DipperView              com.open.test                        V  4 -> x = 770.0 y = 1422.3389
+//        2023-05-13 17:38:56.141 10701-10701 DipperView              com.open.test                        V  5 -> x = 924.0 y = 1217.974
+//        2023-05-13 17:38:56.141 10701-10701 DipperView              com.open.test                        V  6 -> x = 608.3 y = 965.6752
 
         drawPentacleView(canvas, paint, mPointBeanList);
     }
