@@ -96,7 +96,7 @@ public class DipperView extends View {
 
         //第四个点
         x = 4*startX;
-        y = (float) (dy-startX * Math.tan(Math.toRadians(45)));
+        y = (float) (dy-startX * Math.tan(Math.toRadians(50)));
         pointBean = new PointBean(x, y);
         mPointBeanList.add(pointBean);
 
@@ -108,7 +108,7 @@ public class DipperView extends View {
 
         //第六个点
         x = 6*startX;
-        y = (float) (y-startX * Math.tan(Math.toRadians(53)));
+        y = (float) (y-startX * Math.tan(Math.toRadians(58)));
         pointBean = new PointBean(x, y);
         mPointBeanList.add(pointBean);
 
