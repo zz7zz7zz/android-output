@@ -17,5 +17,12 @@
         android:textAllCaps="false"
         android:gravity="left"
         android:text="五角星"/>
+    <Button
+        android:id="@+id/paint_dipper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:gravity="left"
+        android:text="北斗"/>
 
 </merge>

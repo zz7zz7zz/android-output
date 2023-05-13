@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.security.identity.PersonalizationData;
 import android.util.Log;
 import android.util.LruCache;
 import android.view.View;
@@ -25,7 +27,8 @@ import com.open.test.launchmode.SingleInstanceActivity;
 import com.open.test.launchmode.SingleTaskActivity;
 import com.open.test.launchmode.SingleTopActivity;
 import com.open.test.launchmode.StandardActivity;
-import com.open.test.paint.PaintActivity;
+import com.open.test.paint.PaintDipperActivity;
+import com.open.test.paint.PaintPentacleActivity;
 import com.open.test.sharedprefs.MMKVActivity;
 import com.open.test.thirdparty.glide.GlideActivity;
 import com.open.test.image.Image2Activity;
@@ -180,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.notification_monitor).setOnClickListener(clickListener);
 
         findViewById(R.id.paint_pentacle).setOnClickListener(clickListener);
+        findViewById(R.id.paint_dipper).setOnClickListener(clickListener);
 
         findViewById(R.id.fragment_pager).setOnClickListener(clickListener);
         findViewById(R.id.fragment_statepager).setOnClickListener(clickListener);
@@ -326,7 +330,10 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case R.id.paint_pentacle:
-                    startActivity(new Intent(getApplicationContext(), PaintActivity.class));
+                    startActivity(new Intent(getApplicationContext(), PaintPentacleActivity.class));
+                    break;
+                case R.id.paint_dipper:
+                    startActivity(new Intent(getApplicationContext(), PaintDipperActivity.class));
                     break;
 
                 case R.id.shared_prefs:
